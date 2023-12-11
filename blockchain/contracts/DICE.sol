@@ -33,7 +33,7 @@ library Counters {
 }
 
 contract DICE is ERC721URIStorage {
-    address owner;
+    address public owner;
     using Strings for uint256;
     using Counters for Counters.Counter;
     Counters.Counter private _certificateId;
@@ -47,12 +47,16 @@ contract DICE is ERC721URIStorage {
     }
 
     modifier onlyOwner() {
-        require(msg.sender == owner);
+        require(msg.sender == owner, "Caller is not the owner");
         _;
     }
 
     function addInstitution(address _institution) external onlyOwner {
         institutions[_institution] = true;
+    }
+
+    function removeInstitution(address _institution) external onlyOwner {
+        institutions[_institution] = false;
     }
 
     function issueCertificate(address _student, string memory _tokenURI) external {
