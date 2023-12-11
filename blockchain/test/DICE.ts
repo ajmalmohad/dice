@@ -27,32 +27,43 @@ describe("DICE", function () {
   describe("Functionality", function () {
     it("Should add an institution", async function () {
       await diceContract.addInstitution(addr1.address);
-      expect(await diceContract.institutions(addr1.address)).to.equal(true);
+      expect(await diceContract.verifiedInstitutions(addr1.address)).to.equal(true);
     });
 
     it("Should remove an institution", async function () {
       await diceContract.addInstitution(addr1.address);
       await diceContract.removeInstitution(addr1.address);
-      expect(await diceContract.institutions(addr1.address)).to.equal(false);
+      expect(await diceContract.verifiedInstitutions(addr1.address)).to.equal(false);
     });
 
     it("Should issue a certificate", async function () {
       await diceContract.addInstitution(addr1.address);
       const tokenURI = "ipfs.io/AuidfybBSIfsdsnfiuYFsdyiu";
       await diceContract.connect(addr1).issueCertificate(addr2.address, tokenURI);
-      const issuedAddress = await diceContract.issuedCertificates(1);
-      const tokenURIMap = await diceContract.tokenURIMap(1);
+
+      const issuedAddress = await diceContract.certificateToUser(1);
+      const tokenURIMap = await diceContract.certificateTokenURI(1);
+      const length = await diceContract.getIssuedCertificatesLength(addr2.address);
+
       expect(issuedAddress).to.equal(addr2.address);
       expect(tokenURIMap).to.equal(tokenURI);
+      expect(length).to.equal(1);
     });
 
-    it("Should allow claiming a certificate", async function () {
+    it("Should claim a certificate", async function () {
       await diceContract.addInstitution(addr1.address);
       const tokenURI = "ipfs.io/AuidfybBSIfsdsnfiuYFsdyiu";
       await diceContract.connect(addr1).issueCertificate(addr2.address, tokenURI);
+      let length = await diceContract.getIssuedCertificatesLength(addr2.address);
+      expect(length).to.equal(1);
+
       await diceContract.connect(addr2).claimCertificate(1);
+      length = await diceContract.getIssuedCertificatesLength(addr2.address);
+      expect(length).to.equal(0);
+
       const ownerOfCertificate = await diceContract.ownerOf(1);
       const tokenURIOfCertificate = await diceContract.tokenURI(1);
+
       expect(ownerOfCertificate).to.equal(addr2.address);
       expect(tokenURIOfCertificate).to.equal(tokenURI);
     });
@@ -67,7 +78,7 @@ describe("DICE", function () {
   
     it("Should fail to issue a certificate by a non-institution", async function () {
       await expect(diceContract.connect(addr2).issueCertificate(addr3.address, "tokenURI"))
-      .to.be.revertedWith("Only institutions can issue certificates");
+      .to.be.revertedWith("Only verified institutions can issue certificates");
     });
   
     it("Should fail to claim a certificate not belonging to the caller", async function () {

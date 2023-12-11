@@ -2,7 +2,6 @@
 pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-import "@openzeppelin/contracts/utils/Strings.sol";
 
 library Counters {
     struct Counter {
@@ -34,13 +33,26 @@ library Counters {
 
 contract DICE is ERC721URIStorage {
     address public owner;
-    using Strings for uint256;
     using Counters for Counters.Counter;
     Counters.Counter private _certificateId;
 
-    mapping(address => bool) public institutions;
-    mapping(uint256 => address) public issuedCertificates;
-    mapping(uint256 => string) public tokenURIMap;
+    // Address of Institution to true or false ( verified or not )
+    mapping(address => bool) public verifiedInstitutions;
+
+    // All certificates issued for a specific user
+    mapping(address => uint[]) public issuedCertificates;
+
+    // Certificate ID to the address to whom it's issued
+    mapping(uint256 => address) public certificateToUser;
+
+    // Certificate ID to tokenURI of Metadata in IPFS
+    mapping(uint256 => string) public certificateTokenURI;
+
+    // User address to all the claimed certificates
+    mapping(address => uint[]) public claimedCertificates;
+
+    // Certificate ID to issued by address
+    mapping(uint256 => address) public issuedBy;
 
     constructor() ERC721("Credentials", "Certificate") {
         owner = msg.sender;
@@ -52,27 +64,49 @@ contract DICE is ERC721URIStorage {
     }
 
     function addInstitution(address _institution) external onlyOwner {
-        institutions[_institution] = true;
+        verifiedInstitutions[_institution] = true;
     }
 
     function removeInstitution(address _institution) external onlyOwner {
-        institutions[_institution] = false;
+        verifiedInstitutions[_institution] = false;
+    }
+
+    function getIssuedCertificatesLength(address user) public view returns (uint256) {
+        return issuedCertificates[user].length;
     }
 
     function issueCertificate(address _student, string memory _tokenURI) external {
-        require(institutions[msg.sender], "Only institutions can issue certificates");
+        require(verifiedInstitutions[msg.sender], "Only verified institutions can issue certificates");
 
         _certificateId.increment();
         uint256 currentId = _certificateId.current();
-        issuedCertificates[currentId] = _student;
-        tokenURIMap[currentId] = _tokenURI;
+        issuedBy[currentId] = msg.sender;
+        issuedCertificates[_student].push(currentId);
+        certificateToUser[currentId] = _student;
+        certificateTokenURI[currentId] = _tokenURI;
     }
 
     function claimCertificate(uint256 certificateId) external {
-        require(issuedCertificates[certificateId] == msg.sender, "Certificate not yours for claiming");
+        require(certificateToUser[certificateId] == msg.sender, "Certificate not yours for claiming");
         
         _mint(msg.sender, certificateId);
-        _setTokenURI(certificateId, tokenURIMap[certificateId]);
-        issuedCertificates[certificateId] = address(this);
+        _setTokenURI(certificateId, certificateTokenURI[certificateId]);
+
+        // Delete the claimed certificate from issued
+        uint256[] storage certificates = issuedCertificates[msg.sender];
+        for (uint256 i = 0; i < certificates.length; i++) {
+            if (certificates[i] == certificateId) {
+                certificates[i] = certificates[certificates.length - 1];
+                certificates.pop();
+                break;
+            }
+        }
+        delete certificateToUser[certificateId];
+        
+        // All claimed ones of a user
+        claimedCertificates[msg.sender].push(certificateId);
+        
+        // Already claimed so not mapped to user anymore
+        certificateToUser[certificateId] = address(this);
     }
 }
