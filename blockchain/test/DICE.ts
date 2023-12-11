@@ -67,6 +67,68 @@ describe("DICE", function () {
       expect(ownerOfCertificate).to.equal(addr2.address);
       expect(tokenURIOfCertificate).to.equal(tokenURI);
     });
+
+    it("Should decline a certificate", async function () {
+      await diceContract.addInstitution(addr1.address);
+      const tokenURI = "ipfs.io/AuidfybBSIfsdsnfiuYFsdyiu";
+      await diceContract.connect(addr1).issueCertificate(addr2.address, tokenURI);
+      let length = await diceContract.getIssuedCertificatesLength(addr2.address);
+      expect(length).to.equal(1);
+
+      await diceContract.connect(addr2).declineCertificate(1);
+      length = await diceContract.getIssuedCertificatesLength(addr2.address);
+      expect(length).to.equal(0);
+
+      let claimedlen = await diceContract.getClaimedCertificatesLength(addr2.address);
+      expect(claimedlen).to.equal(0);
+    });
+
+    it("Should issue and claim multiple certificates from multiple accounts", async function () {
+      await diceContract.addInstitution(addr1.address);
+      const tokenURI1 = "ipfs.io/AuidfybBSIfsdsnfiuYFsdyiu1";
+      const tokenURI2 = "ipfs.io/AuidfybBSIfsdsnfiuYFsdyiu2";
+      await diceContract.connect(addr1).issueCertificate(addr2.address, tokenURI1);
+      await diceContract.connect(addr1).issueCertificate(addr3.address, tokenURI2);
+    
+      let length1 = await diceContract.getIssuedCertificatesLength(addr2.address);
+      let length2 = await diceContract.getIssuedCertificatesLength(addr3.address);
+      expect(length1).to.equal(1);
+      expect(length2).to.equal(1);
+      
+      await diceContract.connect(addr3).claimCertificate(2);
+      await diceContract.connect(addr2).claimCertificate(1);
+    
+      length1 = await diceContract.getIssuedCertificatesLength(addr2.address);
+      length2 = await diceContract.getIssuedCertificatesLength(addr3.address);
+      expect(length1).to.equal(0);
+      expect(length2).to.equal(0);
+    });
+
+    it("Should issue and claim multiple certificates from same account in any order", async function () {
+      await diceContract.addInstitution(addr1.address);
+      const tokenURI1 = "ipfs.io/AuidfybBSIfsdsnfiuYFsdyiu1";
+      const tokenURI2 = "ipfs.io/AuidfybBSIfsdsnfiuYFsdyiu2";
+      await diceContract.connect(addr1).issueCertificate(addr2.address, tokenURI1);
+      await diceContract.connect(addr1).issueCertificate(addr2.address, tokenURI2);
+    
+      let issuedlen = await diceContract.getIssuedCertificatesLength(addr2.address);
+      let claimedlen = await diceContract.getClaimedCertificatesLength(addr2.address);
+      expect(issuedlen).to.equal(2);
+      expect(claimedlen).to.equal(0);
+      await diceContract.connect(addr2).claimCertificate(2);
+
+      issuedlen = await diceContract.getIssuedCertificatesLength(addr2.address);
+      claimedlen = await diceContract.getClaimedCertificatesLength(addr2.address);
+      expect(issuedlen).to.equal(1);
+      expect(claimedlen).to.equal(1);
+      await diceContract.connect(addr2).claimCertificate(1);
+      
+      issuedlen = await diceContract.getIssuedCertificatesLength(addr2.address);
+      claimedlen = await diceContract.getClaimedCertificatesLength(addr2.address);
+      expect(issuedlen).to.equal(0);
+      expect(claimedlen).to.equal(2);
+    });
+
   });
 
   describe("Unauthorized Access", function () {

@@ -75,6 +75,10 @@ contract DICE is ERC721URIStorage {
         return issuedCertificates[user].length;
     }
 
+    function getClaimedCertificatesLength(address user) public view returns (uint256) {
+        return claimedCertificates[user].length;
+    }
+
     function issueCertificate(address _student, string memory _tokenURI) external {
         require(verifiedInstitutions[msg.sender], "Only verified institutions can issue certificates");
 
@@ -101,12 +105,30 @@ contract DICE is ERC721URIStorage {
                 break;
             }
         }
+
+        // Already claimed so not mapped to user anymore
         delete certificateToUser[certificateId];
+        delete certificateTokenURI[certificateId];
         
         // All claimed ones of a user
         claimedCertificates[msg.sender].push(certificateId);
-        
-        // Already claimed so not mapped to user anymore
-        certificateToUser[certificateId] = address(this);
+    }
+
+    function declineCertificate(uint256 certificateId) external {
+        require(certificateToUser[certificateId] == msg.sender, "Certificate not yours for declining");
+
+        // Delete the declined certificate from issued
+        uint256[] storage certificates = issuedCertificates[msg.sender];
+        for (uint256 i = 0; i < certificates.length; i++) {
+            if (certificates[i] == certificateId) {
+                certificates[i] = certificates[certificates.length - 1];
+                certificates.pop();
+                break;
+            }
+        }
+
+        // Declined so not mapped to user anymore
+        delete certificateToUser[certificateId];
+        delete certificateTokenURI[certificateId];
     }
 }
