@@ -71,12 +71,24 @@ contract DICE is ERC721URIStorage {
         verifiedInstitutions[_institution] = false;
     }
 
+    function getVerifiedInstitutions(address _institution) public  view onlyOwner returns (bool) {
+        return verifiedInstitutions[_institution];
+    }
+
     function getIssuedCertificatesLength(address user) public view returns (uint256) {
         return issuedCertificates[user].length;
     }
 
+    function getIssuedCertificates(address user) public view returns (uint[] memory) {
+        return issuedCertificates[user];
+    }
+
     function getClaimedCertificatesLength(address user) public view returns (uint256) {
         return claimedCertificates[user].length;
+    }
+
+    function getClaimedCertificates(address user) public view returns (uint[] memory) {
+        return claimedCertificates[user];
     }
 
     function issueCertificate(address _student, string memory _tokenURI) external {
@@ -88,6 +100,10 @@ contract DICE is ERC721URIStorage {
         issuedCertificates[_student].push(currentId);
         certificateToUser[currentId] = _student;
         certificateTokenURI[currentId] = _tokenURI;
+    }
+
+    function getIssuedBy(uint256 certificateId) public view returns (address) {
+        return issuedBy[certificateId];
     }
 
     function claimCertificate(uint256 certificateId) external {
