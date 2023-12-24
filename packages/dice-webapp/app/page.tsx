@@ -1,5 +1,5 @@
-import {Button} from '@nextui-org/button'; 
-import {ThemeSwitcher} from '@/components/ThemeSwitcher';
+import { Button } from "@nextui-org/button";
+import { ThemeSwitcher } from "@/components/theme/theme-switcher";
 
 export default function Page() {
   return (
@@ -7,5 +7,5 @@ export default function Page() {
       <Button>Click me</Button>
       <ThemeSwitcher />
     </div>
-  )
+  );
 }
