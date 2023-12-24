@@ -1,6 +1,14 @@
 {
-  "name": "@dice",
+  "name": "dice",
   "version": "0.1.0",
   "private": true,
-  "workspaces": ["packages/*"]
+  "description": "Decentralized Immutable Credential Ecosystem", 
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "workspaces": [
+    "./packages/*"
+  ],
+  "author": "",
+  "license": "ISC"
 }

@@ -1,4 +1,7 @@
 {
+  "name": "@dice/contract",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
     "compile": "npx hardhat compile",
     "test": "npx hardhat test",
