@@ -4,7 +4,7 @@
   "private": true,
   "description": "Decentralized Immutable Credential Ecosystem", 
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "preinstall": "npx only-allow pnpm"
   },
   "workspaces": [
     "./packages/*"
