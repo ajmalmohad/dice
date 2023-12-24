@@ -4,17 +4,24 @@
   "private": true,
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
     "lint": "next lint",
-    "lintfix": "next lint --fix"
+    "lintfix": "next lint --fix",
+    "prisma:migrate": "npx prisma migrate dev --name dev",
+    "prisma:generate": "npx prisma generate",
+    "prisma:seed": "npx prisma db seed",
+    "dev": "next dev",
+    "build": "prisma generate && next build",
+    "start": "next start"
+  },
+  "prisma":{
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "dependencies": {
     "@nextui-org/button": "^2.0.26",
     "@nextui-org/switch": "^2.0.25",
     "@nextui-org/system": "^2.0.15",
     "@nextui-org/theme": "^2.1.17",
+    "@prisma/client": "^5.7.1",
     "framer-motion": "^10.16.16",
     "next": "14.0.4",
     "next-themes": "^0.2.1",
@@ -29,7 +36,9 @@
     "eslint": "^8",
     "eslint-config-next": "14.0.4",
     "postcss": "^8",
+    "prisma": "^5.7.1",
     "tailwindcss": "^3.3.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
   }
 }
