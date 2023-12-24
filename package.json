@@ -2,5 +2,5 @@
   "name": "@dice/root",
   "version": "0.1.0",
   "private": true,
-  "workspaces": ["packages/*", "apps/*", "services/*"]
+  "workspaces": ["apps/*", "services/*"]
 }
