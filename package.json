@@ -2,7 +2,7 @@
   "name": "dice",
   "version": "0.1.0",
   "private": true,
-  "description": "Decentralized Immutable Credential Ecosystem", 
+  "description": "Decentralized Immutable Credential Ecosystem",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "test": "pnpm -r test",
@@ -17,5 +17,9 @@
     "./packages/*"
   ],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@commitlint/cli": "^18.4.3",
+    "@commitlint/config-conventional": "^18.4.3"
+  }
 }
