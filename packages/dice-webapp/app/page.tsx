@@ -1,7 +1,10 @@
-export default function Home() {
+// app/page.tsx
+import {Button} from '@nextui-org/button'; 
+
+export default function Page() {
   return (
-    <main>
-      Hi
-    </main>
+    <div>
+      <Button>Click me</Button>
+    </div>
   )
 }
