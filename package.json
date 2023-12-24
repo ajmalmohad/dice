@@ -5,10 +5,11 @@
   "description": "Decentralized Immutable Credential Ecosystem",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "test": "pnpm -r test",
+    "prepare": "husky install",
     "lint": "pnpm -r lint",
     "lintfix": "pnpm -r lintfix",
-    "pre-commit": "next lint --fix && git add -A .",
+    "pre-commit": "pnpm run lint",
+    "test": "pnpm -r test",
     "contract:compile": "pnpm --filter @dice/contract compile",
     "contract:deploy": "pnpm --filter @dice/contract local-deploy",
     "webapp:dev": "pnpm --filter @dice/webapp dev"
@@ -20,6 +21,7 @@
   "license": "ISC",
   "devDependencies": {
     "@commitlint/cli": "^18.4.3",
-    "@commitlint/config-conventional": "^18.4.3"
+    "@commitlint/config-conventional": "^18.4.3",
+    "husky": "^8.0.0"
   }
 }
