@@ -5,7 +5,10 @@
   "description": "Decentralized Immutable Credential Ecosystem", 
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "contract:deploy": "pnpm --filter @dice/contracts deploy"
+    "test": "pnpm -r test",
+    "contract:compile": "pnpm --filter @dice/contract compile",
+    "contract:deploy": "pnpm --filter @dice/contract local-deploy",
+    "webapp:dev": "pnpm --filter @dice/webapp dev"
   },
   "workspaces": [
     "./packages/*"

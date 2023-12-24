@@ -7,8 +7,8 @@
     "compile": "npx hardhat compile",
     "test": "npx hardhat test",
     "node": "npx hardhat node",
-    "deploy": "npx hardhat run scripts/deploy.ts",
-    "deploy-local": "concurrently \"npm run node\" \"wait-on http://127.0.0.1:8545/ && npx hardhat run scripts/deploy.ts --network localhost\""
+    "test-deploy": "npx hardhat run scripts/deploy.ts",
+    "local-deploy": "concurrently \"npm run node\" \"wait-on http://127.0.0.1:8545/ && npx hardhat run scripts/deploy.ts --network localhost\""
   },
   "dependencies": {
     "@openzeppelin/contracts": "^5.0.1"
