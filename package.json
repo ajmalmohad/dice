@@ -4,7 +4,8 @@
   "private": true,
   "description": "Decentralized Immutable Credential Ecosystem", 
   "scripts": {
-    "preinstall": "npx only-allow pnpm"
+    "preinstall": "npx only-allow pnpm",
+    "contract:deploy": "pnpm --filter @dice/contracts deploy"
   },
   "workspaces": [
     "./packages/*"
