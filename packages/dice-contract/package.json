@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "preinstall": "npx only-allow pnpm",
+    "lint": "eslint . --ext .ts",
+    "lintfix": "eslint . --ext .ts --fix",
     "compile": "npx hardhat compile",
     "test": "npx hardhat test",
     "node": "npx hardhat node",
@@ -15,7 +17,10 @@
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
     "concurrently": "^8.2.2",
+    "eslint": "^8",
     "hardhat": "^2.19.2",
     "wait-on": "^7.2.0"
   }
