@@ -6,6 +6,9 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "test": "pnpm -r test",
+    "lint": "pnpm -r lint",
+    "lintfix": "pnpm -r lintfix",
+    "pre-commit": "pnpm run lintfix && git add -A .",
     "contract:compile": "pnpm --filter @dice/contract compile",
     "contract:deploy": "pnpm --filter @dice/contract local-deploy",
     "webapp:dev": "pnpm --filter @dice/webapp dev"
