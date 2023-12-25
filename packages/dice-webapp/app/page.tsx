@@ -1,7 +1,7 @@
-import { Button } from "@nextui-org/button";
-import { ThemeSwitcher } from "@/components/theme/theme-switcher";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { Button } from "@nextui-org/button"
+import { getServerSession } from "next-auth"
+import { authOptions } from "@/lib/auth"
+import { SignOutButton } from "@/components/auth/google-auth"
 
 export default async function Page() {
   const session = await getServerSession(authOptions);
@@ -10,7 +10,7 @@ export default async function Page() {
     <div>
       <Button>Click me</Button>
       {
-        session ?  <ThemeSwitcher /> : <p>Please Log In</p>
+        session ?  <SignOutButton /> : <p>Please Log In</p>
       }
     </div>
   );
