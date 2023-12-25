@@ -1,17 +1,22 @@
-import { Button } from "@nextui-org/button"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
-import { SignOutButton } from "@/components/auth/google-auth"
+import { redirect } from "next/navigation"
 
 export default async function Page() {
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions)
+  if (!session) redirect("/auth")
+
+  if (session.user.role === "USER") {
+    redirect("/student")
+  }else if (session.user.role === "INSTITUTION") {
+    redirect("/institution")
+  }else if(session.user.role === "ADMIN") {
+    redirect("/admin")  
+  } 
 
   return (
     <div>
-      <Button>Click me</Button>
-      {
-        session ?  <SignOutButton /> : <p>Please Log In</p>
-      }
+      You currently have no role assigned. Please contact your administrator.
     </div>
   );
 }
