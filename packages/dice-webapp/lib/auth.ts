@@ -12,8 +12,29 @@ export const authOptions = {
   adapter: getPrismaAdapter(),
   providers: [
     GoogleProvider({
+      async profile(profile) {
+        const newprof = {
+          id: profile.sub,
+          name: profile.name,
+          email: profile.email,
+          emailVerified: profile.email_verified,
+          image: profile.picture,
+          role: profile.role ?? "USER",
+        }
+        return newprof
+      },
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string
     })
-  ]
+  ],
+  callbacks: {
+    jwt({ token, user }) {
+      if(user) token.role = user.role
+      return token
+    },
+    session({ session, user }) {
+      session.user.role = user.role
+      return session
+    }
+  }
 } satisfies NextAuthOptions
