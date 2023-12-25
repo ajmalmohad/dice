@@ -3,6 +3,7 @@
 import { signIn } from "next-auth/react"
 import { signOut } from "next-auth/react"
 import { Button } from "@nextui-org/button"
+import { FaGoogle } from "react-icons/fa"
 
 export function SignInWithGoogleButton() {
   return (
@@ -10,7 +11,13 @@ export function SignInWithGoogleButton() {
       signIn('google', {
         callbackUrl: 'http://localhost:3000',
       })
-    }}>Sign In with Google</Button>
+    }}
+    size="lg"
+    className="dark:bg-white dark:text-black bg-black text-white rounded-md"
+    >
+      <p className="font-bold">Login with Google</p>
+      <FaGoogle />
+    </Button>
   )
 }
 
