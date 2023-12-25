@@ -7,7 +7,11 @@ import Image from "next/image";
 
 export default async function Page() {
   const session = await getServerSession(authOptions);
-  if (session) redirect('/')
+
+  if (session && session.user.role === "USER") redirect("/student")
+  else if (session && session.user.role === "INSTITUTION") redirect("/institution")
+  else if(session && session.user.role === "ADMIN") redirect("/admin")
+  else if(session && session.user.role === "UNASSIGNED") redirect("/unassigned")
 
   return (
     <div className="flex items-center justify-center w-full min-h-[100vh] px-4">

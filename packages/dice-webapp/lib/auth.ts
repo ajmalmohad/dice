@@ -13,7 +13,7 @@ export const authOptions = {
   providers: [
     GoogleProvider({
       async profile(profile) {
-        const newprof = {
+        return {
           id: profile.sub,
           name: profile.name,
           email: profile.email,
@@ -21,7 +21,6 @@ export const authOptions = {
           image: profile.picture,
           role: profile.role ?? "USER",
         }
-        return newprof
       },
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string

@@ -8,9 +8,7 @@ import { FaGoogle } from "react-icons/fa"
 export function SignInWithGoogleButton() {
   return (
     <Button onClick={() => {
-      signIn('google', {
-        callbackUrl: 'http://localhost:3000',
-      })
+      signIn('google')
     }}
     size="lg"
     className="dark:bg-white dark:text-black bg-black text-white rounded-md"
