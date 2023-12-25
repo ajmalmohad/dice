@@ -15,8 +15,8 @@ export function SignInWithGoogleButton() {
     size="lg"
     className="dark:bg-white dark:text-black bg-black text-white rounded-md"
     >
-      <p className="font-bold">Login with Google</p>
-      <FaGoogle />
+      <p className="text-sm md:text-base font-bold">Login with Google</p>
+      <FaGoogle className="text-sm md:text-base" />
     </Button>
   )
 }
