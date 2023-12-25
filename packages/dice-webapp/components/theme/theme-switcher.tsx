@@ -5,8 +5,8 @@ import { Switch } from "@nextui-org/switch"
 export function ThemeSwitcher() {
   const { theme, setTheme } = useTheme()
 
-  const selectTheme = (e) => {
-    if(e){ setTheme("dark") }
+  const selectTheme = (active: boolean) => {
+    if(active){ setTheme("dark") }
     else{ setTheme("light") }
   }
 
@@ -14,7 +14,7 @@ export function ThemeSwitcher() {
     <div>
       <Switch 
         isSelected={ theme === "dark" } 
-        onValueChange={(e)=>{selectTheme(e)}} 
+        onValueChange={(active)=>{selectTheme(active)}} 
       />
     </div>
   )
