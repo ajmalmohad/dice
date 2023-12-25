@@ -1,16 +1,15 @@
-"use client";
+import { authOptions } from "@/lib/auth";
+import { getServerSession } from "next-auth"
+import { redirect } from 'next/navigation'
+import { SignInWithGoogleButton } from "@/components/auth/google-auth";
 
-import { Button } from "@nextui-org/button";
-import { signIn } from "next-auth/react";
-
-export default function Page() {
+export default async function Page() {
+  const session = await getServerSession(authOptions);
+  if(session) redirect('/')
+  
   return (
     <div>
-      <Button onClick={() => {
-        signIn('google', {
-          callbackUrl: 'http://localhost:3000',
-        })
-      }}>Sign In with Google</Button>
+      <SignInWithGoogleButton />
     </div>
   );
 }
