@@ -19,7 +19,7 @@ export const authOptions = {
           email: profile.email,
           emailVerified: profile.email_verified,
           image: profile.picture,
-          role: profile.role ?? "USER",
+          role: profile.role ?? "STUDENT",
         }
       },
       clientId: process.env.GOOGLE_CLIENT_ID as string,

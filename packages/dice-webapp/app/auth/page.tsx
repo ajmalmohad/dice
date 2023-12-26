@@ -8,7 +8,7 @@ import Image from "next/image";
 export default async function Page() {
   const session = await getServerSession(authOptions);
 
-  if (session && session.user.role === "USER") redirect("/student")
+  if (session && session.user.role === "STUDENT") redirect("/student")
   else if (session && session.user.role === "INSTITUTION") redirect("/institution")
   else if(session && session.user.role === "ADMIN") redirect("/admin")
   else if(session && session.user.role === "UNASSIGNED") redirect("/unassigned")
