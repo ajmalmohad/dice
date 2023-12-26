@@ -10,4 +10,4 @@ async function Page() {
   );
 }
 
-export default withAuth(Page, "USER");
+export default withAuth(Page, "STUDENT");
