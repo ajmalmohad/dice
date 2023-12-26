@@ -11,7 +11,7 @@ export default async function Page() {
   if (session && session.user.role === "STUDENT") redirect("/student")
   else if (session && session.user.role === "INSTITUTION") redirect("/institution")
   else if(session && session.user.role === "ADMIN") redirect("/admin")
-  else if(session && session.user.role === "UNASSIGNED") redirect("/unassigned")
+  else if(session && session.user.role === "PENDING_INSTITUTION") redirect("/institution/pending")
 
   return (
     <div className="flex items-center justify-center w-full min-h-[100vh] px-4">

@@ -4,10 +4,10 @@ import { SignOutButton } from "@/components/auth/google-auth";
 async function Page() {
   return (
     <div>
-      Unassigned Role
+      Pending Instituition
       <SignOutButton />
     </div>
   );
 }
 
-export default withAuth(Page, "UNASSIGNED");
+export default withAuth(Page, "PENDING_INSTITUTION");
