@@ -8,23 +8,47 @@ function getPrismaAdapter(): Adapter {
   return PrismaAdapter(prisma) as Adapter
 }
 
+let student = GoogleProvider({
+  id: "student",
+  name: "Student Account",
+  async profile(profile) {
+    return {
+      id: profile.sub,
+      name: profile.name,
+      email: profile.email,
+      emailVerified: profile.email_verified,
+      image: profile.picture,
+      role: profile.role ?? "STUDENT",
+      pending: false
+    }
+  },
+  clientId: process.env.GOOGLE_CLIENT_ID as string,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET as string
+})
+
+let institution = GoogleProvider({
+  id: "institution",
+  name: "Institution Account",
+  async profile(profile) {
+    return {
+      id: profile.sub,
+      name: profile.name,
+      email: profile.email,
+      emailVerified: profile.email_verified,
+      image: profile.picture,
+      role: profile.role ?? "PENDING_INSTITUTION",
+      pending: true
+    }
+  },
+  clientId: process.env.GOOGLE_CLIENT_ID as string,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET as string
+})
+
 export const authOptions = {
   adapter: getPrismaAdapter(),
   providers: [
-    GoogleProvider({
-      async profile(profile) {
-        return {
-          id: profile.sub,
-          name: profile.name,
-          email: profile.email,
-          emailVerified: profile.email_verified,
-          image: profile.picture,
-          role: profile.role ?? "STUDENT",
-        }
-      },
-      clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string
-    })
+    student,
+    institution
   ],
   callbacks: {
     jwt({ token, user }) {
