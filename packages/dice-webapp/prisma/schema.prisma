@@ -41,6 +41,7 @@ model User {
   emailVerified DateTime?
   image         String?
   role          String?
+  pending       Boolean?
   accounts      Account[]
   sessions      Session[]
 }
