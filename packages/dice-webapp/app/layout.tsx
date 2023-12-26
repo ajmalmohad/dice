@@ -3,7 +3,6 @@ import { Montserrat } from 'next/font/google'
 import './globals.css'
 
 import {Providers} from "./providers";
-import { ThemeSwitcher } from '@/components/theme/theme-switcher';
 const montserrat = Montserrat({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -20,7 +19,6 @@ export default function RootLayout({
     <html lang="en">
       <body className={montserrat.className}>
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
-          <ThemeSwitcher />
           {children}
         </Providers>
       </body>
