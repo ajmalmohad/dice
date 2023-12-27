@@ -4,9 +4,7 @@ async function main() {
   const dice = await ethers.deployContract("DICE");
   await dice.waitForDeployment();
 
-  console.log(
-    `Deployed to ${dice.target}`
-  );
+  console.log(`Deployed to ${dice.target}`);
 }
 
 main().catch((error) => {

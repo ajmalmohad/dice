@@ -28,7 +28,7 @@ describe("DICE", function () {
     it("Should add an institution", async function () {
       await diceContract.addInstitution(addr1.address);
       expect(await diceContract.verifiedInstitutions(addr1.address)).to.equal(
-        true
+        true,
       );
     });
 
@@ -36,7 +36,7 @@ describe("DICE", function () {
       await diceContract.addInstitution(addr1.address);
       await diceContract.removeInstitution(addr1.address);
       expect(await diceContract.verifiedInstitutions(addr1.address)).to.equal(
-        false
+        false,
       );
     });
 
@@ -50,7 +50,7 @@ describe("DICE", function () {
       const issuedAddress = await diceContract.certificateToUser(1);
       const tokenURIMap = await diceContract.certificateTokenURI(1);
       const length = await diceContract.getIssuedCertificatesLength(
-        addr2.address
+        addr2.address,
       );
 
       expect(issuedAddress).to.equal(addr2.address);
@@ -65,7 +65,7 @@ describe("DICE", function () {
         .connect(addr1)
         .issueCertificate(addr2.address, tokenURI);
       let length = await diceContract.getIssuedCertificatesLength(
-        addr2.address
+        addr2.address,
       );
       expect(length).to.equal(1);
 
@@ -88,19 +88,19 @@ describe("DICE", function () {
         .connect(addr1)
         .issueCertificate(addr2.address, tokenURI);
       let issuedCount = await diceContract.getIssuedCertificatesLength(
-        addr2.address
+        addr2.address,
       );
       expect(issuedCount).to.equal(1);
 
       // Decline the issued certificate
       await diceContract.connect(addr2).declineCertificate(1);
       issuedCount = await diceContract.getIssuedCertificatesLength(
-        addr2.address
+        addr2.address,
       );
       expect(issuedCount).to.equal(0);
 
       const claimedCount = await diceContract.getClaimedCertificatesLength(
-        addr2.address
+        addr2.address,
       );
       expect(claimedCount).to.equal(0);
     });
@@ -118,21 +118,21 @@ describe("DICE", function () {
         .issueCertificate(addr2.address, tokenURI2);
 
       const issuedCount = await diceContract.getIssuedCertificatesLength(
-        addr2.address
+        addr2.address,
       );
       expect(issuedCount).to.equal(2);
 
       // Claim the second certificate first
       await diceContract.connect(addr2).claimCertificate(2);
       let claimedCount = await diceContract.getClaimedCertificatesLength(
-        addr2.address
+        addr2.address,
       );
       expect(claimedCount).to.equal(1);
 
       // Then claim the first certificate
       await diceContract.connect(addr2).claimCertificate(1);
       claimedCount = await diceContract.getClaimedCertificatesLength(
-        addr2.address
+        addr2.address,
       );
       expect(claimedCount).to.equal(2);
     });
@@ -149,10 +149,10 @@ describe("DICE", function () {
         .issueCertificate(addr3.address, tokenURI2);
 
       let length1 = await diceContract.getIssuedCertificatesLength(
-        addr2.address
+        addr2.address,
       );
       let length2 = await diceContract.getIssuedCertificatesLength(
-        addr3.address
+        addr3.address,
       );
       expect(length1).to.equal(1);
       expect(length2).to.equal(1);
@@ -178,10 +178,10 @@ describe("DICE", function () {
         .issueCertificate(addr2.address, tokenURI2);
 
       let issuedlen = await diceContract.getIssuedCertificatesLength(
-        addr2.address
+        addr2.address,
       );
       let claimedlen = await diceContract.getClaimedCertificatesLength(
-        addr2.address
+        addr2.address,
       );
       expect(issuedlen).to.equal(2);
       expect(claimedlen).to.equal(0);
@@ -189,7 +189,7 @@ describe("DICE", function () {
 
       issuedlen = await diceContract.getIssuedCertificatesLength(addr2.address);
       claimedlen = await diceContract.getClaimedCertificatesLength(
-        addr2.address
+        addr2.address,
       );
       expect(issuedlen).to.equal(1);
       expect(claimedlen).to.equal(1);
@@ -197,7 +197,7 @@ describe("DICE", function () {
 
       issuedlen = await diceContract.getIssuedCertificatesLength(addr2.address);
       claimedlen = await diceContract.getClaimedCertificatesLength(
-        addr2.address
+        addr2.address,
       );
       expect(issuedlen).to.equal(0);
       expect(claimedlen).to.equal(2);
@@ -208,20 +208,20 @@ describe("DICE", function () {
     it("Should prevent unauthorized addition of institution by a non-owner", async function () {
       await diceContract.addInstitution(addr1.address);
       await expect(
-        diceContract.connect(addr2).addInstitution(addr1.address)
+        diceContract.connect(addr2).addInstitution(addr1.address),
       ).to.be.revertedWith("Caller is not the owner");
     });
 
     it("Should prevent unauthorized removal of institution by a non-owner", async function () {
       await diceContract.addInstitution(addr1.address);
       await expect(
-        diceContract.connect(addr2).removeInstitution(addr1.address)
+        diceContract.connect(addr2).removeInstitution(addr1.address),
       ).to.be.revertedWith("Caller is not the owner");
     });
 
     it("Should fail to issue a certificate by a non-institution", async function () {
       await expect(
-        diceContract.connect(addr2).issueCertificate(addr3.address, "tokenURI")
+        diceContract.connect(addr2).issueCertificate(addr3.address, "tokenURI"),
       ).to.be.revertedWith("Only verified institutions can issue certificates");
     });
 
@@ -231,7 +231,7 @@ describe("DICE", function () {
         .connect(addr1)
         .issueCertificate(addr2.address, "tokenURI");
       await expect(
-        diceContract.connect(addr3).claimCertificate(1)
+        diceContract.connect(addr3).claimCertificate(1),
       ).to.be.revertedWith("Certificate not yours for claiming");
     });
 
@@ -241,7 +241,7 @@ describe("DICE", function () {
         .connect(addr1)
         .issueCertificate(addr2.address, "tokenURI");
       await expect(
-        diceContract.connect(addr3).declineCertificate(1)
+        diceContract.connect(addr3).declineCertificate(1),
       ).to.be.revertedWith("Certificate not yours for declining");
     });
   });
