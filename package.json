@@ -9,7 +9,7 @@
     "lint": "pnpm -r lint",
     "lintfix": "pnpm -r lintfix",
     "prettify": "pnpm exec prettier . --write",
-    "pre-commit": "pnpm run prettify && pnpm run lint",
+    "pre-commit": "pnpm run lint",
     "test": "pnpm -r test",
     "contract:compile": "pnpm --filter @dice/contract compile",
     "contract:deploy": "pnpm --filter @dice/contract local-deploy",
