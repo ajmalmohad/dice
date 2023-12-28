@@ -10,7 +10,7 @@ async function Page() {
   const session = await serverSession();
   if (!session) redirect("/auth");
 
-  const user = await prisma.user.findFirst({
+  let user = await prisma.user.findFirst({
     where: {
       email: session.user.email,
     },
@@ -18,8 +18,8 @@ async function Page() {
 
   return (
     <div>
-      {user?.pending ? <ApplicationForm /> : <WaitForConfirmation />}
       <SignOutButton />
+      {user?.pending ? <ApplicationForm /> : <WaitForConfirmation />}
     </div>
   );
 }
