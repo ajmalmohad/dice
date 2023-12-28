@@ -1,5 +1,4 @@
-import { authOptions } from "@/lib/auth";
-import { getServerSession } from "next-auth";
+import { serverSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { SignInWithGoogleButton } from "@/components/auth/google-auth";
 import { Card, CardHeader, CardBody } from "@nextui-org/card";
@@ -7,7 +6,7 @@ import Image from "next/image";
 import { IoIosWarning } from "react-icons/io";
 
 export default async function Page() {
-  const session = await getServerSession(authOptions);
+  const session = await serverSession();
 
   if (session && session.user.role === "STUDENT") redirect("/student");
   else if (session && session.user.role === "INSTITUTION")
