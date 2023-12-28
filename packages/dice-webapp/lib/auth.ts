@@ -61,4 +61,4 @@ export const authOptions = {
 
 export const serverSession = async () => {
   return await getServerSession(authOptions);
-} 
+};

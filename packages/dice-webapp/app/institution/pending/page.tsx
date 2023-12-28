@@ -8,12 +8,12 @@ import { ApplicationForm } from "@/components/institution/apply-form";
 
 async function Page() {
   const session = await serverSession();
-  if(!session) redirect("/auth");
+  if (!session) redirect("/auth");
 
   const user = await prisma.user.findFirst({
     where: {
       email: session.user.email,
-    }
+    },
   });
 
   return (
