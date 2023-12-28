@@ -1,4 +1,4 @@
-import type { NextAuthOptions } from "next-auth";
+import { getServerSession, type NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import type { Adapter } from "next-auth/adapters";
@@ -58,3 +58,7 @@ export const authOptions = {
     },
   },
 } satisfies NextAuthOptions;
+
+export const serverSession = async () => {
+  return await getServerSession(authOptions);
+} 
