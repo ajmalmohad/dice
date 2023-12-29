@@ -41,7 +41,7 @@ export const FormData = ({
 
   return (
     <div className={className + " flex flex-col gap-6"}>
-      <div className="flex gap-6">
+      <div className="flex flex-col sm:flex-row gap-6">
         <Input
           type="text"
           onValueChange={(val) => {
@@ -82,7 +82,7 @@ export const FormData = ({
           label="Institution Address"
         />
       </div>
-      <div className="flex gap-6">
+      <div className="flex flex-col sm:flex-row gap-6">
         <Input
           onValueChange={(val) => {
             setFormData({ ...formData, licenseNumber: val });
