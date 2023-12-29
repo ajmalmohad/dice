@@ -1,27 +1,33 @@
 import prisma from "@/lib/prisma";
 
 export async function POST(req: Request) {
-  if (!req.body) {
-    return { statusCode: 400, body: "No body provided" };
-  }
-
   const body = await req.json();
 
-  if (!body.senderEmail) {
-    return { statusCode: 400, body: "No sender email provided" };
+  if (!body)
+    return Response.json({ statusCode: 400, body: "No body provided" });
+
+  if (
+    !body.institutionName ||
+    !body.institutionAddress ||
+    !body.licenseNumber ||
+    !body.email ||
+    !body.phoneNumber ||
+    !body.senderEmail
+  ) {
+    return Response.json({ statusCode: 400, body: "Missing fields" });
   }
 
-  console.log(body);
   const user = await prisma.user.findUnique({
     where: {
       email: body.senderEmail,
     },
   });
 
-  console.log(user);
-
   if (!user) {
-    return { statusCode: 400, body: "No user found with that email" };
+    return Response.json({
+      statusCode: 404,
+      body: "Sender email doesn't match any users",
+    });
   }
 
   const application = await prisma.applicationForm.create({

@@ -30,13 +30,13 @@ export const ApplicationForm = () => {
   };
 
   return (
-    <div className="m-auto flex flex-col items-center p-[40px] max-w-[1000px]">
+    <div className="m-auto flex flex-col items-center p-[20px] md:p-[40px] max-w-[1000px]">
       <div className="py-6">
         <h1 className="text-3xl font-semibold">Register as an Institution</h1>
       </div>
       <FormData className="w-full my-6" submitForm={submitForm} />
       <div className="mt-6">
-        <p className="text-slate-400">
+        <p className="text-slate-400 text-center">
           By registering you agree to our terms and conditions
         </p>
       </div>

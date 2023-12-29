@@ -41,6 +41,7 @@ export function SignOutButton() {
       onClick={() => {
         signOut();
       }}
+      className="font-medium"
     >
       Sign Out
     </Button>
