@@ -6,6 +6,8 @@ import { IoMenuOutline } from "react-icons/io5";
 import { FaDiceD20 } from "react-icons/fa";
 import { usePathname } from "next/navigation";
 import { cn } from "@nextui-org/system";
+import { signOut } from "next-auth/react";
+import { Button } from "@nextui-org/button";
 import { orgSidebarData } from "./sidebar-data";
 import Link from "next/link";
 
@@ -85,6 +87,19 @@ export default function Sidebar({}: Props) {
           </>
         ))}
       </main>
+      <Button
+        color="danger"
+        variant="ghost"
+        onClick={() => {
+          signOut();
+        }}
+        className={cn(
+          "mx-4 my-4 p-3 text-base font-medium hover:font-bold w-[20%] h-[55px]",
+          { "mx-7 w-[8%]": !isSidebarOpen },
+        )}
+      >
+        Log Out
+      </Button>
     </div>
   );
 }
