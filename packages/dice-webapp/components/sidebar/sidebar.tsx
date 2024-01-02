@@ -93,9 +93,6 @@ export default function Sidebar({}: Props) {
           </>
         ))}
       </main>
-      <div className="p-8">
-        <ThemeSwitcher />
-      </div>
     </div>
   );
 }
