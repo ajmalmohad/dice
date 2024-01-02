@@ -95,7 +95,7 @@ export default function Sidebar({}: Props) {
         }}
         className={cn(
           "mx-4 my-4 p-3 text-base font-medium hover:font-bold w-[20%] h-[55px]",
-          { "mx-7 w-[8%]": !isSidebarOpen },
+          { "mx-6 w-[8%]": !isSidebarOpen },
         )}
       >
         Log Out
