@@ -17,14 +17,14 @@ import {
   AiFillSafetyCertificate,
 } from "react-icons/ai";
 
-type SidebarItems = {
+export type SidebarItem = {
   title: string;
   path?: string;
   defaultIcon: React.ReactNode;
   activeIcon: React.ReactNode;
 };
 
-export const orgSidebarData: SidebarItems[] = [
+export const orgSidebarData: SidebarItem[] = [
   {
     title: "Dashboard",
     path: "/",
@@ -33,31 +33,31 @@ export const orgSidebarData: SidebarItems[] = [
   },
   {
     title: "Issue Credential",
-    path: "/issuecredential",
+    path: "#",
     defaultIcon: <PiCertificate />,
     activeIcon: <PiCertificateFill />,
   },
   {
     title: "Active Credential",
-    path: "/activecredential",
+    path: "#",
     defaultIcon: <AiOutlineSafetyCertificate />,
     activeIcon: <AiFillSafetyCertificate />,
   },
   {
     title: "Pending Credential",
-    path: "/pendingcredential",
+    path: "#",
     defaultIcon: <PiClockCountdown />,
     activeIcon: <PiClockCountdownFill />,
   },
   {
     title: "Issues",
-    path: "/issues",
+    path: "#",
     defaultIcon: <BiMessageSquareError />,
     activeIcon: <BiSolidMessageSquareError />,
   },
   {
     title: "My Profile",
-    path: "/myprofile",
+    path: "#",
     defaultIcon: <PiUserBold />,
     activeIcon: <PiUserFill />,
   },

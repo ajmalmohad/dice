@@ -8,10 +8,12 @@ import { FaDiceD20 } from "react-icons/fa";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { IoMdLogOut } from "react-icons/io";
-import { orgSidebarData } from "./sidebar-data";
+import { SidebarItem } from "./sidebar-data";
 import Link from "next/link";
 
-export default function Sidebar() {
+export default function Sidebar({ sidebarData } : {
+  sidebarData: SidebarItem[]
+}) {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   function toggleSidebar() {
     setSidebarOpen(!isSidebarOpen);
@@ -33,7 +35,7 @@ export default function Sidebar() {
         className="h-full flex flex-col justify-between text-black dark:text-white"
       >
         <div>
-          {orgSidebarData.map((item, idx) => (
+          {sidebarData.map((item, idx) => (
             <SidebarItem
               key={idx}
               activeIcon={item.activeIcon}
@@ -60,15 +62,7 @@ export default function Sidebar() {
   );
 }
 
-type SidebarItemProps = {
-  title: string;
-  defaultIcon: React.ReactNode;
-  activeIcon: React.ReactNode;
-  path?: string;
-  isSidebarOpen: boolean;
-};
-
-function SidebarItem(props: SidebarItemProps) {
+function SidebarItem(props: SidebarItem & { isSidebarOpen: boolean }) {
   const pathname = usePathname();
   if (pathname === props.path) console.log(pathname);
 
