@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "@nextui-org/system";
 import { signOut } from "next-auth/react";
 import { Button } from "@nextui-org/button";
+import { IoIosLogOut } from "react-icons/io";
 import { orgSidebarData } from "./sidebar-data";
 import Link from "next/link";
 
@@ -95,10 +96,23 @@ export default function Sidebar({}: Props) {
         }}
         className={cn(
           "mx-4 my-4 p-3 text-base font-medium hover:font-bold w-[20%] h-[55px]",
-          { "mx-6 w-[8%]": !isSidebarOpen },
+          { "visibility: hidden": !isSidebarOpen },
         )}
       >
-        Log Out
+        Logout
+      </Button>
+      <Button
+        isIconOnly
+        color="danger"
+        aria-label="Logout"
+        onClick={() => {
+          signOut();
+        }}
+        className={cn("text-white text-3xl ml-14 my-4 w-[4%] h-[56px]", {
+          "visibility: hidden": isSidebarOpen,
+        })}
+      >
+        <IoIosLogOut />
       </Button>
     </div>
   );
