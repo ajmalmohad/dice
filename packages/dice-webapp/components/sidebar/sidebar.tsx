@@ -146,8 +146,7 @@ function SidebarItem(props: SidebarItemProps) {
               "visibility: hidden": !props.isSidebarOpen,
             })}
           >
-            {" "}
-            {props.title}{" "}
+            {props.title}
           </p>
         </section>
       </Hover>
