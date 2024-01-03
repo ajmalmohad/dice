@@ -70,16 +70,15 @@ export default function Sidebar() {
           "w-[full] ": !isSidebarOpen,
         })}
       >
-        {orgSidebarData.map((d, i) => (
-          <>
-            <SidebarItem
-              activeIcon={d.activeIcon}
-              defaultIcon={d.defaultIcon}
-              isSidebarOpen={isSidebarOpen}
-              path={d.path}
-              title={d.title}
-            />
-          </>
+        {orgSidebarData.map((item, idx) => (
+          <SidebarItem
+            key={idx}
+            activeIcon={item.activeIcon}
+            defaultIcon={item.defaultIcon}
+            isSidebarOpen={isSidebarOpen}
+            path={item.path}
+            title={item.title}
+          />
         ))}
       </main>
       <Button
