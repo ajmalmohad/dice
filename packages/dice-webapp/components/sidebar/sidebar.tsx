@@ -36,11 +36,7 @@ export default function Sidebar() {
     setSidebarOpen(!isSidebarOpen);
   }
   return (
-    <div
-      className={cn(
-        "  h-dvh w-[full] flex-col  flex text-slate-50 dark:border-r-1 dark:border-r-white border-r-1 border-r-black  ",
-      )}
-    >
+    <div className="h-dvh w-[full] flex-col  flex text-slate-50 dark:border-r-1 dark:border-r-white border-r-1 border-r-black">
       <section className="flex items-center gap-4 p-8">
         <Hover
           className={cn("rounded-full py-2 px-2", {
