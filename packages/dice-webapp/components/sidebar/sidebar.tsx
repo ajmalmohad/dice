@@ -30,9 +30,7 @@ function Hover(
   );
 }
 
-type Props = {};
-
-export default function Sidebar({}: Props) {
+export default function Sidebar() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   function toggleSidebar() {
     setSidebarOpen(!isSidebarOpen);
