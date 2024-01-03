@@ -17,7 +17,7 @@ export default function Sidebar() {
     setSidebarOpen(!isSidebarOpen);
   }
   return (
-    <div className="h-[100vh] w-fit max-w-[320px] flex flex-col text-slate-50 border border-solid border-r-black">
+    <div className="h-[100vh] w-fit max-w-[320px] flex flex-col border border-r-black">
       <section className="flex items-center gap-4 text-3xl m-4 mb-8">
         <IoMenuOutline onClick={toggleSidebar} className="text-black dark:text-white" />
         <div className={`flex items-center ${!isSidebarOpen ? "hidden" : ""}`}>
@@ -45,7 +45,7 @@ export default function Sidebar() {
           ))}
         </div>
         <div
-          className="cursor-pointer p-4 text-3xl flex items-center gap-4"
+          className="cursor-pointer p-4 text-3xl text-red-600 flex items-center gap-4 hover:bg-red-200"
           onClick={() => {
             signOut();
           }}
@@ -70,8 +70,12 @@ type SidebarItemProps = {
 
 function SidebarItem(props: SidebarItemProps) {
   const pathname = usePathname();
+  if (pathname === props.path) console.log(pathname);
+
   return (
-    <Link href={props.path ?? "#"} className="p-4 text-3xl flex items-center gap-4">
+    <Link href={props.path ?? "#"}
+      className={`p-4 text-3xl flex items-center gap-4 border-black hover:bg-gray-200 ${props.path == pathname ? "border-r-4 border-black" : ""}}`}
+    >
       <div>
         {props.path === pathname ? props.activeIcon : props.defaultIcon}
       </div>
