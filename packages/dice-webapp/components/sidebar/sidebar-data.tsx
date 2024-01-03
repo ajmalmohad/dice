@@ -9,12 +9,13 @@ import {
   PiCertificateFill,
   PiUserBold,
   PiUserFill,
+  PiClockCountdown,
+  PiClockCountdownFill,
 } from "react-icons/pi";
 import {
   AiOutlineSafetyCertificate,
   AiFillSafetyCertificate,
 } from "react-icons/ai";
-import { PiClockCountdown, PiClockCountdownFill } from "react-icons/pi";
 
 type SidebarItems = {
   title: string;
