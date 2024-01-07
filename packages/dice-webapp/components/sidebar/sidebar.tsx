@@ -53,7 +53,7 @@ export default function Sidebar({ sidebarData } : {
           }}
         >
           <IoMdLogOut />
-          <p className={`text-xl ${isSidebarOpen ? "" : "hidden"}`}>
+          <p className={`text-xl font-medium ${isSidebarOpen ? "" : "hidden"}`}>
             Logout
           </p>
         </div>
@@ -73,7 +73,7 @@ function SidebarItem(props: SidebarItem & { isSidebarOpen: boolean }) {
       <div>
         {props.path === pathname ? props.activeIcon : props.defaultIcon}
       </div>
-      <p className={`text-xl ${props.isSidebarOpen ? "" : "hidden"}`}>
+      <p className={`text-xl font-medium ${props.isSidebarOpen ? "" : "hidden"}`}>
         {props.title}
       </p>
     </Link>
