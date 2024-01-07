@@ -15,22 +15,20 @@ export function ThemeSwitcher() {
   };
 
   return (
-    <div>
-      <Switch
-        isSelected={theme === "dark"}
-        onValueChange={(active) => {
-          selectTheme(active);
-        }}
-        thumbIcon={() =>
-          theme === "dark" ? (
-            <div className="!text-black">
-              <FaMoon />
-            </div>
-          ) : (
-            <FaSun />
-          )
-        }
-      />
-    </div>
+    <Switch
+      isSelected={theme === "dark"}
+      onValueChange={(active) => {
+        selectTheme(active);
+      }}
+      thumbIcon={() =>
+        theme === "dark" ? (
+          <div className="!text-black">
+            <FaMoon />
+          </div>
+        ) : (
+          <FaSun />
+        )
+      }
+    />
   );
 }
