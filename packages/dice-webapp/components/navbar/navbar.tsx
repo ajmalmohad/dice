@@ -1,7 +1,7 @@
-"use client"
+"use client";
 import React from "react";
 import { Input } from "@nextui-org/input";
-import {Avatar} from "@nextui-org/avatar";
+import { Avatar } from "@nextui-org/avatar";
 import { CiSearch } from "react-icons/ci";
 
 export default function Navbar() {

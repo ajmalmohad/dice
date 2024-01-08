@@ -28,7 +28,11 @@ export default function Sidebar({
           onClick={toggleSidebar}
           className="text-black dark:text-white"
         />
-        <div className={`flex grow justify-between items-center gap-2 ${!isSidebarOpen ? "hidden" : ""}`}>
+        <div
+          className={`flex grow justify-between items-center gap-2 ${
+            !isSidebarOpen ? "hidden" : ""
+          }`}
+        >
           <div className="flex items-center gap-2">
             <FaDiceD20 className="text-black dark:text-white" />
             <Image className="dark:invert" src={LogoPath} alt="DICE" />
@@ -72,9 +76,10 @@ function SidebarItem(props: SidebarItem & { isSidebarOpen: boolean }) {
   return (
     <Link
       href={props.path ?? "#"}
-      className={`p-4 text-3xl flex items-center gap-4 hover:bg-gray-300 hover:dark:bg-gray-900 ${props.path == pathname
-        ? "border-r-3 border-black dark:border-white "
-        : ""
+      className={`p-4 text-3xl flex items-center gap-4 hover:bg-gray-300 hover:dark:bg-gray-900 ${
+        props.path == pathname
+          ? "border-r-3 border-black dark:border-white "
+          : ""
       }}`}
     >
       <div>
