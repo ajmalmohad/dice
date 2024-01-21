@@ -34,7 +34,7 @@ export default function Sidebar({
           }`}
         >
           <div className="flex items-center gap-2">
-            <Image height={20} className="dark:invert" src={LogoPath} alt="DICE" />
+            <Image height={16} className="dark:invert" src={LogoPath} alt="DICE" />
           </div>
           <ThemeSwitcher />
         </div>
