@@ -22,7 +22,7 @@ export default function Sidebar({
     setSidebarOpen(!isSidebarOpen);
   }
   return (
-    <div className="h-[100vh] w-fit max-w-[320px] flex flex-col border-r-1 border-gray-400 dark:border-gray-800 ">
+    <div className="h-[100vh] max-h-[100vh] w-fit max-w-[320px] flex flex-col border-r-1 border-gray-400 dark:border-gray-800 ">
       <section className="flex items-center gap-4 text-3xl m-4 mb-8">
         <IoMenuOutline
           onClick={toggleSidebar}
@@ -34,8 +34,8 @@ export default function Sidebar({
           }`}
         >
           <div className="flex items-center gap-2">
-            <FaDiceD20 className="text-black dark:text-white" />
-            <Image className="dark:invert" src={LogoPath} alt="DICE" />
+            {/* <FaDiceD20 className="text-black dark:text-white text-3xl" /> */}
+            <Image height={20} className="dark:invert" src={LogoPath} alt="DICE" />
           </div>
           <ThemeSwitcher />
         </div>
@@ -60,7 +60,7 @@ export default function Sidebar({
           }}
         >
           <IoMdLogOut />
-          <p className={`text-xl font-medium ${isSidebarOpen ? "" : "hidden"}`}>
+          <p className={`text-lg whitespace-nowrap font-medium ${isSidebarOpen ? "" : "hidden"}`}>
             Logout
           </p>
         </div>
@@ -86,7 +86,7 @@ function SidebarItem(props: SidebarItem & { isSidebarOpen: boolean }) {
         {props.path === pathname ? props.activeIcon : props.defaultIcon}
       </div>
       <p
-        className={`text-xl font-medium ${props.isSidebarOpen ? "" : "hidden"}`}
+        className={`text-lg whitespace-nowrap font-medium ${props.isSidebarOpen ? "" : "hidden"}`}
       >
         {props.title}
       </p>
