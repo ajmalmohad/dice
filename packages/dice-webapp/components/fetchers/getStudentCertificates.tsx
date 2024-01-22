@@ -1,11 +1,10 @@
 type Certificate = {
-    id: string;
-    title: string;
-    issuer: string;
-    issueDate: string;
-    expiryDate: string;
+  id: string;
+  title: string;
+  issuer: string;
+  issueDate: string;
+  expiryDate: string;
 }[];
-
 
 const certificatesData: Certificate = [
   {
@@ -78,8 +77,7 @@ const certificatesData: Certificate = [
     issueDate: "2021-08-25",
     expiryDate: "2021-08-25",
   },
-]
-
+];
 
 export default function getStudentCertificates() {
   return certificatesData;

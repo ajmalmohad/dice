@@ -10,7 +10,7 @@ async function Page() {
       <Sidebar sidebarData={StuSidebarData} />
       <ScrollArea className="grow">
         <div className="p-4">
-          <DataTable content={'student_cert'} caption="List of certificates" />
+          <DataTable content={"student_cert"} />
         </div>
       </ScrollArea>
     </div>
