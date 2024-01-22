@@ -95,7 +95,7 @@ export const OrgSidebarData: SidebarItem[] = [
 export const StuSidebarData: SidebarItem[] = [
   {
     title: "Dashboard",
-    path: "/",
+    path: "/student",
     defaultIcon: <LuLayoutDashboard />,
     activeIcon: <BiSolidDashboard />,
   },
