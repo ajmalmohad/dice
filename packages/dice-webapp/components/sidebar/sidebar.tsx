@@ -12,7 +12,6 @@ import { ThemeSwitcher } from "@/components/theme/theme-switcher";
 import Link from "next/link";
 import { Button } from "../ui/button";
 
-
 export default function Sidebar({
   sidebarData,
 }: {
@@ -30,11 +29,17 @@ export default function Sidebar({
           className="text-black dark:text-white"
         />
         <div
-          className={`flex grow justify-between items-center gap-2 ${!isSidebarOpen ? "hidden" : ""
+          className={`flex grow justify-between items-center gap-2 ${
+            !isSidebarOpen ? "hidden" : ""
           }`}
         >
           <div className="flex items-center gap-2">
-            <Image height={16} className="dark:invert" src={LogoPath} alt="DICE" />
+            <Image
+              height={16}
+              className="dark:invert"
+              src={LogoPath}
+              alt="DICE"
+            />
           </div>
           <ThemeSwitcher />
         </div>
@@ -52,13 +57,21 @@ export default function Sidebar({
             />
           ))}
         </div>
-        <Button variant="destructive" className={`my-2 text-lg w-full flex gap-4 py-6 items-center ${isSidebarOpen ? 'justify-start' : 'justify-center'}`}
+        <Button
+          variant="destructive"
+          className={`my-2 text-lg w-full flex gap-4 py-6 items-center ${
+            isSidebarOpen ? "justify-start" : "justify-center"
+          }`}
           onClick={() => {
             signOut();
           }}
         >
           <IoMdLogOut />
-          <p className={`text-base whitespace-nowrap font-medium ${isSidebarOpen ? "" : "hidden"}`}>
+          <p
+            className={`text-base whitespace-nowrap font-medium ${
+              isSidebarOpen ? "" : "hidden"
+            }`}
+          >
             Logout
           </p>
         </Button>
@@ -72,15 +85,20 @@ function SidebarItem(props: SidebarItem & { isSidebarOpen: boolean }) {
   if (pathname === props.path) console.log(pathname);
 
   return (
-    <Link
-      href={props.path ?? "#"}
-    >
-      <Button variant={props.path == pathname ? "secondary" : "ghost"} className={`my-2 text-xl w-full flex gap-4 py-6 items-center ${props.isSidebarOpen ? 'justify-start' : 'justify-center'}`}>
+    <Link href={props.path ?? "#"}>
+      <Button
+        variant={props.path == pathname ? "secondary" : "ghost"}
+        className={`my-2 text-xl w-full flex gap-4 py-6 items-center ${
+          props.isSidebarOpen ? "justify-start" : "justify-center"
+        }`}
+      >
         <div className="text-lg">
           {props.path === pathname ? props.activeIcon : props.defaultIcon}
         </div>
         <p
-          className={`text-base whitespace-nowrap font-medium ${props.isSidebarOpen ? "" : "hidden"}`}
+          className={`text-base whitespace-nowrap font-medium ${
+            props.isSidebarOpen ? "" : "hidden"
+          }`}
         >
           {props.title}
         </p>
