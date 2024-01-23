@@ -16,7 +16,7 @@ export function ThemeSwitcher() {
 
   return (
     <Switch
-      color="secondary"
+      color="warning"
       isSelected={theme === "dark"}
       onValueChange={(active) => {
         selectTheme(active);
