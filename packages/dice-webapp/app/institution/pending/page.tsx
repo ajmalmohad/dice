@@ -18,7 +18,7 @@ async function Page() {
   });
 
   return (
-    <div className="p-4">
+    <div className="p-4 min-h-[100vh]">
       <div className="flex justify-end items-center gap-6">
         <ThemeSwitcher />
         <SignOutButton />
