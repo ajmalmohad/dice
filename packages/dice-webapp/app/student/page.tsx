@@ -9,7 +9,7 @@ import { MdOutlinePendingActions } from "react-icons/md";
 async function Page() {
   return (
     <div>
-      <Navbar className="mb-10"/>
+      <Navbar className="mb-10" />
       <div className="flex justify-stretch gap-4 mb-10">
         <StatCard
           className="grow"
