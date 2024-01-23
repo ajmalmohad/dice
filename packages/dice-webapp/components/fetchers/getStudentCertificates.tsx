@@ -77,6 +77,20 @@ const certificatesData: Certificate = [
     issueDate: "2021-08-25",
     expiryDate: "2021-08-25",
   },
+  {
+    id: "11",
+    title: "Multiplatform Mobile App Development with React Native",
+    issuer: "Coursera",
+    issueDate: "2021-08-25",
+    expiryDate: "2021-08-25",
+  },
+  {
+    id: "12",
+    title: "Multiplatform Mobile App Development with React Native",
+    issuer: "Coursera",
+    issueDate: "2021-08-25",
+    expiryDate: "2021-08-25",
+  },
 ];
 
 export default function getStudentCertificates() {
