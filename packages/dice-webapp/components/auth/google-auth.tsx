@@ -2,7 +2,7 @@
 
 import { signIn } from "next-auth/react";
 import { signOut } from "next-auth/react";
-import { Button } from "@nextui-org/button";
+import { Button } from "../ui/button";
 import { FaGoogle } from "react-icons/fa";
 import { useState } from "react";
 import { Switch } from "@nextui-org/switch";
@@ -17,6 +17,7 @@ export function SignInWithGoogleButton() {
           Login as Institution?
         </p>
         <Switch
+          color="warning"
           checked={institution}
           onChange={() => setInstitution(!institution)}
         />
