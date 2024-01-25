@@ -11,9 +11,7 @@ export const WaitForConfirmation = ({ className }: { className?: string }) => {
         height={300}
       />
       <p className="text-2xl font-semibold mb-2">All right!</p>
-      <p className="text-ring">
-        Your application is being reviewed
-      </p>
+      <p className="text-ring">Your application is being reviewed</p>
     </div>
   );
 };
