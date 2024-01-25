@@ -22,7 +22,7 @@ export default function Sidebar({
     setSidebarOpen(!isSidebarOpen);
   }
   return (
-    <div className="h-[100vh] w-fit max-w-[320px] flex flex-col border-r-1 border-gray-400 dark:border-gray-800 ">
+    <div className="h-[100vh] w-fit max-w-[320px] flex flex-col border-r">
       <section className="flex items-center gap-4 text-3xl m-4 mb-4">
         <IoMenuOutline
           onClick={toggleSidebar}
@@ -33,7 +33,7 @@ export default function Sidebar({
             !isSidebarOpen ? "hidden" : ""
           }`}
         >
-          <div className="flex items-center gap-2">
+          <div className="flex items-center">
             <Image
               height={16}
               className="dark:invert"

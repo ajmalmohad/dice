@@ -1,6 +1,6 @@
 "use client";
 import { useTheme } from "next-themes";
-import { Switch } from "@nextui-org/switch";
+import { Switch } from "../ui/switch";
 import { FaMoon, FaSun } from "react-icons/fa";
 
 export function ThemeSwitcher() {
@@ -17,19 +17,19 @@ export function ThemeSwitcher() {
   return (
     <Switch
       color="warning"
-      isSelected={theme === "dark"}
-      onValueChange={(active) => {
+      checked={theme === "dark"}
+      onCheckedChange={(active) => {
         selectTheme(active);
       }}
-      thumbIcon={() =>
-        theme === "dark" ? (
-          <div className="!text-black">
-            <FaMoon />
-          </div>
-        ) : (
-          <FaSun />
-        )
-      }
+      // thumbIcon={() =>
+      //   theme === "dark" ? (
+      //     <div className="!text-black">
+      //       <FaMoon />
+      //     </div>
+      //   ) : (
+      //     <FaSun />
+      //   )
+      // }
     />
   );
 }

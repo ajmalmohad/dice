@@ -35,7 +35,7 @@ export const ApplicationForm = () => {
       </div>
       <FormData className="w-full my-6" submitForm={submitForm} />
       <div className="mt-6">
-        <p className="text-slate-400 text-center">
+        <p className="text-ring text-center">
           By registering you agree to our terms and conditions
         </p>
       </div>

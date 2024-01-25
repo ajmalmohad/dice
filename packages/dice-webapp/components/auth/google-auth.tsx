@@ -5,7 +5,7 @@ import { signOut } from "next-auth/react";
 import { Button } from "../ui/button";
 import { FaGoogle } from "react-icons/fa";
 import { useState } from "react";
-import { Switch } from "@nextui-org/switch";
+import { Switch } from "../ui/switch";
 
 export function SignInWithGoogleButton() {
   const [institution, setInstitution] = useState(false);
@@ -19,7 +19,7 @@ export function SignInWithGoogleButton() {
         <Switch
           color="warning"
           checked={institution}
-          onChange={() => setInstitution(!institution)}
+          onCheckedChange={() => setInstitution(!institution)}
         />
       </div>
       <Button
