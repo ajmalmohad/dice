@@ -101,7 +101,7 @@ export const StuSidebarData: SidebarItem[] = [
   },
   {
     title: "My Credentials",
-    path: "#",
+    path: "/student/my-credentials",
     defaultIcon: <PiCertificate />,
     activeIcon: <PiCertificateFill />,
   },
@@ -113,7 +113,7 @@ export const StuSidebarData: SidebarItem[] = [
   },
   {
     title: "Manage Shared",
-    path: "#",
+    path: "/student/shared",
     defaultIcon: <IoShareOutline />,
     activeIcon: <IoShare />,
   },
