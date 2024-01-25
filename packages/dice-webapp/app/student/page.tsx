@@ -6,7 +6,7 @@ import { FaCheck } from "react-icons/fa6";
 import { IoMdClose } from "react-icons/io";
 import { MdOutlinePendingActions } from "react-icons/md";
 
-async function Page() {
+export default function Page() {
   return (
     <div>
       <Navbar className="mb-10" />
@@ -34,5 +34,3 @@ async function Page() {
     </div>
   );
 }
-
-export default withAuth(Page, "STUDENT");
