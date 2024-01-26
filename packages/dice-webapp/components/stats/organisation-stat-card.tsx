@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardContent } from "../ui/card";
+import { Card, CardContent } from "../ui/card";
 
 import { cn } from "@/lib/utils";
 
@@ -15,9 +15,9 @@ export const OrganisationStatCard = ({
   total,
   className,
 }: StatCardProps) => {
-  let Height = 16 * (value / total);
-  if (Height < 4) {
-    Height = 4;
+  let height = 16 * (value / total);
+  if (height < 4) {
+    height = 4;
   }
 
   const formatValue = (val: number) => {
@@ -50,7 +50,7 @@ export const OrganisationStatCard = ({
             className={`rounded-full w-4 absolute bottom-0 border-x-1 border-b-1 ${
               title === "Active Credentials" ? "bg-green-500" : "bg-orange-500"
             }`}
-            style={{ height: Height * 4 }}
+            style={{ height: height * 4 }}
           ></div>
         </div>
       </CardContent>
