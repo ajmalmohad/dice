@@ -7,7 +7,7 @@ export default function Page() {
     <div>
       <Navbar className="mb-10" />
       <div className="mb-6">
-        <Button variant="special">Add New</Button>
+        <Button variant="outline">Add New</Button>
       </div>
       <div className="max-2xl:grid max-2xl:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:flex 2xl:flex-wrap w-full gap-4">
         <SharedLinkCard

@@ -28,16 +28,27 @@ export const SharedLinkCard = ({
       <CardContent className="p-6 flex flex-col gap-4">
         <div className="flex justify-between items-center">
           <div className="text-lg font-medium">{title}</div>
-          <Switch checked={checked} onClick={()=>{setChecked(!checked)}}/>
+          <Switch
+            checked={checked}
+            onClick={() => {
+              setChecked(!checked);
+            }}
+          />
         </div>
         <div className="flex flex-col gap-4">
           <div className="text-sm border p-2 rounded-sm text-ring overflow-hidden">
             <a href={link}>{link}</a>
           </div>
           <div className="flex justify-end gap-4 text-xl">
-            <div className="cursor-pointer"><FiExternalLink/></div>
-            <div className="cursor-pointer"><MdContentCopy/></div>
-            <div className="cursor-pointer"><AiOutlineDelete/></div>
+            <div className="cursor-pointer">
+              <FiExternalLink />
+            </div>
+            <div className="cursor-pointer">
+              <MdContentCopy />
+            </div>
+            <div className="cursor-pointer">
+              <AiOutlineDelete />
+            </div>
           </div>
         </div>
       </CardContent>
