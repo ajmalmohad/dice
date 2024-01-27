@@ -42,7 +42,7 @@ export const PendingCredentialCard = ({
             </div>
           </div>
         </div>
-        <div className="ml-1 flex gap-2 text-3xl">
+        <div className="ml-1 flex gap-4 text-3xl">
           <div className="cursor-pointer">
             <MdOutlineRemoveRedEye />
           </div>
