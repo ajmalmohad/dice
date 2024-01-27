@@ -38,7 +38,9 @@ export const OrganisationStatCard = ({
           <div className="flex gap-2 items-center">
             <div
               className={`rounded-full w-5 h-2 ${
-                title === "Active Credentials" ? "bg-green-500" : "bg-orange-500"
+                title === "Active Credentials"
+                  ? "bg-green-500"
+                  : "bg-orange-500"
               }`}
             ></div>
             <div className="text-sm font-medium">{title}</div>
