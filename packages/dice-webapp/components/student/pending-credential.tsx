@@ -1,10 +1,12 @@
 import { Card, CardContent } from "../ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { AiOutlineSafetyCertificate } from "react-icons/ai";
-import { CiCircleChevRight } from "react-icons/ci";
+import { IoCheckmarkCircleOutline } from "react-icons/io5";
+import { IoIosCloseCircleOutline } from "react-icons/io";
+import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { cn } from "@/lib/utils";
 
-type CredentialCardProps = {
+type PendingCredential = {
   imageLink: string;
   title: string;
   issuer: string;
@@ -12,13 +14,13 @@ type CredentialCardProps = {
   className?: string;
 };
 
-export const CredentialCard = ({
+export const PendingCredentialCard = ({
   imageLink,
   title,
   issuer,
   issueDate,
   className,
-}: CredentialCardProps) => {
+}: PendingCredential) => {
   return (
     <Card className={cn("min-w-[200px]", className)}>
       <CardContent className="flex p-6 justify-between items-center">
@@ -40,8 +42,16 @@ export const CredentialCard = ({
             </div>
           </div>
         </div>
-        <div className="ml-1 text-3xl">
-          <CiCircleChevRight />
+        <div className="ml-1 flex gap-2 text-3xl">
+          <div className="cursor-pointer">
+            <MdOutlineRemoveRedEye />
+          </div>
+          <div className="cursor-pointer">
+            <IoCheckmarkCircleOutline />
+          </div>
+          <div className="cursor-pointer">
+            <IoIosCloseCircleOutline />
+          </div>
         </div>
       </CardContent>
     </Card>

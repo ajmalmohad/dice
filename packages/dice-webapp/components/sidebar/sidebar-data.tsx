@@ -107,7 +107,7 @@ export const StuSidebarData: SidebarItem[] = [
   },
   {
     title: "Pending Credentials",
-    path: "#",
+    path: "/student/pending-credentials",
     defaultIcon: <PiClockCountdown />,
     activeIcon: <PiClockCountdownFill />,
   },
