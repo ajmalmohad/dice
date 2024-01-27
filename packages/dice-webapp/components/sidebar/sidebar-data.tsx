@@ -119,7 +119,7 @@ export const StuSidebarData: SidebarItem[] = [
   },
   {
     title: "My Profile",
-    path: "#",
+    path: "/student/profile",
     defaultIcon: <PiUserBold />,
     activeIcon: <PiUserFill />,
   },
