@@ -12,6 +12,14 @@ export const ProfileNameCard = ({
   avatarUrl,
   className,
 }: ProfileNameProps) => {
+  const getIntials = (name: string) => { 
+    const names = name.split(" ");
+    return names
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase();
+  }
+
   return (
     <Card className={className}>
       <div className="mb-20 relative w-full h-[140px] bg-secondary rounded-sm">
@@ -19,7 +27,7 @@ export const ProfileNameCard = ({
           <div className="p-2 mr-4 bg-background rounded-full">
             <Avatar className="h-24 w-24">
               <AvatarImage src={avatarUrl || ""} />
-              <AvatarFallback>JD</AvatarFallback>
+              <AvatarFallback>{getIntials(name)}</AvatarFallback>
             </Avatar>
           </div>
           <div className="mb-2">
