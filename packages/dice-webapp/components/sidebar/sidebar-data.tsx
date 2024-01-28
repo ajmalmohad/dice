@@ -1,11 +1,7 @@
 import { LuLayoutDashboard } from "react-icons/lu";
 import { BsBuildingFillLock, BsBuildingGear } from "react-icons/bs";
 import { IoShare, IoShareOutline } from "react-icons/io5";
-import {
-  BiSolidDashboard,
-  BiMessageSquareError,
-  BiSolidMessageSquareError,
-} from "react-icons/bi";
+import { BiSolidDashboard } from "react-icons/bi";
 import {
   PiCertificate,
   PiCertificateFill,
@@ -67,22 +63,16 @@ export const OrgSidebarData: SidebarItem[] = [
     activeIcon: <PiCertificateFill />,
   },
   {
-    title: "Active Credential",
+    title: "Active Credentials",
     path: "#",
     defaultIcon: <AiOutlineSafetyCertificate />,
     activeIcon: <AiFillSafetyCertificate />,
   },
   {
-    title: "Pending Credential",
+    title: "Pending Credentials",
     path: "#",
     defaultIcon: <PiClockCountdown />,
     activeIcon: <PiClockCountdownFill />,
-  },
-  {
-    title: "Issues",
-    path: "#",
-    defaultIcon: <BiMessageSquareError />,
-    activeIcon: <BiSolidMessageSquareError />,
   },
   {
     title: "My Profile",

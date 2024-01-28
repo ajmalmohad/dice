@@ -12,13 +12,13 @@ export const ProfileNameCard = ({
   avatarUrl,
   className,
 }: ProfileNameProps) => {
-  const getIntials = (name: string) => { 
+  const getIntials = (name: string) => {
     const names = name.split(" ");
     return names
       .map((n) => n[0])
       .join("")
       .toUpperCase();
-  }
+  };
 
   return (
     <Card className={className}>
