@@ -46,7 +46,7 @@ export const OrganisationStatCard = ({
             <div className="text-sm font-medium">{title}</div>
           </div>
         </div>
-        <div className="relative">
+        <div className="relative border rounded-lg">
           <div className="rounded-full w-4 h-16 border-1"></div>
           <div
             className={`rounded-full w-4 absolute bottom-0 border-x-1 border-b-1 ${
