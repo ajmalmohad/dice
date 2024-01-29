@@ -4,7 +4,7 @@ import { PieChart, pieChartDefaultProps, PieChartProps } from "react-minimal-pie
 import React, { useState } from "react";
 import { Tooltip } from 'react-tooltip'
 
-type StatCardProps = {
+type DonutStatProps = {
   ActiveCred: number;
   PendingCred: number;
 };
@@ -22,9 +22,8 @@ function makeTooltipContent(
   }
 }
 
-export const DoughnutStat = ({ ActiveCred, PendingCred }: StatCardProps) => {
+export const DonutStat = ({ ActiveCred, PendingCred }: DonutStatProps) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const lineWidth = 60;
   return (
     <div data-tooltip-id="chart">
       <PieChart
@@ -49,15 +48,13 @@ export const DoughnutStat = ({ ActiveCred, PendingCred }: StatCardProps) => {
         ]}
         label={({ dataEntry }) => Math.round(dataEntry.percentage) + "%"}
         labelStyle={(index) => ({
-          fontFamily:
-            '"Nunito Sans", -apple-system, Helvetica, Arial, sans-serif',
           fontSize: "5px",
           fontWeight: "600",
           fill: "#FFFFFF",
           opacity: hoveredIndex === index ? 1.0 : 0.75,
           pointerEvents: "none",
         })}
-        labelPosition={100 - lineWidth / 2}
+        labelPosition={70}
         onMouseOver={(_, index) => {
           setHoveredIndex(index);
         }}
@@ -65,11 +62,15 @@ export const DoughnutStat = ({ ActiveCred, PendingCred }: StatCardProps) => {
           setHoveredIndex(null);
         }}
       />
-      <Tooltip id="chart" content={makeTooltipContent({
-        active: ActiveCred,
-        pending: PendingCred,
-        hoveredIndex: hoveredIndex,
-      })} float={true} />
+      <Tooltip
+        id="chart"
+        content={makeTooltipContent({
+          active: ActiveCred,
+          pending: PendingCred,
+          hoveredIndex: hoveredIndex,
+        })}
+        float={true}
+      />
     </div>
   );
 };
