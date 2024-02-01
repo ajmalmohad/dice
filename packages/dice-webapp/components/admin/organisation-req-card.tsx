@@ -18,7 +18,7 @@ export const OrganisationReqCard = ({
   className,
 }: OrganisationReqCardProps) => {
   return (
-    <Card className={cn("w-[350px] min-w-[350px]", className)}>
+    <Card className={cn("min-w-[350px]", className)}>
       <CardContent className="flex flex-col items-center justify-between p-4 gap-6">
         <div className="flex gap-6 items-center">
           <Avatar>
