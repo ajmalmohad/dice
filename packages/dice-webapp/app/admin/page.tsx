@@ -1,4 +1,3 @@
-import withAuth from "@/components/auth/acess-restrict";
 import { SignOutButton } from "@/components/auth/google-auth";
 
 async function Page() {
@@ -10,4 +9,4 @@ async function Page() {
   );
 }
 
-export default withAuth(Page, "ADMIN");
+export default Page;

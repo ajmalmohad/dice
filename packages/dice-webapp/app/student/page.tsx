@@ -1,4 +1,3 @@
-import withAuth from "@/components/auth/acess-restrict";
 import Navbar from "@/components/navbar/navbar";
 import { StatCard } from "@/components/stats/stat-card";
 import { DataTable } from "@/components/table/data-table";
