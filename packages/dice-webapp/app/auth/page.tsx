@@ -13,7 +13,7 @@ export default async function Page() {
     redirect("/institution");
   else if (session && session.user.role === "ADMIN") redirect("/admin");
   else if (session && session.user.role === "PENDING_INSTITUTION")
-    redirect("/institution/pending");
+    redirect("/pending-institution");
 
   return (
     <div className="flex items-center justify-center w-full min-h-[100vh] px-4">

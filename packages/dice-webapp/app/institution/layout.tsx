@@ -1,12 +1,12 @@
 import withAuth from "@/components/auth/acess-restrict";
 import Sidebar from "@/components/sidebar/sidebar";
-import { StuSidebarData } from "@/components/sidebar/sidebar-data";
+import { OrgSidebarData } from "@/components/sidebar/sidebar-data";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-async function StudentLayout({ children }: { children: React.ReactNode }) {
+async function InstitutionLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex max-h-[100vh]">
-      <Sidebar sidebarData={StuSidebarData} />
+      <Sidebar sidebarData={OrgSidebarData} />
       <ScrollArea className="grow">
         <div className="p-4">{children}</div>
       </ScrollArea>
@@ -14,4 +14,4 @@ async function StudentLayout({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default withAuth(StudentLayout, ["STUDENT"]);
+export default withAuth(InstitutionLayout, ["INSTITUTION"]);

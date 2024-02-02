@@ -1,4 +1,3 @@
-import withAuth from "@/components/auth/acess-restrict";
 import { SignOutButton } from "@/components/auth/google-auth";
 import { serverSession } from "@/lib/auth";
 import prisma from "@/lib/prisma";
@@ -32,4 +31,4 @@ async function Page() {
   );
 }
 
-export default withAuth(Page, "PENDING_INSTITUTION");
+export default Page;
