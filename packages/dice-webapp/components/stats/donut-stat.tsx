@@ -7,6 +7,7 @@ import { Tooltip } from "react-tooltip";
 type DonutStatProps = {
   ActiveCred: number;
   PendingCred: number;
+  className?: string;
 };
 
 type chartDataProps = { title: string; value: number; color: string };
@@ -28,7 +29,7 @@ function makeTooltipContent(entry: {
   }
 }
 
-export const DonutStat = ({ ActiveCred, PendingCred }: DonutStatProps) => {
+export const DonutStat = ({ ActiveCred, PendingCred, className }: DonutStatProps) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const chartData: chartDataProps[] = [];
   if (ActiveCred <= 0 && PendingCred <= 0) {
@@ -54,9 +55,8 @@ export const DonutStat = ({ ActiveCred, PendingCred }: DonutStatProps) => {
     }
   }
   return (
-    <div data-tooltip-id="chart">
+    <div className={className} data-tooltip-id="chart">
       <PieChart
-        radius={pieChartDefaultProps.radius - 10}
         lineWidth={60}
         segmentsStyle={{ transition: "stroke .3s", cursor: "pointer" }}
         animate
@@ -65,7 +65,7 @@ export const DonutStat = ({ ActiveCred, PendingCred }: DonutStatProps) => {
           dataEntry.value == -1 ? "" : Math.round(dataEntry.percentage) + "%"
         }
         labelStyle={(index) => ({
-          fontSize: "5px",
+          fontSize: "10px",
           fontWeight: "600",
           fill: "#FFFFFF",
           opacity: hoveredIndex === index ? 1.0 : 0.75,
