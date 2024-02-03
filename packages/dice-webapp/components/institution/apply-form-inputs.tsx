@@ -5,7 +5,7 @@ import { Textarea } from "../ui/textarea";
 import { Input } from "../ui/input";
 import { useState } from "react";
 
-export const FormData = ({
+export const ApplyFormInputs = ({
   className,
   submitForm,
 }: {

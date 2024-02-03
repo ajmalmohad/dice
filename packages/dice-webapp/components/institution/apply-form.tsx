@@ -1,6 +1,6 @@
 "use client";
 
-import { FormData } from "@/components/institution/form-data";
+import { ApplyFormInputs } from "@/components/institution/apply-form-inputs";
 import { useSession } from "next-auth/react";
 
 export const ApplicationForm = () => {
@@ -33,7 +33,7 @@ export const ApplicationForm = () => {
       <div className="py-6">
         <h1 className="text-3xl font-semibold">Register as an Institution</h1>
       </div>
-      <FormData className="w-full my-6" submitForm={submitForm} />
+      <ApplyFormInputs className="w-full my-6" submitForm={submitForm} />
       <div className="mt-6">
         <p className="text-ring text-center">
           By registering you agree to our terms and conditions
