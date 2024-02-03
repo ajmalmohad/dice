@@ -89,7 +89,7 @@ export const ApplyFormInputs = ({
       </div>
 
       <div className="flex justify-end">
-        <Button onClick={validateSubmit} color="primary" size="lg">
+        <Button onClick={validateSubmit} color="primary" className="p-6">
           Submit
         </Button>
       </div>

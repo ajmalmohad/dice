@@ -58,7 +58,7 @@ export const IssueFormInputs = ({
           }}
           placeholder="Enter email of beneficiary"
         />
-        <Button className="p-6" color="primary" size="lg">
+        <Button className="p-6" color="primary">
           Verify
         </Button>
       </div>
@@ -104,7 +104,7 @@ export const IssueFormInputs = ({
       </div>
 
       <div className="flex justify-end">
-        <Button onClick={validateSubmit} color="primary" size="lg">
+        <Button onClick={validateSubmit} color="primary" className="p-6">
           Submit
         </Button>
       </div>
