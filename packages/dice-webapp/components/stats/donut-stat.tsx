@@ -29,7 +29,11 @@ function makeTooltipContent(entry: {
   }
 }
 
-export const DonutStat = ({ ActiveCred, PendingCred, className }: DonutStatProps) => {
+export const DonutStat = ({
+  ActiveCred,
+  PendingCred,
+  className,
+}: DonutStatProps) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const chartData: chartDataProps[] = [];
   if (ActiveCred <= 0 && PendingCred <= 0) {

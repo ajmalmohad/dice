@@ -52,13 +52,13 @@ export const AdmSidebarData: SidebarItem[] = [
 export const OrgSidebarData: SidebarItem[] = [
   {
     title: "Dashboard",
-    path: "/",
+    path: "/institution",
     defaultIcon: <LuLayoutDashboard />,
     activeIcon: <BiSolidDashboard />,
   },
   {
     title: "Issue Credential",
-    path: "#",
+    path: "/institution/issue-credential",
     defaultIcon: <PiCertificate />,
     activeIcon: <PiCertificateFill />,
   },
