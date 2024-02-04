@@ -1,12 +1,17 @@
 import Starfield from "@/components/landing/star-field";
 import { buttonVariants } from "@/components/ui/button";
+import { Spotlight } from "@/components/ui/spotlight";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
 export default function Page() {
   return (
-    <>
+    <div>
       <Starfield />
+      <Spotlight
+        className="-top-40 left-0 md:left-60 md:-top-20"
+        fill="white"
+      />
       <section className="space-y-6 py-20 lg:py-32">
         <div className="container flex max-w-[64rem] flex-col items-center gap-4 text-center">
           <p className="rounded-2xl bg-muted px-4 py-1.5 text-sm font-medium">
@@ -136,6 +141,6 @@ export default function Page() {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 }
