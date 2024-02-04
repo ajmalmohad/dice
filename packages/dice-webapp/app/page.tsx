@@ -9,15 +9,15 @@ export default function Page() {
     <div>
       <Starfield />
       <Spotlight
-        className="-top-40 left-0 md:left-60 md:-top-20"
+        className="min-w-[700px] md:left-60 md:-top-20"
         fill="white"
       />
-      <section className="space-y-6 py-20 lg:py-32">
+      <section className="space-y-6 py-32">
         <div className="container flex max-w-[64rem] flex-col items-center gap-4 text-center">
           <p className="rounded-2xl bg-muted px-4 py-1.5 text-sm font-medium">
             Safely Issue Certificates
           </p>
-          <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
+          <h1 className="font-heading text-3xl sm:text-5xl md:text-6xl">
             Decentralized Immutable Credential Ecosystem
           </h1>
           <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
