@@ -43,7 +43,7 @@ export const AdmSidebarData: SidebarItem[] = [
   },
   {
     title: "My Profile",
-    path: "#",
+    path: "/admin/profile",
     defaultIcon: <PiUserBold />,
     activeIcon: <PiUserFill />,
   },
