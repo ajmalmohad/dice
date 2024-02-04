@@ -1,7 +1,7 @@
 import Navbar from "@/components/navbar/navbar";
 import { ProfileAccountTab } from "@/components/student/profile-account-tab";
 import { ProfileNameCard } from "@/components/student/profile-name-card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
 
 export default function Page() {
   return (
@@ -13,10 +13,7 @@ export default function Page() {
         avatarUrl="https://i.pravatar.cc/150?u=a04258114e29026302d"
       />
       <Tabs defaultValue="account" className="w-full">
-        <TabsList>
-          <TabsTrigger value="account">Account</TabsTrigger>
-        </TabsList>
-        <TabsContent className="pt-4" value="account">
+        <TabsContent value="account">
           <ProfileAccountTab />
         </TabsContent>
       </Tabs>
