@@ -14,7 +14,7 @@ export default function Starfield(props: Props) {
     speedFactor = 0.05,
     backgroundColor = "black",
     starColor = [255, 255, 255],
-    starCount = 5000,
+    starCount = 1000,
   } = props;
 
   useEffect(() => {
