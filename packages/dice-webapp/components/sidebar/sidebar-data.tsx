@@ -31,13 +31,13 @@ export const AdmSidebarData: SidebarItem[] = [
   },
   {
     title: "All Organizations",
-    path: "#",
+    path: "/admin/all-organizations",
     defaultIcon: <BsBuildingGear />,
     activeIcon: <BsBuildingFillLock />,
   },
   {
     title: "Pending Requests",
-    path: "#",
+    path: "/admin/pending-organizations",
     defaultIcon: <PiClockCountdown />,
     activeIcon: <PiClockCountdownFill />,
   },

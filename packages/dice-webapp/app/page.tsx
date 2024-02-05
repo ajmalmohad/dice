@@ -15,10 +15,7 @@ export default function Page() {
   return (
     <div>
       <Starfield />
-      <Spotlight
-        className="min-w-[700px] md:left-60 md:-top-20"
-        fill="white"
-      />
+      <Spotlight className="min-w-[700px] md:left-60 md:-top-20" fill="white" />
       <Image className="p-4 filter invert" alt="Logo" src={Logo} width={100} />
       <section className="space-y-6 py-32">
         <div className="container flex max-w-[64rem] flex-col items-center gap-4 text-center">
@@ -29,7 +26,8 @@ export default function Page() {
             Decentralized Immutable Credential Ecosystem
           </h1>
           <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
-            A decentralized ecosystem geared for securely handling all of your key credentials.
+            A decentralized ecosystem geared for securely handling all of your
+            key credentials.
           </p>
           <div className="flex items-center gap-4">
             <Link href="/auth" className={cn(buttonVariants({ size: "lg" }))}>
@@ -54,7 +52,8 @@ export default function Page() {
             Features
           </h2>
           <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-            A secure, trustable and user-centric solution to manage and verify your credentials.
+            A secure, trustable and user-centric solution to manage and verify
+            your credentials.
           </p>
         </div>
         <div className="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:max-w-[64rem] md:grid-cols-3">
