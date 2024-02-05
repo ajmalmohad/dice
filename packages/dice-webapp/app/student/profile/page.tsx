@@ -1,7 +1,7 @@
 import Navbar from "@/components/navbar/navbar";
-import { ProfileAccountTab } from "@/components/student/profile-account-tab";
-import { ProfileNameCard } from "@/components/student/profile-name-card";
-import { ProfileWeb3Tab } from "@/components/student/profile-web3-tab";
+import { ProfileAccountTab } from "@/components/profile/profile-account-tab";
+import { ProfileNameCard } from "@/components/profile/profile-name-card";
+import { ProfileWeb3Tab } from "@/components/profile/profile-web3-tab";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function Page() {
@@ -12,6 +12,7 @@ export default function Page() {
         className="mb-10"
         name="John Doe"
         avatarUrl="https://i.pravatar.cc/150?u=a04258114e29026302d"
+        role="Student"
       />
       <Tabs defaultValue="account" className="w-full">
         <TabsList>
