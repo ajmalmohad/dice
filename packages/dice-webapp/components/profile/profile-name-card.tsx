@@ -12,7 +12,7 @@ export const ProfileNameCard = ({
   name,
   avatarUrl,
   className,
-  role
+  role,
 }: ProfileNameProps) => {
   const getIntials = (name: string) => {
     const names = name.split(" ");

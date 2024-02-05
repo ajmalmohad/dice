@@ -1,8 +1,8 @@
 import { Card, CardContent } from "../ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 
 import { cn } from "@/lib/utils";
+import { MdOutlineRemoveRedEye } from "react-icons/md";
 
 type OrganisationCardProps = {
   title: string;
@@ -19,20 +19,20 @@ export const OrganisationCard = ({
 }: OrganisationCardProps) => {
   return (
     <Card className={cn("min-w-[200px]", className)}>
-      <CardContent className="flex items-center justify-between py-2">
+      <CardContent className="flex items-center justify-between pt-4">
         <div className="flex gap-6 items-center">
           <Avatar>
             <AvatarImage src={imageLink} />
             <AvatarFallback>#</AvatarFallback>
           </Avatar>
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-start">
             <div className="text-xl font-medium">{title}</div>
             <div className="text-sm text-ring">{website}</div>
           </div>
         </div>
-        <Button className="bg-blue-500 text-white" variant="outline">
-          View
-        </Button>
+        <div className="cursor-pointer text-3xl">
+          <MdOutlineRemoveRedEye />
+        </div>
       </CardContent>
     </Card>
   );
