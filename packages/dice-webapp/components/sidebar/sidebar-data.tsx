@@ -25,7 +25,7 @@ export type SidebarItem = {
 export const AdmSidebarData: SidebarItem[] = [
   {
     title: "Dashboard",
-    path: "/",
+    path: "/admin",
     defaultIcon: <LuLayoutDashboard />,
     activeIcon: <BiSolidDashboard />,
   },

@@ -5,12 +5,14 @@ type ProfileNameProps = {
   name: string;
   avatarUrl?: string;
   className?: string;
+  role: string;
 };
 
 export const ProfileNameCard = ({
   name,
   avatarUrl,
   className,
+  role
 }: ProfileNameProps) => {
   const getIntials = (name: string) => {
     const names = name.split(" ");
@@ -32,7 +34,7 @@ export const ProfileNameCard = ({
           </div>
           <div className="mb-2">
             <div className="text-xl font-medium">{name}</div>
-            <div className="text-base text-ring">Student</div>
+            <div className="text-base text-ring">{role}</div>
           </div>
         </div>
       </div>
