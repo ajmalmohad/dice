@@ -20,10 +20,13 @@ export default function Page() {
           <TabsTrigger value="web3">Web 3</TabsTrigger>
         </TabsList>
         <TabsContent className="pt-4" value="account">
-          <ProfileAccountTab />
+          <ProfileAccountTab
+            name="John Doe"
+            profileUrl="https://i.pravatar.cc/150?u=a04258114e29026302d"
+          />
         </TabsContent>
         <TabsContent className="pt-4" value="web3">
-          <ProfileWeb3Tab />
+          <ProfileWeb3Tab walletId="0xsdfkiriewu3848f348" />
         </TabsContent>
       </Tabs>
     </div>

@@ -15,7 +15,10 @@ export default function Page() {
       />
       <Tabs defaultValue="account" className="w-full">
         <TabsContent value="account">
-          <ProfileAccountTab />
+          <ProfileAccountTab
+            name="Bobbie Burns"
+            profileUrl="https://i.pravatar.cc/150?u=f4cortoiuvoui"
+          />
         </TabsContent>
       </Tabs>
     </div>

@@ -1,7 +1,7 @@
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 
-export const ProfileWeb3Tab = () => {
+export const ProfileWeb3Tab = ({ walletId }: { walletId: string }) => {
   return (
     <div>
       <div>
@@ -13,7 +13,7 @@ export const ProfileWeb3Tab = () => {
             <Input
               className="grow"
               placeholder="Enter your wallet address"
-              defaultValue={"0xgfmo9v390e0m8vt43"}
+              defaultValue={walletId}
             />
             <Button variant="secondary">Save</Button>
           </div>
