@@ -69,14 +69,8 @@ export const OrgSidebarData: SidebarItem[] = [
     activeIcon: <AiFillSafetyCertificate />,
   },
   {
-    title: "Pending Credentials",
-    path: "#",
-    defaultIcon: <PiClockCountdown />,
-    activeIcon: <PiClockCountdownFill />,
-  },
-  {
     title: "My Profile",
-    path: "#",
+    path: "/institution/profile",
     defaultIcon: <PiUserBold />,
     activeIcon: <PiUserFill />,
   },
