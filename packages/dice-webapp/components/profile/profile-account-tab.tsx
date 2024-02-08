@@ -1,7 +1,13 @@
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 
-export const ProfileAccountTab = () => {
+export const ProfileAccountTab = ({
+  name,
+  profileUrl,
+}: {
+  name: string;
+  profileUrl: string;
+}) => {
   return (
     <div className="flex flex-col gap-10">
       <div>
@@ -13,7 +19,7 @@ export const ProfileAccountTab = () => {
             <Input
               className="grow"
               placeholder="Enter your name"
-              defaultValue={"John Doe"}
+              defaultValue={name}
             />
             <Button variant="secondary">Save</Button>
           </div>
@@ -24,7 +30,7 @@ export const ProfileAccountTab = () => {
             <Input
               className="grow"
               placeholder="Enter profile url"
-              defaultValue={"https://somekindofurl"}
+              defaultValue={profileUrl}
             />
             <Button variant="secondary">Save</Button>
           </div>
