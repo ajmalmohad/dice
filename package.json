@@ -13,7 +13,8 @@
     "test": "pnpm -r test",
     "contract:compile": "pnpm --filter @dice/contract compile",
     "contract:deploy": "pnpm --filter @dice/contract local-deploy",
-    "webapp:dev": "pnpm --filter @dice/webapp dev"
+    "webapp:dev": "pnpm --filter @dice/webapp dev",
+    "webapp:prisma:studio": "pnpm --filter @dice/webapp prisma:studio"
   },
   "workspaces": [
     "./packages/*"
