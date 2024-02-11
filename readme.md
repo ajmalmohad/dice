@@ -28,3 +28,8 @@ pnpm run contract:deploy
 ```
 
 For more commands go through the package.json in root and for relevant packages too.
+
+
+Google Credentials
+- Authorized JS Origins - http://localhost:3000
+- Authorized Redirect URLIs - http://localhost:3000/api/auth/callback/student, http://localhost:3000/api/auth/callback/institution
