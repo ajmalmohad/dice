@@ -10,10 +10,7 @@ import {
   PiClockCountdown,
   PiClockCountdownFill,
 } from "react-icons/pi";
-import {
-  AiOutlineSafetyCertificate,
-  AiFillSafetyCertificate,
-} from "react-icons/ai";
+import { RiFolderHistoryFill, RiFolderHistoryLine } from "react-icons/ri";
 
 export type SidebarItem = {
   title: string;
@@ -63,10 +60,10 @@ export const OrgSidebarData: SidebarItem[] = [
     activeIcon: <PiCertificateFill />,
   },
   {
-    title: "Active Credentials",
-    path: "#",
-    defaultIcon: <AiOutlineSafetyCertificate />,
-    activeIcon: <AiFillSafetyCertificate />,
+    title: "History",
+    path: "/institution/history",
+    defaultIcon: <RiFolderHistoryLine />,
+    activeIcon: <RiFolderHistoryFill />,
   },
   {
     title: "My Profile",
