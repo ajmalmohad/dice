@@ -32,20 +32,23 @@ model Session {
   userId       String
   expires      DateTime
 
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
-  id            String           @id @default(cuid())
-  name          String?
-  email         String?          @unique
-  image         String?
-  role          String?
-  pending       Boolean?
-  
-  accounts                 Account[]
-  sessions                 Session[]
-  institutionApplication   ApplicationForm?
+  id      String   @id @default(cuid())
+  name    String?
+  email   String?  @unique
+  image   String?
+  role    String?
+  pending Boolean?
+
+  accounts               Account[]
+  sessions               Session[]
+  institutionApplication ApplicationForm?
+  wallets                Wallets[]
+  studentCredentials     StudentCredentials[]
+  sharedLinks            SharedLink[]
 }
 
 model ApplicationForm {
@@ -56,6 +59,46 @@ model ApplicationForm {
   email              String
   phoneNumber        String
   userId             String @unique
-  
-  user               User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Wallets {
+  walletID String  @id @unique
+  userId   String?
+
+  owner User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model StudentCredentials {
+  id              String    @id @unique @default(cuid())
+  credential_link String?
+  credential_type String?
+  issuer_address  String?
+  transaction_id  String?
+  issue_date      DateTime?
+  verified        Boolean?
+  pending         Boolean?
+  userId          String
+
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  linkEntries LinkEntry[]
+}
+
+model SharedLink {
+  id     String   @id @default(cuid())
+  active Boolean?
+  userId String
+
+  user               User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  studentCredentials LinkEntry[]
+}
+
+model LinkEntry {
+  id                  String @id @default(cuid())
+  sharedLinkId        String
+  studentCredentialId String
+
+  sharedLink        SharedLink         @relation(fields: [sharedLinkId], references: [id], onDelete: Cascade)
+  studentCredential StudentCredentials @relation(fields: [studentCredentialId], references: [id], onDelete: Cascade)
 }
