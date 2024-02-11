@@ -31,6 +31,7 @@ model Session {
   sessionToken String   @unique
   userId       String
   expires      DateTime
+
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
@@ -38,13 +39,13 @@ model User {
   id            String           @id @default(cuid())
   name          String?
   email         String?          @unique
-  emailVerified DateTime?
   image         String?
   role          String?
   pending       Boolean?
-  accounts      Account[]
-  sessions      Session[]
-  application   ApplicationForm?
+  
+  accounts                 Account[]
+  sessions                 Session[]
+  institutionApplication   ApplicationForm?
 }
 
 model ApplicationForm {
@@ -55,13 +56,6 @@ model ApplicationForm {
   email              String
   phoneNumber        String
   userId             String @unique
-  user               User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
-
-  @@unique([identifier, token])
+  
+  user               User  @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
