@@ -13,7 +13,7 @@ export const ApplicationForm = () => {
       data.senderEmail = session?.user?.email;
       if (!data.senderEmail) return;
 
-      fetch("/api/register-institution", {
+      fetch("/api/institution-apply", {
         method: "POST",
         headers: {
           Accept: "application.json",

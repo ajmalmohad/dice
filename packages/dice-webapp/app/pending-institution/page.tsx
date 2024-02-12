@@ -1,4 +1,4 @@
-import { SignOutButton } from "@/components/auth/google-auth";
+import { SignOutButton } from "@/components/auth/creds-auth";
 import { serverSession } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { redirect } from "next/navigation";
@@ -8,9 +8,12 @@ import { ThemeSwitcher } from "@/components/theme/theme-switcher";
 
 async function Page() {
   const session = await serverSession();
-  if (!session) redirect("/auth");
+  if (!session) redirect("/auth/login");
 
   let user = await prisma.user.findFirst({
+    include: {
+      institutionApplication: true,
+    },
     where: {
       email: session.user.email,
     },
@@ -22,7 +25,7 @@ async function Page() {
         <ThemeSwitcher />
         <SignOutButton />
       </div>
-      {user?.pending ? (
+      {user?.institutionApplication === null ? (
         <ApplicationForm />
       ) : (
         <WaitForConfirmation className="mt-10" />
