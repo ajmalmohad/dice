@@ -1,25 +1,26 @@
-// import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from "@prisma/client";
+import { hash } from "bcrypt";
 
-// const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
-// async function main() {
-//   const user = await prisma.user.upsert({
-//     where: { email: 'test@test.com' },
-//     update: {},
-//     create: {
-//       email: 'test@test.com',
-//       name: 'Test User',
-//     }
-//   })
-//   console.log({ user })
-// }
+async function main() {
+  const password = await hash("johndoe", 12);
+  await prisma.user.upsert({
+    where: { email: "john@doe.com" },
+    update: {},
+    create: {
+      name: "John Doe",
+      email: "john@doe.com",
+      password,
+      role: "STUDENT",
+    },
+  });
+}
 
-// main()
-//   .then(() => prisma.$disconnect())
-//   .catch(async (e) => {
-//     console.error(e)
-//     await prisma.$disconnect()
-//     process.exit(1)
-// })
-
-console.log("Temporarily disabled seed.ts");
+main()
+  .then(() => prisma.$disconnect())
+  .catch(async (e) => {
+    console.error(e);
+    await prisma.$disconnect();
+    process.exit(1);
+  });
