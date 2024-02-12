@@ -1,0 +1,4 @@
+Database changes to immediately reflect on session of server
+Refresh on login
+Optimize the flow to be fool proof
+Do Zod optimizations
