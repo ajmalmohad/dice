@@ -1,15 +1,16 @@
 "use client";
 
-import { signIn, useSession } from "next-auth/react";
+import { SignInResponse, signIn } from "next-auth/react";
 import { signOut } from "next-auth/react";
 import { Button } from "../ui/button";
 import { useState } from "react";
 import { Input } from "../ui/input";
+import { useToast } from "@/components/ui/use-toast";
 
 export function SignInWithCreds() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  let session = useSession();
+  const { toast } = useToast();
 
   return (
     <>
@@ -32,17 +33,24 @@ export function SignInWithCreds() {
           if (email === "" || password === "") {
             return;
           }
-          const signInData = await signIn("credentials", {
+
+          await signIn("credentials", {
             email,
             password,
             redirect: false,
+          }).then((response: SignInResponse | undefined) => {
+            if (response?.ok) {
+              window.location.replace("/auth/login");
+            } else {
+              console.log("Yp");
+
+              toast({
+                variant: "destructive",
+                title: "Your request failed.",
+                description: "User not found. Please try again.",
+              });
+            }
           });
-
-          if (signInData?.error) {
-            console.log(signInData);
-          }
-
-          console.log(session?.data?.user);
         }}
         className="rounded-md mb-4 flex items-center"
       >
