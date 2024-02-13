@@ -44,7 +44,6 @@ export async function POST(req: Request) {
     const user = await createUser(body);
     return NextResponse.json({ user: user });
   } catch (e: unknown) {
-    console.error(e);
     if (e instanceof Error) {
       return NextResponse.json({ error: e.message }, { status: 500 });
     }
