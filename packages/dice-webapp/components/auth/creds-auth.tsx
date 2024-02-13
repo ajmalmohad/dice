@@ -42,8 +42,6 @@ export function SignInWithCreds() {
             if (response?.ok) {
               window.location.replace("/auth/login");
             } else {
-              console.log("Yp");
-
               toast({
                 variant: "destructive",
                 title: "Your request failed.",

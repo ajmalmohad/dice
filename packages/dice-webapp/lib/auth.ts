@@ -5,12 +5,10 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import type { Adapter } from "next-auth/adapters";
 import { compare } from "bcrypt";
 
-function getPrismaAdapter(): Adapter {
-  return PrismaAdapter(prisma) as Adapter;
-}
+const adapter = PrismaAdapter(prisma) as Adapter;
 
 export const authOptions: NextAuthOptions = {
-  adapter: getPrismaAdapter(),
+  adapter: adapter,
   session: {
     strategy: "jwt",
   },
