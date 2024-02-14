@@ -6,11 +6,14 @@ import { z, ZodError } from "zod";
 const User = z.object({
   name: z.string().min(1, { message: "Name is required" }),
   email: z.string().email({ message: "Invalid email address" }),
-  password: z.string().min(8, { message: "Password must be at least 8 characters long" }),
-  role: z.string().refine(
-    (role) => ["STUDENT", "PENDING_INSTITUTION"].includes(role),
-    { message: "Role must be STUDENT or PENDING_INSTITUTION" }
-  ),
+  password: z
+    .string()
+    .min(8, { message: "Password must be at least 8 characters long" }),
+  role: z
+    .string()
+    .refine((role) => ["STUDENT", "PENDING_INSTITUTION"].includes(role), {
+      message: "Role must be STUDENT or PENDING_INSTITUTION",
+    }),
 });
 
 const checkExistingUser = async (email: string) => {
@@ -36,7 +39,7 @@ export async function POST(req: Request) {
     user = await createUser(body);
     return NextResponse.json({ user: user });
   } catch (e: unknown) {
-    let errorMessage = 'An unknown error occurred';
+    let errorMessage = "An unknown error occurred";
     if (e instanceof ZodError) {
       errorMessage = e.errors[0].message;
     } else if (e instanceof Error) {

@@ -3,18 +3,25 @@ import prisma from "@/lib/prisma";
 import { z, ZodError } from "zod";
 
 const FormSchema = z.object({
-  institutionName: z.string().min(1, { message: "Institution name is required" }),
-  institutionAddress: z.string().min(1, { message: "Institution address is required" }),
+  institutionName: z
+    .string()
+    .min(1, { message: "Institution name is required" }),
+  institutionAddress: z
+    .string()
+    .min(1, { message: "Institution address is required" }),
   licenseNumber: z.string().min(1, { message: "License number is required" }),
-  phoneNumber: z.string()
-    .min(10, { message: 'Must be a valid mobile number' })
-    .max(14, { message: 'Must be a valid mobile number' }),
+  phoneNumber: z
+    .string()
+    .min(10, { message: "Must be a valid mobile number" })
+    .max(14, { message: "Must be a valid mobile number" }),
   email: z.string().email({ message: "Invalid email address" }),
   senderEmail: z.string().email({ message: "Invalid sender email address" }),
 });
 
 const createApplication = async (body: any) => {
-  const user = await prisma.user.findUnique({ where: { email: body.senderEmail } });
+  const user = await prisma.user.findUnique({
+    where: { email: body.senderEmail },
+  });
   if (!user) {
     throw new Error("Sender email doesn't match any users");
   }
@@ -38,7 +45,7 @@ export async function POST(req: Request) {
     const application = await createApplication(body);
     return NextResponse.json(application);
   } catch (e: unknown) {
-    let errorMessage = 'An unknown error occurred';
+    let errorMessage = "An unknown error occurred";
     if (e instanceof ZodError) {
       errorMessage = e.errors[0].message;
     } else if (e instanceof Error) {

@@ -71,7 +71,10 @@ export function SignInWithCreds() {
         placeholder="Password"
         className="mb-4"
       />
-      <Button onClick={handleSubmit} className="rounded-md mb-4 flex items-center">
+      <Button
+        onClick={handleSubmit}
+        className="rounded-md mb-4 flex items-center"
+      >
         <p className="text-sm md:text-base">Submit</p>
       </Button>
     </>

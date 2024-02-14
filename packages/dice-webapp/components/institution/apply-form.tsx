@@ -20,7 +20,7 @@ export const ApplicationForm = () => {
           description: "You must have a session email to apply",
         });
         return;
-      };
+      }
 
       const res = await fetch("/api/institution-apply", {
         method: "POST",
@@ -29,12 +29,12 @@ export const ApplicationForm = () => {
         },
         body: JSON.stringify(data),
       });
-      
+
       if (res.status === 200) {
         window.location.reload();
       } else {
         const data = await res.json();
-      
+
         toast({
           variant: "destructive",
           title: "Your request failed.",

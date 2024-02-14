@@ -8,12 +8,17 @@ import { z } from "zod";
 import { useToast } from "../ui/use-toast";
 
 const FormSchema = z.object({
-  institutionName: z.string().min(1, { message: "Institution name is required" }),
-  institutionAddress: z.string().min(1, { message: "Institution address is required" }),
+  institutionName: z
+    .string()
+    .min(1, { message: "Institution name is required" }),
+  institutionAddress: z
+    .string()
+    .min(1, { message: "Institution address is required" }),
   licenseNumber: z.string().min(1, { message: "License number is required" }),
-  phoneNumber: z.string()
-    .min(10, { message: 'Must be a valid mobile number' })
-    .max(14, { message: 'Must be a valid mobile number' }),
+  phoneNumber: z
+    .string()
+    .min(10, { message: "Must be a valid mobile number" })
+    .max(14, { message: "Must be a valid mobile number" }),
   email: z.string().email({ message: "Invalid email address" }),
 });
 
@@ -47,12 +52,12 @@ export const ApplyFormInputs = ({
           ...formData,
           error: true,
         });
-        
+
         toast({
           title: "Validation Error",
           variant: "destructive",
           description: e.errors[0].message,
-        })
+        });
       }
     }
   };
