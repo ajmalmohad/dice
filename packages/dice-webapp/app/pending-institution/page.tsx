@@ -10,7 +10,7 @@ async function Page() {
   const session = await serverSession();
   if (!session) redirect("/auth/login");
 
-  let user = await prisma.user.findFirst({
+  let user = await prisma.user.findUnique({
     include: {
       institutionApplication: true,
     },
