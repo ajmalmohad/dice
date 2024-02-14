@@ -1,36 +1,24 @@
+import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { z, ZodError } from "zod";
 
-export async function POST(req: Request) {
-  const body = await req.json();
+const FormSchema = z.object({
+  institutionName: z.string().min(1, { message: "Institution name is required" }),
+  institutionAddress: z.string().min(1, { message: "Institution address is required" }),
+  licenseNumber: z.string().min(1, { message: "License number is required" }),
+  phoneNumber: z.string()
+    .min(10, { message: 'Must be a valid mobile number' })
+    .max(14, { message: 'Must be a valid mobile number' }),
+  email: z.string().email({ message: "Invalid email address" }),
+  senderEmail: z.string().email({ message: "Invalid sender email address" }),
+});
 
-  if (!body)
-    return Response.json({ statusCode: 400, body: "No body provided" });
-
-  if (
-    !body.institutionName ||
-    !body.institutionAddress ||
-    !body.licenseNumber ||
-    !body.email ||
-    !body.phoneNumber ||
-    !body.senderEmail
-  ) {
-    return Response.json({ statusCode: 400, body: "Missing fields" });
-  }
-
-  const user = await prisma.user.findUnique({
-    where: {
-      email: body.senderEmail,
-    },
-  });
-
+const createApplication = async (body: any) => {
+  const user = await prisma.user.findUnique({ where: { email: body.senderEmail } });
   if (!user) {
-    return Response.json({
-      statusCode: 404,
-      body: "Sender email doesn't match any users",
-    });
+    throw new Error("Sender email doesn't match any users");
   }
-
-  const application = await prisma.applicationForm.create({
+  return await prisma.applicationForm.create({
     data: {
       institutionName: body.institutionName,
       institutionAddress: body.institutionAddress,
@@ -40,6 +28,22 @@ export async function POST(req: Request) {
       userId: user.id,
     },
   });
+};
 
-  return Response.json(application);
+export async function POST(req: Request) {
+  try {
+    const body = await req.json();
+    if (!body) throw new Error("No body provided");
+    FormSchema.parse(body);
+    const application = await createApplication(body);
+    return NextResponse.json(application);
+  } catch (e: unknown) {
+    let errorMessage = 'An unknown error occurred';
+    if (e instanceof ZodError) {
+      errorMessage = e.errors[0].message;
+    } else if (e instanceof Error) {
+      errorMessage = e.message;
+    }
+    return NextResponse.json({ error: errorMessage }, { status: 400 });
+  }
 }
