@@ -1,5 +1,3 @@
-import { serverSession } from "@/lib/auth";
-import { redirect } from "next/navigation";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { IoIosWarning } from "react-icons/io";
@@ -7,15 +5,6 @@ import { SignInWithCreds } from "@/components/auth/creds-auth";
 import { Toaster } from "@/components/ui/toaster";
 
 export default async function Page() {
-  const session = await serverSession();
-
-  if (session && session.user.role === "STUDENT") redirect("/student");
-  else if (session && session.user.role === "INSTITUTION")
-    redirect("/institution");
-  else if (session && session.user.role === "ADMIN") redirect("/admin");
-  else if (session && session.user.role === "PENDING_INSTITUTION")
-    redirect("/pending-institution");
-
   return (
     <div className="flex items-center justify-center w-full min-h-[100vh] px-4">
       <Card className="max-w-[500px] sm:w-[60%] p-4 border-primary dark:border-border">
