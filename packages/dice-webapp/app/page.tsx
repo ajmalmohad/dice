@@ -30,7 +30,10 @@ export default function Page() {
             key credentials.
           </p>
           <div className="flex items-center gap-4">
-            <Link href="/auth" className={cn(buttonVariants({ size: "lg" }))}>
+            <Link
+              href="/auth/register"
+              className={cn(buttonVariants({ size: "lg" }))}
+            >
               Get Started
             </Link>
             <Link
