@@ -17,11 +17,14 @@ import { z } from "zod";
 const User = z.object({
   name: z.string().min(1, { message: "Name is required" }),
   email: z.string().email({ message: "Invalid email address" }),
-  password: z.string().min(8, { message: "Password must be at least 8 characters long" }),
-  role: z.string().refine(
-    (role) => ["STUDENT", "PENDING_INSTITUTION"].includes(role),
-    { message: "Role must be STUDENT or PENDING_INSTITUTION" }
-  ),
+  password: z
+    .string()
+    .min(8, { message: "Password must be at least 8 characters long" }),
+  role: z
+    .string()
+    .refine((role) => ["STUDENT", "PENDING_INSTITUTION"].includes(role), {
+      message: "Role must be STUDENT or PENDING_INSTITUTION",
+    }),
 });
 
 export function RegisterWithCreds() {
@@ -33,7 +36,7 @@ export function RegisterWithCreds() {
 
   const handleSubmit = async () => {
     console.log("client side validation");
-    
+
     const userData = {
       name,
       email,
