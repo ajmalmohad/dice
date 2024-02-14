@@ -17,7 +17,7 @@ const User = z.object({
 });
 
 const checkExistingUser = async (email: string) => {
-  const existing = await prisma.user.findFirst({ where: { email } });
+  const existing = await prisma.user.findUnique({ where: { email } });
   if (existing) {
     throw new Error("User already exists");
   }
