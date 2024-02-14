@@ -2,29 +2,45 @@
 
 import { ApplyFormInputs } from "@/components/institution/apply-form-inputs";
 import { useSession } from "next-auth/react";
+import { Toaster } from "../ui/toaster";
+import { useToast } from "../ui/use-toast";
 
 export const ApplicationForm = () => {
+  const { toast } = useToast();
   const { data: session, status } = useSession();
   if (status === "unauthenticated") return "You don't have access to this page";
 
-  const submitForm = (data: any) => {
-    if (data.error) console.log("Error in form");
-    else {
+  const submitForm = async (data: any) => {
+    if (!data.error) {
       data.senderEmail = session?.user?.email;
-      if (!data.senderEmail) return;
+      if (!data.senderEmail) {
+        toast({
+          variant: "destructive",
+          title: "Your request failed.",
+          description: "You must have a session email to apply",
+        });
+        return;
+      };
 
-      fetch("/api/institution-apply", {
+      const res = await fetch("/api/institution-apply", {
         method: "POST",
         headers: {
-          Accept: "application.json",
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          window.location.reload();
+      });
+      
+      if (res.status === 200) {
+        window.location.reload();
+      } else {
+        const data = await res.json();
+      
+        toast({
+          variant: "destructive",
+          title: "Your request failed.",
+          description: data.error,
         });
+      }
     }
   };
 
@@ -39,6 +55,7 @@ export const ApplicationForm = () => {
           By registering you agree to our terms and conditions
         </p>
       </div>
+      <Toaster />
     </div>
   );
 };

@@ -4,6 +4,18 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "../ui/textarea";
 import { Input } from "../ui/input";
 import { useState } from "react";
+import { z } from "zod";
+import { useToast } from "../ui/use-toast";
+
+const FormSchema = z.object({
+  institutionName: z.string().min(1, { message: "Institution name is required" }),
+  institutionAddress: z.string().min(1, { message: "Institution address is required" }),
+  licenseNumber: z.string().min(1, { message: "License number is required" }),
+  phoneNumber: z.string()
+    .min(10, { message: 'Must be a valid mobile number' })
+    .max(14, { message: 'Must be a valid mobile number' }),
+  email: z.string().email({ message: "Invalid email address" }),
+});
 
 export const ApplyFormInputs = ({
   className,
@@ -12,6 +24,8 @@ export const ApplyFormInputs = ({
   className?: string;
   submitForm: (data: any) => void;
 }) => {
+  const { toast } = useToast();
+
   let [formData, setFormData] = useState({
     institutionName: "",
     institutionAddress: "",
@@ -21,22 +35,25 @@ export const ApplyFormInputs = ({
   });
 
   let validateSubmit = () => {
-    if (
-      formData.institutionName === "" ||
-      formData.email === "" ||
-      formData.institutionAddress === "" ||
-      formData.licenseNumber === "" ||
-      formData.phoneNumber === ""
-    ) {
-      submitForm({
-        ...formData,
-        error: true,
-      });
-    } else {
+    try {
+      FormSchema.parse(formData);
       submitForm({
         ...formData,
         error: false,
       });
+    } catch (e) {
+      if (e instanceof z.ZodError) {
+        submitForm({
+          ...formData,
+          error: true,
+        });
+        
+        toast({
+          title: "Validation Error",
+          variant: "destructive",
+          description: e.errors[0].message,
+        })
+      }
     }
   };
 
