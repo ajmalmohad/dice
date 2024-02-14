@@ -1,25 +1,17 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { hash } from "bcrypt";
+import { z, ZodError } from "zod";
 
-const roles = ["STUDENT", "INSTITUTION", "ADMIN"];
-
-type UserBody = {
-  name: string;
-  email: string;
-  password: string;
-  role: string;
-};
-
-const validateRequestBody = (body: UserBody) => {
-  const { name, email, password, role } = body;
-  if (!name || !email || !password || !role) {
-    throw new Error("Missing required fields");
-  }
-  if (!roles.includes(role)) {
-    throw new Error("Invalid role");
-  }
-};
+const User = z.object({
+  name: z.string().min(1, { message: "Name is required" }),
+  email: z.string().email({ message: "Invalid email address" }),
+  password: z.string().min(8, { message: "Password must be at least 8 characters long" }),
+  role: z.string().refine(
+    (role) => ["STUDENT", "PENDING_INSTITUTION"].includes(role),
+    { message: "Role must be STUDENT or PENDING_INSTITUTION" }
+  ),
+});
 
 const checkExistingUser = async (email: string) => {
   const existing = await prisma.user.findFirst({ where: { email } });
@@ -28,7 +20,7 @@ const checkExistingUser = async (email: string) => {
   }
 };
 
-const createUser = async (body: UserBody) => {
+const createUser = async (body: any) => {
   const { name, email, password, role } = body;
   const hashedPassword = await hash(password, 10);
   return await prisma.user.create({
@@ -39,17 +31,17 @@ const createUser = async (body: UserBody) => {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    validateRequestBody(body);
+    let user = User.parse(body);
     await checkExistingUser(body.email);
-    const user = await createUser(body);
+    user = await createUser(body);
     return NextResponse.json({ user: user });
   } catch (e: unknown) {
-    if (e instanceof Error) {
-      return NextResponse.json({ error: e.message }, { status: 500 });
+    let errorMessage = 'An unknown error occurred';
+    if (e instanceof ZodError) {
+      errorMessage = e.errors[0].message;
+    } else if (e instanceof Error) {
+      errorMessage = e.message;
     }
-    return NextResponse.json(
-      { error: "An unknown error occurred" },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: errorMessage }, { status: 400 });
   }
 }
