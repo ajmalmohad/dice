@@ -13,6 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { z } from "zod";
+import { redirect } from 'next/navigation'
 
 const User = z.object({
   name: z.string().min(1, { message: "Name is required" }),
@@ -61,6 +62,8 @@ export function RegisterWithCreds() {
           title: "Your request was successful.",
           description: "User created.",
         });
+        
+        window.location.replace('/auth/login')
       } else {
         let data = await res.json();
 
