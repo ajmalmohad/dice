@@ -1,9 +1,9 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { hash } from "bcrypt";
 import { z, ZodError } from "zod";
 
-const User = z.object({
+const UserSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
   email: z.string().email({ message: "Invalid email address" }),
   password: z
@@ -31,13 +31,17 @@ const createUser = async (body: any) => {
   });
 };
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    let user = User.parse(body);
+    let user = UserSchema.parse(body);
     await checkExistingUser(body.email);
     user = await createUser(body);
-    return NextResponse.json({ user: user });
+    return NextResponse.json({ user: {
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    } });
   } catch (e: unknown) {
     let errorMessage = "An unknown error occurred";
     if (e instanceof ZodError) {
