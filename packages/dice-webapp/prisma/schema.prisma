@@ -7,18 +7,45 @@ datasource db {
   url      = "file:dev.db"
 }
 
+// Common types
+
 model User {
-  id       String @id @default(cuid())
+  id       String  @id @default(cuid())
   name     String
-  email    String @unique
+  email    String  @unique
   password String
   role     String
+  image    String?
 
   institutionApplication ApplicationForm?
   wallets                Wallets[]
   studentCredentials     StudentCredentials[]
   sharedLinks            SharedLink[]
 }
+
+model Wallets {
+  walletID String  @id @unique
+  userId   String?
+
+  owner User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model StudentCredentials {
+  id              String    @id @unique @default(cuid())
+  credential_type String?
+  credential_link String?
+  issuer_address  String?
+  transaction_id  String?
+  issue_date      DateTime?
+  verified        Boolean?
+  pending         Boolean?
+  userId          String
+
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  linkEntries LinkEntry[]
+}
+
+// Pending Institution types
 
 model ApplicationForm {
   id                 String @id @default(cuid())
@@ -32,32 +59,13 @@ model ApplicationForm {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model Wallets {
-  walletID String  @id @unique
-  userId   String?
-
-  owner User? @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model StudentCredentials {
-  id              String    @id @unique @default(cuid())
-  credential_link String?
-  credential_type String?
-  issuer_address  String?
-  transaction_id  String?
-  issue_date      DateTime?
-  verified        Boolean?
-  pending         Boolean?
-  userId          String
-
-  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  linkEntries LinkEntry[]
-}
+// Student types
 
 model SharedLink {
-  id     String   @id @default(cuid())
-  active Boolean?
-  userId String
+  id       String   @id @default(cuid())
+  linkName String   @unique
+  active   Boolean?
+  userId   String
 
   user               User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   studentCredentials LinkEntry[]

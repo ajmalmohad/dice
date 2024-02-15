@@ -2,6 +2,7 @@
 
 import { IssueFormInputs } from "@/components/institution/issue-form-inputs";
 import { useSession } from "next-auth/react";
+import { Toaster } from "../ui/toaster";
 
 export const IssueCredentialForm = () => {
   const { data: session, status } = useSession();
@@ -21,6 +22,7 @@ export const IssueCredentialForm = () => {
           You are issuing a credential to a student via blockchain
         </p>
       </div>
+      <Toaster />
     </div>
   );
 };

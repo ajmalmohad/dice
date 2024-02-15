@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Textarea } from "../ui/textarea";
 import { Input } from "../ui/input";
 import { useState } from "react";
 import {
@@ -13,6 +12,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { z, ZodError } from "zod";
+import { useToast } from "../ui/use-toast";
+
+const FormSchema = z.object({
+  beneficiaryEmail: z.string().email({ message: "Invalid email address" }),
+  certificateType: z.string().min(1, { message: "Certificate type is required" }),
+  certificateFile: z.string().min(1, { message: "Certificate file is required" }),
+});
 
 export const IssueFormInputs = ({
   className,
@@ -21,29 +28,33 @@ export const IssueFormInputs = ({
   className?: string;
   submitForm: (data: any) => void;
 }) => {
+  const { toast } = useToast();
   let [formData, setFormData] = useState({
     beneficiaryEmail: "",
-    optionalMessage: "",
     certificateType: "",
     certificateFile: "",
   });
 
   let validateSubmit = () => {
-    if (
-      formData.beneficiaryEmail === "" ||
-      formData.optionalMessage === "" ||
-      formData.certificateType === "" ||
-      formData.certificateFile === ""
-    ) {
-      submitForm({
-        ...formData,
-        error: true,
-      });
-    } else {
+    try {
+      FormSchema.parse(formData);
       submitForm({
         ...formData,
         error: false,
       });
+    } catch (e: unknown) {
+      if (e instanceof ZodError) {
+        submitForm({
+          ...formData,
+          error: true,
+        });
+
+        toast({
+          title: "Validation Error",
+          variant: "destructive",
+          description: e.errors[0].message,
+        });
+      }
     }
   };
 
@@ -61,15 +72,6 @@ export const IssueFormInputs = ({
         <Button className="p-6" color="primary">
           Verify
         </Button>
-      </div>
-      <div>
-        <Textarea
-          className="p-6"
-          onChange={(e) => {
-            setFormData({ ...formData, optionalMessage: e.target.value });
-          }}
-          placeholder="Enter optional message (eg: congratulations)"
-        />
       </div>
       <div className="flex flex-col sm:flex-row gap-6">
         <Select
