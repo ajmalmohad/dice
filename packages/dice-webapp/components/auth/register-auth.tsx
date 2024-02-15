@@ -13,7 +13,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { z } from "zod";
-import { redirect } from 'next/navigation'
 
 const User = z.object({
   name: z.string().min(1, { message: "Name is required" }),
