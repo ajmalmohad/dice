@@ -17,8 +17,12 @@ import { useToast } from "../ui/use-toast";
 
 const FormSchema = z.object({
   beneficiaryEmail: z.string().email({ message: "Invalid email address" }),
-  certificateType: z.string().min(1, { message: "Certificate type is required" }),
-  certificateFile: z.string().min(1, { message: "Certificate file is required" }),
+  certificateType: z
+    .string()
+    .min(1, { message: "Certificate type is required" }),
+  certificateFile: z
+    .string()
+    .min(1, { message: "Certificate file is required" }),
 });
 
 export const IssueFormInputs = ({

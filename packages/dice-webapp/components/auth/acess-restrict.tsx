@@ -1,13 +1,16 @@
 import { serverSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import { NextPage } from "next";
 
-export default function withAuth(WrappedComponent: any, roles: string[]) {
-  const authComponent = async ({ ...props }) => {
+export default function withAuth<P extends object>(
+  WrappedComponent: NextPage<P>,
+  roles: string[],
+): NextPage<P> {
+  const AuthComponent: NextPage<P> = async ({ ...props }) => {
     const session = await serverSession();
-    if (!session) redirect("/auth/login");
-    else if (!roles.includes(session.user.role)) redirect("/auth/login");
+    if (!session || !roles.includes(session.user.role)) redirect("/auth/login");
     return <WrappedComponent {...props} />;
   };
 
-  return authComponent;
+  return AuthComponent;
 }

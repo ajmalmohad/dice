@@ -61,8 +61,8 @@ export function RegisterWithCreds() {
           title: "Your request was successful.",
           description: "User created.",
         });
-        
-        window.location.replace('/auth/login')
+
+        window.location.replace("/auth/login");
       } else {
         let data = await res.json();
 
