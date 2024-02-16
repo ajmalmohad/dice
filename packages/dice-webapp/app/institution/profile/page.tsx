@@ -3,16 +3,22 @@ import { ProfileAccountTab } from "@/components/profile/profile-account-tab";
 import { ProfileNameCard } from "@/components/profile/profile-name-card";
 import { ProfileWeb3Tab } from "@/components/profile/profile-web3-tab";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { getUser } from "@/components/utils/get-server-user";
 
-export default function Page() {
+export default async function Page() {
+  const user = await getUser();
+  if (!user) {
+    return <div>Unauthorized</div>;
+  }
+
   return (
     <div>
       <Navbar className="mb-10" />
       <ProfileNameCard
         className="mb-10"
-        name="Kalam Technical University"
-        avatarUrl="https://fastly.picsum.photos/id/983/200/200.jpg?hmac=dWGIQKhPUTlF4pkeYDou10SJkQTJDRGf4usmJS38cNY"
-        role="Institution"
+        name={user.name}
+        avatarUrl={user.image || ""}
+        role={user.role}
       />
       <Tabs defaultValue="account" className="w-full">
         <TabsList>
@@ -21,8 +27,9 @@ export default function Page() {
         </TabsList>
         <TabsContent className="pt-4" value="account">
           <ProfileAccountTab
-            name="Kalam Technical University"
-            profileUrl="https://fastly.picsum.photos/id/983/200/200.jpg?hmac=dWGIQKhPUTlF4pkeYDou10SJkQTJDRGf4usmJS38cNY"
+            name={user.name}
+            profileUrl={user.image || ""}
+            email={user.email}
           />
         </TabsContent>
         <TabsContent className="pt-4" value="web3">
