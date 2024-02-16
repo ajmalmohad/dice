@@ -42,11 +42,11 @@ const createApplication = async (body: any) => {
 export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    const user = session?.user;    
+    const user = session?.user;
     if (!session || !user || user.role !== "PENDING_INSTITUTION") {
       throw new Error("Unauthorized");
     }
-    
+
     const body = await req.json();
     if (!body) throw new Error("No body provided");
     FormSchema.parse(body);

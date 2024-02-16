@@ -37,11 +37,13 @@ export async function POST(req: NextRequest) {
     let user = UserSchema.parse(body);
     await checkExistingUser(body.email);
     user = await createUser(body);
-    return NextResponse.json({ user: {
-      name: user.name,
-      email: user.email,
-      role: user.role,
-    } });
+    return NextResponse.json({
+      user: {
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
+    });
   } catch (e: unknown) {
     let errorMessage = "An unknown error occurred";
     if (e instanceof ZodError) {
