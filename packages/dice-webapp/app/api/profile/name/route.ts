@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
 let NameSchema = z.object({
-  name: z.string().min(2).max(30),
+  name: z.string().min(1, { message: "Name is required" }),
 });
 
 let checkExistingUser = async (email: string) => {
