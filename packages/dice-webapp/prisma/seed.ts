@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 async function main() {
   let password = await hash("john@doe.com", 12);
-  await prisma.user.upsert({
+  let user = await prisma.user.upsert({
     where: { email: "john@doe.com" },
     update: {},
     create: {
@@ -13,6 +13,24 @@ async function main() {
       email: "john@doe.com",
       password,
       role: "STUDENT",
+    },
+  });
+
+  await prisma.wallets.upsert({
+    where: { walletID: "0x1233489809238948932" },
+    update: {},
+    create: {
+      walletID: "0x1233489809238948932",
+      userId: user.id,
+    },
+  });
+
+  await prisma.wallets.upsert({
+    where: { walletID: "0x32432423238948932" },
+    update: {},
+    create: {
+      walletID: "0x32432423238948932",
+      userId: user.id,
     },
   });
 

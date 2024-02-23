@@ -10,3 +10,16 @@ export const getUser = async () => {
   });
   return user;
 };
+
+export const getWallets = async () => {
+  const session = await serverSession();
+  if (!session) redirect("/auth/login");
+  const user = await prisma.user.findUnique({
+    where: { email: session?.user.email },
+  });
+
+  const wallets = await prisma.wallets.findMany({
+    where: { userId: user?.id },
+  });
+  return wallets;
+};
