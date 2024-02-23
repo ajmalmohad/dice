@@ -96,7 +96,7 @@ model RejectedCredentials {
   credential_link String
   issuer_address  String
   transaction_id  String
-  issue_date      DateTime
+  issue_date      DateTime @default(now())
   verified        Boolean?
   userId          String
 
