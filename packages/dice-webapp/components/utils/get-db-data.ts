@@ -14,12 +14,8 @@ export const getUser = async () => {
 export const getWallets = async () => {
   const session = await serverSession();
   if (!session) redirect("/auth/login");
-  const user = await prisma.user.findUnique({
-    where: { email: session?.user.email },
-  });
-
   const wallets = await prisma.wallets.findMany({
-    where: { userId: user?.id },
+    where: { userId: session?.user.id },
   });
   return wallets;
 };
