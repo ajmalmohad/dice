@@ -19,7 +19,6 @@ const FormSchema = z.object({
     .string()
     .min(10, { message: "Must be a valid mobile number" })
     .max(14, { message: "Must be a valid mobile number" }),
-  email: z.string().email({ message: "Invalid email address" }),
 });
 
 export const ApplyFormInputs = ({
@@ -36,7 +35,6 @@ export const ApplyFormInputs = ({
     institutionAddress: "",
     licenseNumber: "",
     phoneNumber: "",
-    email: "",
   });
 
   let validateSubmit = () => {
@@ -72,14 +70,6 @@ export const ApplyFormInputs = ({
             setFormData({ ...formData, institutionName: e.target.value });
           }}
           placeholder="Enter name"
-        />
-        <Input
-          className="p-6"
-          type="email"
-          onChange={(e) => {
-            setFormData({ ...formData, email: e.target.value });
-          }}
-          placeholder="Enter email"
         />
       </div>
       <div>

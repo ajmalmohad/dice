@@ -80,3 +80,11 @@ model LinkEntry {
   sharedLink        SharedLink         @relation(fields: [sharedLinkId], references: [id], onDelete: Cascade)
   studentCredential StudentCredentials @relation(fields: [studentCredentialId], references: [id], onDelete: Cascade)
 }
+
+// Rejected Institution types
+
+model RejectedInstitution {
+  id                 String @id @default(cuid())
+  institutionName    String
+  email              String
+}
