@@ -18,8 +18,8 @@ export const ProfileWeb3Tab = ({
                 <IoIosWarning />
               </span>
               <p>
-                You don&apos;t have any wallet address added. When you use a wallet
-                to do transactions, it will be added here.
+                You don&apos;t have any wallet address added. When you use a
+                wallet to do transactions, it will be added here.
               </p>
             </div>
           </div>

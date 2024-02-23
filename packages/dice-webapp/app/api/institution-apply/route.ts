@@ -17,12 +17,11 @@ const FormSchema = z.object({
     .min(10, { message: "Must be a valid mobile number" })
     .max(14, { message: "Must be a valid mobile number" }),
   email: z.string().email({ message: "Invalid email address" }),
-  senderEmail: z.string().email({ message: "Invalid sender email address" }),
 });
 
 const createApplication = async (body: any) => {
   const user = await prisma.user.findUnique({
-    where: { email: body.senderEmail },
+    where: { email: body.email },
   });
   if (!user) {
     throw new Error("Sender email doesn't match any users");

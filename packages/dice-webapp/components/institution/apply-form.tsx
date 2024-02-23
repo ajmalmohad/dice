@@ -12,8 +12,8 @@ export const ApplicationForm = () => {
 
   const submitForm = async (data: any) => {
     if (!data.error) {
-      data.senderEmail = session?.user?.email;
-      if (!data.senderEmail) {
+      data.email = session?.user?.email;
+      if (!data.email) {
         toast({
           variant: "destructive",
           title: "Your request failed.",
