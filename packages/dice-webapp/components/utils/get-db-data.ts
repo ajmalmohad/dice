@@ -16,6 +16,7 @@ export const getWallets = async () => {
   if (!session) redirect("/auth/login");
   const wallets = await prisma.wallets.findMany({
     where: { userId: session?.user.id },
+    orderBy: { createdAt: "desc" }
   });
   return wallets;
 };
