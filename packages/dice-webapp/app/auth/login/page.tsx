@@ -28,6 +28,12 @@ export default async function Page() {
         </CardHeader>
         <CardContent className="overflow-visible px-4 w-full flex flex-col">
           <SignInWithCreds />
+          <div className="mb-4 flex">
+            <p>Haven&apos;t registered?</p>
+            <a href="/auth/register" className="ml-1 text-teal-500">
+              Register
+            </a>
+          </div>
           <div className="p-2 text-sm rounded-md bg-amber-400/20 text-amber-600 dark:bg-amber-400/40 dark:text-amber-400">
             <span className="float-left text-lg mr-1">
               <IoIosWarning />
