@@ -24,8 +24,9 @@ model User {
 }
 
 model Wallets {
-  walletID String  @id @unique
-  userId   String?
+  walletID  String   @id @unique
+  userId    String
+  createdAt DateTime @default(now())
 
   owner User? @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

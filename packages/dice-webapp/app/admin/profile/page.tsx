@@ -2,7 +2,7 @@ import Navbar from "@/components/navbar/navbar";
 import { ProfileAccountTab } from "@/components/profile/profile-account-tab";
 import { ProfileNameCard } from "@/components/profile/profile-name-card";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
-import { getUser } from "@/components/utils/get-server-user";
+import { getUser } from "@/components/utils/get-db-data";
 
 export default async function Page() {
   const user = await getUser();

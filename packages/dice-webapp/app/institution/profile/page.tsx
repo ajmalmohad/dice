@@ -3,10 +3,11 @@ import { ProfileAccountTab } from "@/components/profile/profile-account-tab";
 import { ProfileNameCard } from "@/components/profile/profile-name-card";
 import { ProfileWeb3Tab } from "@/components/profile/profile-web3-tab";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { getUser } from "@/components/utils/get-server-user";
+import { getUser, getWallets } from "@/components/utils/get-db-data";
 
 export default async function Page() {
   const user = await getUser();
+  const wallets = await getWallets();
   if (!user) {
     return <div>Unauthorized</div>;
   }
@@ -33,7 +34,7 @@ export default async function Page() {
           />
         </TabsContent>
         <TabsContent className="pt-4" value="web3">
-          <ProfileWeb3Tab walletId="0xsdjfdsfiuoiuoejdsfj" />
+          <ProfileWeb3Tab walletIds={wallets} />
         </TabsContent>
       </Tabs>
     </div>
