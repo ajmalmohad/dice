@@ -21,6 +21,7 @@ model User {
   wallets                Wallets[]
   studentCredentials     StudentCredentials[]
   sharedLinks            SharedLink[]
+  rejectedCredentials    RejectedCredentials[]
 }
 
 model Wallets {
@@ -32,14 +33,14 @@ model Wallets {
 }
 
 model StudentCredentials {
-  id              String    @id @unique @default(cuid())
-  credential_type String?
-  credential_link String?
-  issuer_address  String?
-  transaction_id  String?
-  issue_date      DateTime?
+  id              String   @id @unique @default(cuid())
+  credential_type String
+  credential_link String
+  issuer_address  String
+  transaction_id  String
+  issue_date      DateTime @default(now())
   verified        Boolean?
-  pending         Boolean?
+  pending         Boolean
   userId          String
 
   user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -63,9 +64,9 @@ model ApplicationForm {
 // Student types
 
 model SharedLink {
-  id       String   @id @default(cuid())
-  linkName String   @unique
-  active   Boolean?
+  id       String  @id @default(cuid())
+  linkName String?
+  active   Boolean
   userId   String
 
   user               User        @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -81,10 +82,23 @@ model LinkEntry {
   studentCredential StudentCredentials @relation(fields: [studentCredentialId], references: [id], onDelete: Cascade)
 }
 
-// Rejected Institution types
+// Rejected types
 
 model RejectedInstitution {
-  id                 String @id @default(cuid())
-  institutionName    String
-  email              String
+  id              String @id @default(cuid())
+  institutionName String
+  email           String
+}
+
+model RejectedCredentials {
+  id              String   @id @default(cuid())
+  credential_type String
+  credential_link String
+  issuer_address  String
+  transaction_id  String
+  issue_date      DateTime
+  verified        Boolean?
+  userId          String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
