@@ -26,7 +26,7 @@ export default function Page() {
           />
         </div>
       </div>
-      <DataTable content={"student_cert"} />
+      <DataTable data={[]} />
     </div>
   );
 }

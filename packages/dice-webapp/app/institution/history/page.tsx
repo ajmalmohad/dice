@@ -6,7 +6,7 @@ export default function Page() {
     <div>
       <Navbar className="mb-10" />
       <div className="flex flex-col gap-4">
-        <DataTable content={"student_cert"} />
+        <DataTable data={[]} />
       </div>
     </div>
   );

@@ -6,42 +6,57 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/table/table";
-import getStudentCertificates from "../fetchers/getStudentCertificates";
+import { ScrollArea, ScrollBar } from "../ui/scroll-area";
+import { Badge } from "@/components/ui/badge";
 
-export function DataTable({ content }: { content: string }) {
-  let data: any = [];
-
-  if (content === "student_cert") {
-    data = getStudentCertificates();
-  }
-
-  let formatHead = (head: string) => {
-    let result = head.replace(/([A-Z])/g, " $1");
-    return result.charAt(0).toUpperCase() + result.slice(1);
-  };
+export async function DataTable({ data }: { data: any }) {
+  let schema = data.length ? Object.keys(data[0]) : [];
+  schema = schema.map((item: string) => {
+    return item.replace(/([A-Z])/g, " $1").replace(/^./, function (str) {
+      return str.toUpperCase();
+    });
+  });
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          {Object.keys(data[0]).map(
-            (key: any) =>
-              key !== "id" && (
-                <TableHead key={key}>{formatHead(key)}</TableHead>
-              ),
-          )}
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {data.map((item: any) => (
-          <TableRow key={item.id}>
-            {Object.values(item).map(
-              (value: any) =>
-                value !== item.id && <TableCell key={value}>{value}</TableCell>,
+    <ScrollArea className="min-w-0 whitespace-nowrap rounded-md border">
+      <div className="w-full">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              {schema.map((item: any) => (
+                <TableHead key={item}>{item}</TableHead>
+              ))}
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {data && data.length ? (
+              data.map((item: any, idx: number) => (
+                <TableRow key={idx}>
+                  {Object.values(item).map((value: any) => {
+                    if (typeof value === "string") {
+                      return <TableCell key={value}>{value}</TableCell>;
+                    }
+                    if (typeof value === "boolean") {
+                      return (
+                        <TableCell key={value ? "Pending" : "Active"}>
+                          <Badge variant="outline">
+                            {value ? "Pending" : "Active"}
+                          </Badge>
+                        </TableCell>
+                      );
+                    }
+                  })}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell>You have no records</TableCell>
+              </TableRow>
             )}
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+          </TableBody>
+        </Table>
+      </div>
+      <ScrollBar orientation="horizontal" />
+    </ScrollArea>
   );
 }

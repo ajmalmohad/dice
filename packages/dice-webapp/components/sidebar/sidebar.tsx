@@ -82,7 +82,6 @@ export default function Sidebar({
 
 function SidebarItem(props: SidebarItem & { isSidebarOpen: boolean }) {
   const pathname = usePathname();
-  if (pathname === props.path) console.log(pathname);
 
   return (
     <Link href={props.path ?? "#"}>

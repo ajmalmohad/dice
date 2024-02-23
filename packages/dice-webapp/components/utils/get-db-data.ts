@@ -6,7 +6,7 @@ export const getUser = async () => {
   const session = await serverSession();
   if (!session) redirect("/auth/login");
   const user = await prisma.user.findUnique({
-    where: { email: session?.user.email },
+    where: { id: session?.user.id },
   });
   return user;
 };
@@ -19,4 +19,60 @@ export const getWallets = async () => {
     orderBy: { createdAt: "desc" },
   });
   return wallets;
+};
+
+export const getStudentStats = async () => {
+  const session = await serverSession();
+  if (!session) redirect("/auth/login");
+  let issued = await prisma.studentCredentials.count({
+    where: {
+      userId: session?.user.id,
+      pending: false,
+    },
+  });
+
+  let dropped = await prisma.rejectedCredentials.count({
+    where: {
+      userId: session?.user.id,
+    },
+  });
+
+  let pending = await prisma.studentCredentials.count({
+    where: {
+      userId: session?.user.id,
+      pending: true,
+    },
+  });
+
+  return {
+    issued,
+    dropped,
+    pending,
+  };
+};
+
+export const getStudentRecentCredentials = async () => {
+  const session = await serverSession();
+  if (!session) redirect("/auth/login");
+  const credentials = await prisma.studentCredentials.findMany({
+    select: {
+      credentialType: true,
+      credentialLink: true,
+      issuerAddress: true,
+      issueDate: true,
+      pending: true,
+    },
+    where: { userId: session?.user.id },
+    orderBy: { issueDate: "desc" },
+    take: 10,
+  });
+
+  let cleanedCredentials = credentials.map((credential) => {
+    return {
+      ...credential,
+      issueDate: credential.issueDate.toDateString(),
+    };
+  });
+
+  return cleanedCredentials;
 };
