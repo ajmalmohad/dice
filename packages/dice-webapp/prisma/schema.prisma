@@ -33,15 +33,15 @@ model Wallets {
 }
 
 model StudentCredentials {
-  id              String   @id @unique @default(cuid())
-  credential_type String
-  credential_link String
-  issuer_address  String
-  transaction_id  String
-  issue_date      DateTime @default(now())
-  verified        Boolean?
-  pending         Boolean
-  userId          String
+  id             String   @id @unique @default(cuid())
+  credentialType String
+  credentialLink String
+  issuerAddress  String
+  transactionId  String
+  issueDate      DateTime @default(now())
+  verified       Boolean?
+  pending        Boolean
+  userId         String
 
   user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   linkEntries LinkEntry[]
@@ -91,14 +91,14 @@ model RejectedInstitution {
 }
 
 model RejectedCredentials {
-  id              String   @id @default(cuid())
-  credential_type String
-  credential_link String
-  issuer_address  String
-  transaction_id  String
-  issue_date      DateTime @default(now())
-  verified        Boolean?
-  userId          String
+  id             String   @id @default(cuid())
+  credentialType String
+  credentialLink String
+  issuerAddress  String
+  transactionId  String
+  issueDate      DateTime @default(now())
+  verified       Boolean?
+  userId         String
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

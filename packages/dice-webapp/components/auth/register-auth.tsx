@@ -35,8 +35,6 @@ export function RegisterWithCreds() {
   const { toast } = useToast();
 
   const handleSubmit = async () => {
-    console.log("client side validation");
-
     const userData = {
       name,
       email,

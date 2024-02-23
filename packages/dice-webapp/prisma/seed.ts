@@ -21,11 +21,11 @@ type SharedLink = {
 
 type StudentCredential = {
   id: string;
-  credential_type: string;
-  credential_link: string;
-  issuer_address: string;
-  transaction_id: string;
-  issue_date: Date;
+  credentialType: string;
+  credentialLink: string;
+  issuerAddress: string;
+  transactionId: string;
+  issueDate: Date;
   verified: boolean | null;
   pending: boolean;
   userId: string;
@@ -68,10 +68,10 @@ async function addCredential(
 
   return await prisma.studentCredentials.create({
     data: {
-      credential_type: type,
-      credential_link: "https://example.com/credential.pdf",
-      issuer_address: wallet.walletID,
-      transaction_id: crypto.randomUUID(),
+      credentialType: type,
+      credentialLink: "https://example.com/credential.pdf",
+      issuerAddress: wallet.walletID,
+      transactionId: crypto.randomUUID(),
       userId: reciever.id,
       verified: true,
       pending: pending,
@@ -96,10 +96,10 @@ async function addRejectedCredential(
 
   return await prisma.rejectedCredentials.create({
     data: {
-      credential_type: type,
-      credential_link: "https://example.com/rejected_credential.pdf",
-      issuer_address: wallet.walletID,
-      transaction_id: crypto.randomUUID(),
+      credentialType: type,
+      credentialLink: "https://example.com/rejected_credential.pdf",
+      issuerAddress: wallet.walletID,
+      transactionId: crypto.randomUUID(),
       userId: reciever.id,
       verified: false,
     },
@@ -180,12 +180,14 @@ async function main() {
   );
   await addWallet(institution2.id, "0x4823341823899809932");
 
-  let credential1 = await addCredential("BTECH", institution1, student1);
-  let credential2 = await addCredential("BSC", institution2, student1);
-  await addCredential("MTECH", institution1, student1, true);
-  await addCredential("MSC", institution2, student1, true);
-  await addRejectedCredential("BTECH", institution1, student1);
-  await addRejectedCredential("BSC", institution2, student1);
+  let credential1 = await addCredential("B.Tech", institution1, student1);
+  let credential2 = await addCredential("BSc.", institution2, student1);
+  await addCredential("M.Tech", institution1, student1, true);
+  await addCredential("MSc.", institution2, student1, true);
+  await addCredential("NPTEL", institution1, student1, true);
+  await addCredential("Internship", institution2, student1, true);
+  await addRejectedCredential("B.Tech", institution1, student1);
+  await addRejectedCredential("B.Sc", institution2, student1);
 
   let sharedLink1 = await createSharedLink(
     student1.id,

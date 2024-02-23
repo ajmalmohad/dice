@@ -4,8 +4,15 @@ import { DataTable } from "@/components/table/data-table";
 import { FaCheck } from "react-icons/fa6";
 import { IoMdClose } from "react-icons/io";
 import { MdOutlinePendingActions } from "react-icons/md";
+import {
+  getStudentStats,
+  getStudentRecentCredentials,
+} from "@/components/utils/get-db-data";
 
-export default function Page() {
+export default async function Page() {
+  let stats = await getStudentStats();
+  let creds = await getStudentRecentCredentials();
+
   return (
     <div>
       <Navbar className="mb-10" />
@@ -13,23 +20,23 @@ export default function Page() {
         <StatCard
           className="grow"
           title="Issued Credentials"
-          value="10"
+          value={stats.issued.toString()}
           icon={<FaCheck />}
         />
         <StatCard
           className="grow"
           title="Dropped Credentials"
-          value="10"
+          value={stats.dropped.toString()}
           icon={<IoMdClose />}
         />
         <StatCard
           className="grow"
           title="Pending Credentials"
-          value="10"
+          value={stats.pending.toString()}
           icon={<MdOutlinePendingActions />}
         />
       </div>
-      <DataTable content={"student_cert"} />
+      <DataTable data={creds} />
     </div>
   );
 }
