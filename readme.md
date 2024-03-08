@@ -12,7 +12,15 @@ This is a monorepo of the whole application. Run these commands from the root di
 pnpm i
 ```
 
-2. To run webapp
+2. Setup the database and do migrations
+
+- Create a file named `dev.db` inside the folder `/packages/dice-webapp/prisma` (on same folder as `schema.prisma`)
+- Then run this command
+```sh
+pnpm run webapp:prisma:migrate
+```
+
+3. To run webapp
 
 - Set the environment variables like .env.example to .env file
 - Then run this command
@@ -21,7 +29,7 @@ pnpm i
 pnpm run webapp:dev
 ```
 
-3. To deploy contract
+4. To deploy contract
 
 ```sh
 pnpm run contract:deploy
