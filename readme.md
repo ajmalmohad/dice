@@ -16,9 +16,12 @@ pnpm i
 
 - Create a file named `dev.db` inside the folder `/packages/dice-webapp/prisma` (on same folder as `schema.prisma`)
 - Then run this command
+
 ```sh
 pnpm run webapp:prisma:migrate
 ```
+
+- Delete the migrations folder created inside `/packages/dice-webapp/prisma` (In this project we don't version control the migrations)
 
 3. To run webapp
 
