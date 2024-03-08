@@ -3,6 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { AiOutlineSafetyCertificate } from "react-icons/ai";
 import { CiCircleChevRight } from "react-icons/ci";
 import { cn } from "@/lib/utils";
+import { getInitials } from "../utils/formatter";
 
 type CredentialCardProps = {
   imageLink?: string | null;
@@ -21,21 +22,13 @@ export const CredentialCard = ({
   credLink,
   className,
 }: CredentialCardProps) => {
-  const getIntials = (name: string) => {
-    const names = name.split(" ");
-    return names
-      .map((n) => n[0])
-      .join("")
-      .toUpperCase();
-  };
-
   return (
     <Card className={cn("min-w-[200px]", className)}>
       <CardContent className="flex p-6 justify-between items-center">
         <div className="flex items-center">
           <Avatar>
             <AvatarImage src={imageLink ? imageLink : ""} />
-            <AvatarFallback>{getIntials(issuer)}</AvatarFallback>
+            <AvatarFallback>{getInitials(issuer)}</AvatarFallback>
           </Avatar>
           <div>
             <div className="flex">

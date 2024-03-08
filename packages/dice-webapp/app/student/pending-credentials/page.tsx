@@ -1,53 +1,26 @@
 import Navbar from "@/components/navbar/navbar";
 import { PendingCredentialCard } from "@/components/student/pending-credential";
+import { getStudentPendingCredentails } from "@/components/utils/get-db-data";
 
-export default function Page() {
+export default async function Page() {
+  const creds = await getStudentPendingCredentails();
+
   return (
     <div>
       <Navbar className="mb-10" />
       <div className="flex flex-col gap-4">
-        <PendingCredentialCard
-          imageLink={"https://i.pravatar.cc/150?u=a04258114e29026302d"}
-          title={"B.Tech Certificate"}
-          issuer={"KTU"}
-          issueDate={"22/10/2024"}
-        />
-        <PendingCredentialCard
-          imageLink={"https://i.pravatar.cc/150?u=a04258114e29026302d"}
-          title={"M.Tech Certificate"}
-          issuer={"CUSAT"}
-          issueDate="10/05/2026"
-        />
-        <PendingCredentialCard
-          imageLink={"https://i.pravatar.cc/150?u=a04258114e29026302d"}
-          title={"B.Tech Certificate"}
-          issuer={"CUSAT"}
-          issueDate="10/05/2026"
-        />
-        <PendingCredentialCard
-          imageLink={"https://i.pravatar.cc/150?u=a04258114e29026302d"}
-          title={"B.Tech Certificate"}
-          issuer={"CUSAT"}
-          issueDate="10/05/2026"
-        />
-        <PendingCredentialCard
-          imageLink={"https://i.pravatar.cc/150?u=a04258114e29026302d"}
-          title={"B.Tech Certificate"}
-          issuer={"CUSAT"}
-          issueDate="10/05/2026"
-        />
-        <PendingCredentialCard
-          imageLink={"https://i.pravatar.cc/150?u=a04258114e29026302d"}
-          title={"B.Tech Certificate"}
-          issuer={"CUSAT"}
-          issueDate="10/05/2026"
-        />
-        <PendingCredentialCard
-          imageLink={"https://i.pravatar.cc/150?u=a04258114e29026302d"}
-          title={"B.Tech Certificate"}
-          issuer={"CUSAT"}
-          issueDate="10/05/2026"
-        />
+        {creds.map((cred) => {
+          return (
+            <PendingCredentialCard
+              key={cred.credentialLink}
+              title={cred.credentialType}
+              imageLink={cred.issuer.image}
+              issuer={cred.issuer.name}
+              issueDate={cred.issueDate}
+              credLink={cred.credentialLink}
+            />
+          );
+        })}
       </div>
     </div>
   );

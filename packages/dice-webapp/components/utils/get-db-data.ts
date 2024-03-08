@@ -106,3 +106,33 @@ export const getStudentActiveCredentails = async () => {
 
   return cleanedCredentials;
 };
+
+export const getStudentPendingCredentails = async () => {
+  const session = await serverSession();
+  if (!session) redirect("/auth/login");
+  const credentials = await prisma.studentCredentials.findMany({
+    select: {
+      credentialType: true,
+      credentialLink: true,
+      issuerWallet: true,
+      issueDate: true,
+      issuer: {
+        select: {
+          name: true,
+          image: true,
+        },
+      },
+    },
+    where: { userId: session?.user.id, pending: true },
+    orderBy: { issueDate: "desc" },
+  });
+
+  let cleanedCredentials = credentials.map((credential) => {
+    return {
+      ...credential,
+      issueDate: credential.issueDate.toDateString(),
+    };
+  });
+
+  return cleanedCredentials;
+};
