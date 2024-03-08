@@ -9,18 +9,22 @@ export default async function Page() {
     <div>
       <Navbar className="mb-10" />
       <div className="flex flex-col gap-4">
-        {creds.map((cred) => {
-          return (
-            <PendingCredentialCard
-              key={cred.credentialLink}
-              title={cred.credentialType}
-              imageLink={cred.issuer.image}
-              issuer={cred.issuer.name}
-              issueDate={cred.issueDate}
-              credLink={cred.credentialLink}
-            />
-          );
-        })}
+        {creds.length > 0 ? (
+          creds.map((cred) => {
+            return (
+              <PendingCredentialCard
+                key={cred.credentialLink}
+                title={cred.credentialType}
+                imageLink={cred.issuer.image}
+                issuer={cred.issuer.name}
+                issueDate={cred.issueDate}
+                credLink={cred.credentialLink}
+              />
+            );
+          })
+        ) : (
+          <div className="text-center text-ring">No pending credentials</div>
+        )}
       </div>
     </div>
   );

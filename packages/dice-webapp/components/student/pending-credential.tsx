@@ -34,7 +34,9 @@ export const PendingCredentialCard = ({
           </Avatar>
           <div>
             <div className="flex">
-              <div className="ml-2 text-base font-medium">{title}</div>
+              <div className="ml-2 text-base font-medium">
+                {title} Credential
+              </div>
               <div className="ml-1 text-2xl">
                 <AiOutlineSafetyCertificate />
               </div>
