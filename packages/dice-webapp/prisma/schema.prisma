@@ -69,7 +69,7 @@ model ApplicationForm {
 
 model SharedLink {
   id       String  @id @default(cuid())
-  linkName String?
+  linkName String
   active   Boolean
   userId   String
 

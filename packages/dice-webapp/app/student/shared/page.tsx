@@ -1,8 +1,13 @@
 import Navbar from "@/components/navbar/navbar";
 import SharedLinkCard from "@/components/student/shared-link";
 import { Button } from "@/components/ui/button";
+import { getStudentSharedLinks } from "@/components/utils/get-db-data";
+import { headers } from "next/headers";
 
-export default function Page() {
+export default async function Page() {
+  const headersList = headers();
+  const links = await getStudentSharedLinks();
+
   return (
     <div>
       <Navbar className="mb-10" />
@@ -10,36 +15,26 @@ export default function Page() {
         <Button variant="outline">Add New</Button>
       </div>
       <div className="max-2xl:grid max-2xl:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:flex 2xl:flex-wrap w-full gap-4">
-        <SharedLinkCard
-          active={true}
-          title="All Credentials"
-          link="https://googlse.com"
-        />
-        <SharedLinkCard
-          active={false}
-          title="University Credentials"
-          link="https://googlse.com"
-        />
-        <SharedLinkCard
-          active={true}
-          title="All Credentials"
-          link="https://googlse.com"
-        />
-        <SharedLinkCard
-          active={false}
-          title="School Credentials"
-          link="https://googlse.com"
-        />
-        <SharedLinkCard
-          active={true}
-          title="College Credentials"
-          link="https://googlse.com"
-        />
-        <SharedLinkCard
-          active={false}
-          title="University Credentials"
-          link="https://googlse.com"
-        />
+        {links && links.length > 0 ? (
+          links.map((link, index) => {
+            return (
+              <SharedLinkCard
+                title={link.linkName}
+                link={
+                  "http://" +
+                  headersList.get("host") +
+                  "/shared/link/" +
+                  link.id
+                }
+                linkId={link.id}
+                active={link.active}
+                key={index}
+              />
+            );
+          })
+        ) : (
+          <div>No shared links found</div>
+        )}
       </div>
     </div>
   );

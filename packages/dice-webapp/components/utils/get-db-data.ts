@@ -136,3 +136,18 @@ export const getStudentPendingCredentails = async () => {
 
   return cleanedCredentials;
 };
+
+export const getStudentSharedLinks = async () => {
+  const session = await serverSession();
+  if (!session) redirect("/auth/login");
+  const sharedLinks = await prisma.sharedLink.findMany({
+    select: {
+      id: true,
+      linkName: true,
+      active: true,
+    },
+    where: { userId: session?.user.id },
+  });
+
+  return sharedLinks;
+};

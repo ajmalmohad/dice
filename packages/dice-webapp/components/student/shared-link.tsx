@@ -7,21 +7,51 @@ import { MdContentCopy } from "react-icons/md";
 import { AiOutlineDelete } from "react-icons/ai";
 import { FiExternalLink } from "react-icons/fi";
 import { useState } from "react";
+import { useToast } from "../ui/use-toast";
+import { Toaster } from "../ui/toaster";
 
 type SharedLinkCardProps = {
   title: string;
   link: string;
-  active?: boolean;
+  linkId: string;
+  active: boolean;
   className?: string;
 };
 
 export const SharedLinkCard = ({
   title,
   link,
+  linkId,
   className,
   active,
 }: SharedLinkCardProps) => {
+  let { toast } = useToast();
   let [checked, setChecked] = useState(active);
+
+  const copylink = () => {
+    navigator.clipboard.writeText(link);
+    toast({ title: "Copied", description: "Link copied to clipboard" });
+  };
+
+  const setActiveState = async (active: boolean) => {
+    let res = await fetch("/api/sharedlink/active", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ linkId: linkId, active: active }),
+    });
+
+    let data = await res.json();
+
+    if (res.status === 200) {
+      toast({ title: "Success", description: data.message });
+    } else {
+      toast({
+        title: "Error",
+        description: data.error,
+        variant: "destructive",
+      });
+    }
+  };
 
   return (
     <Card className={cn("flex flex-col min-w-[300px]", className)}>
@@ -32,18 +62,21 @@ export const SharedLinkCard = ({
             checked={checked}
             onClick={() => {
               setChecked(!checked);
+              setActiveState(!checked);
             }}
           />
         </div>
         <div className="flex flex-col gap-4">
           <div className="text-sm border p-2 rounded-sm text-ring overflow-hidden">
-            <a href={link}>{link}</a>
+            <p>{link}</p>
           </div>
           <div className="flex justify-end gap-4 text-xl">
-            <div className="cursor-pointer">
-              <FiExternalLink />
-            </div>
-            <div className="cursor-pointer">
+            <a href={link}>
+              <div className="cursor-pointer">
+                <FiExternalLink />
+              </div>
+            </a>
+            <div className="cursor-pointer" onClick={copylink}>
               <MdContentCopy />
             </div>
             <div className="cursor-pointer">
@@ -52,6 +85,7 @@ export const SharedLinkCard = ({
           </div>
         </div>
       </CardContent>
+      <Toaster />
     </Card>
   );
 };
