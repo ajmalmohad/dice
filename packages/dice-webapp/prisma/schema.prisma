@@ -19,9 +19,11 @@ model User {
 
   institutionApplication ApplicationForm?
   wallets                Wallets[]
-  studentCredentials     StudentCredentials[]
   sharedLinks            SharedLink[]
-  rejectedCredentials    RejectedCredentials[]
+  studentCredentials     StudentCredentials[]  @relation("Owner")
+  issuedCredentials      StudentCredentials[]  @relation("Issuer")
+  rejectedCredentials    RejectedCredentials[] @relation("Owner")
+  revokedCredentials     RejectedCredentials[] @relation("Issuer")
 }
 
 model Wallets {
@@ -36,14 +38,16 @@ model StudentCredentials {
   id             String   @id @unique @default(cuid())
   credentialType String
   credentialLink String
-  issuerAddress  String
+  issuerWallet   String
   transactionId  String
   issueDate      DateTime @default(now())
   verified       Boolean?
   pending        Boolean
   userId         String
+  issuerId       String
 
-  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  owner       User        @relation("Owner", fields: [userId], references: [id], onDelete: Cascade)
+  issuer      User        @relation("Issuer", fields: [issuerId], references: [id])
   linkEntries LinkEntry[]
 }
 
@@ -94,11 +98,13 @@ model RejectedCredentials {
   id             String   @id @default(cuid())
   credentialType String
   credentialLink String
-  issuerAddress  String
+  issuerWallet   String
   transactionId  String
   issueDate      DateTime @default(now())
   verified       Boolean?
   userId         String
+  issuerId       String
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  owner  User @relation("Owner", fields: [userId], references: [id], onDelete: Cascade)
+  issuer User @relation("Issuer", fields: [issuerId], references: [id])
 }

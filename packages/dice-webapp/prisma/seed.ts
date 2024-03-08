@@ -23,12 +23,13 @@ type StudentCredential = {
   id: string;
   credentialType: string;
   credentialLink: string;
-  issuerAddress: string;
+  issuerWallet: string;
   transactionId: string;
   issueDate: Date;
   verified: boolean | null;
   pending: boolean;
   userId: string;
+  issuerId: string;
 };
 
 async function addUser(
@@ -70,9 +71,10 @@ async function addCredential(
     data: {
       credentialType: type,
       credentialLink: "https://example.com/credential.pdf",
-      issuerAddress: wallet.walletID,
+      issuerWallet: wallet.walletID,
       transactionId: crypto.randomUUID(),
       userId: reciever.id,
+      issuerId: issuer.id,
       verified: true,
       pending: pending,
     },
@@ -98,9 +100,10 @@ async function addRejectedCredential(
     data: {
       credentialType: type,
       credentialLink: "https://example.com/rejected_credential.pdf",
-      issuerAddress: wallet.walletID,
+      issuerWallet: wallet.walletID,
       transactionId: crypto.randomUUID(),
       userId: reciever.id,
+      issuerId: issuer.id,
       verified: false,
     },
   });
