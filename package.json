@@ -15,7 +15,8 @@
     "contract:compile": "pnpm --filter @dice/contract compile",
     "contract:deploy": "pnpm --filter @dice/contract local-deploy",
     "webapp:dev": "pnpm --filter @dice/webapp dev",
-    "webapp:prisma:studio": "pnpm --filter @dice/webapp prisma:studio"
+    "webapp:prisma:studio": "pnpm --filter @dice/webapp prisma:studio",
+    "webapp:prisma:migrate": "pnpm --filter @dice/webapp prisma:migrate"
   },
   "workspaces": [
     "./packages/*"
