@@ -86,6 +86,12 @@ export const getStudentActiveCredentails = async () => {
       credentialLink: true,
       issuerWallet: true,
       issueDate: true,
+      issuer: {
+        select: {
+          name: true,
+          image: true,
+        },
+      },
     },
     where: { userId: session?.user.id, pending: false },
     orderBy: { issueDate: "desc" },
