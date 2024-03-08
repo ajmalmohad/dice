@@ -41,7 +41,7 @@ export default function Page() {
               target="_blank"
               rel="noreferrer"
             >
-              <FaGithub className="text-3xl" />
+              <FaGithub className="text-3xl dark:text-white" />
             </Link>
           </div>
         </div>
@@ -62,7 +62,7 @@ export default function Page() {
         <div className="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:max-w-[64rem] md:grid-cols-3">
           <div className="relative overflow-hidden rounded-lg border bg-background p-2">
             <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
-              <PiCertificateFill className="text-white text-5xl" />
+              <PiCertificateFill className="text-5xl dark:text-white" />
               <div className="space-y-2">
                 <h3 className="font-bold">Management</h3>
                 <p className="text-sm text-muted-foreground">
@@ -73,7 +73,7 @@ export default function Page() {
           </div>
           <div className="relative overflow-hidden rounded-lg border bg-background p-2">
             <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
-              <FaEthereum className="text-white text-5xl" />
+              <FaEthereum className="text-5xl dark:text-white" />
               <div className="space-y-2">
                 <h3 className="font-bold">Ethereum</h3>
                 <p className="text-sm text-muted-foreground">
@@ -84,7 +84,7 @@ export default function Page() {
           </div>
           <div className="relative overflow-hidden rounded-lg border bg-background p-2">
             <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
-              <IoAccessibility className="text-white text-5xl" />
+              <IoAccessibility className="text-5xl dark:text-white" />
               <div className="space-y-2">
                 <h3 className="font-bold">Accessibility</h3>
                 <p className="text-sm text-muted-foreground">
@@ -95,7 +95,7 @@ export default function Page() {
           </div>
           <div className="relative overflow-hidden rounded-lg border bg-background p-2">
             <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
-              <SiSharex className="text-white text-5xl" />
+              <SiSharex className="text-5xl dark:text-white" />
               <div className="space-y-2">
                 <h3 className="font-bold">Shareable</h3>
                 <p className="text-sm text-muted-foreground">
@@ -106,7 +106,7 @@ export default function Page() {
           </div>
           <div className="relative overflow-hidden rounded-lg border bg-background p-2">
             <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
-              <SiFsecure className="text-white text-5xl" />
+              <SiFsecure className="text-5xl dark:text-white" />
               <div className="space-y-2">
                 <h3 className="font-bold">Secure</h3>
                 <p className="text-sm text-muted-foreground">
@@ -117,7 +117,7 @@ export default function Page() {
           </div>
           <div className="relative overflow-hidden rounded-lg border bg-background p-2">
             <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
-              <FaGhost className="text-white text-5xl" />
+              <FaGhost className="text-5xl dark:text-white" />
               <div className="space-y-2">
                 <h3 className="font-bold">Soulbound</h3>
                 <p className="text-sm text-muted-foreground">
