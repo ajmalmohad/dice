@@ -1,5 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
+import { getInitials } from "../utils/formatter";
 
 type ProfileNameProps = {
   name: string;
@@ -14,14 +15,6 @@ export const ProfileNameCard = ({
   className,
   role,
 }: ProfileNameProps) => {
-  const getIntials = (name: string) => {
-    const names = name.split(" ");
-    return names
-      .map((n) => n[0])
-      .join("")
-      .toUpperCase();
-  };
-
   return (
     <Card className={className}>
       <div className="mb-20 relative w-full h-[140px] bg-secondary rounded-sm">
@@ -29,7 +22,7 @@ export const ProfileNameCard = ({
           <div className="p-2 mr-4 bg-background rounded-full">
             <Avatar className="h-24 w-24">
               <AvatarImage src={avatarUrl || ""} />
-              <AvatarFallback>{getIntials(name)}</AvatarFallback>
+              <AvatarFallback>{getInitials(name)}</AvatarFallback>
             </Avatar>
           </div>
           <div className="mb-2">

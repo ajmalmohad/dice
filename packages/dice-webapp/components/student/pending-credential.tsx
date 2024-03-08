@@ -5,12 +5,14 @@ import { IoCheckmarkCircleOutline } from "react-icons/io5";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { cn } from "@/lib/utils";
+import { getInitials } from "../utils/formatter";
 
 type PendingCredential = {
-  imageLink: string;
+  imageLink?: string | null;
   title: string;
   issuer: string;
   issueDate: string;
+  credLink: string;
   className?: string;
 };
 
@@ -19,6 +21,7 @@ export const PendingCredentialCard = ({
   title,
   issuer,
   issueDate,
+  credLink,
   className,
 }: PendingCredential) => {
   return (
@@ -26,8 +29,8 @@ export const PendingCredentialCard = ({
       <CardContent className="flex p-6 justify-between items-center">
         <div className="flex items-center">
           <Avatar>
-            <AvatarImage src={imageLink} />
-            <AvatarFallback>#</AvatarFallback>
+            <AvatarImage src={imageLink ? imageLink : ""} />
+            <AvatarFallback>{getInitials(issuer)}</AvatarFallback>
           </Avatar>
           <div>
             <div className="flex">
@@ -44,7 +47,9 @@ export const PendingCredentialCard = ({
         </div>
         <div className="ml-1 flex gap-4 text-3xl">
           <div className="cursor-pointer">
-            <MdOutlineRemoveRedEye />
+            <a href={credLink}>
+              <MdOutlineRemoveRedEye />
+            </a>
           </div>
           <div className="cursor-pointer">
             <IoCheckmarkCircleOutline />
