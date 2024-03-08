@@ -5,11 +5,12 @@ import { CiCircleChevRight } from "react-icons/ci";
 import { cn } from "@/lib/utils";
 
 type CredentialCardProps = {
-  imageLink: string;
+  imageLink?: string | null;
   title: string;
   issuer: string;
   issueDate: string;
   className?: string;
+  credLink: string;
 };
 
 export const CredentialCard = ({
@@ -17,19 +18,30 @@ export const CredentialCard = ({
   title,
   issuer,
   issueDate,
+  credLink,
   className,
 }: CredentialCardProps) => {
+  const getIntials = (name: string) => {
+    const names = name.split(" ");
+    return names
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase();
+  };
+
   return (
     <Card className={cn("min-w-[200px]", className)}>
       <CardContent className="flex p-6 justify-between items-center">
         <div className="flex items-center">
           <Avatar>
-            <AvatarImage src={imageLink} />
-            <AvatarFallback>#</AvatarFallback>
+            <AvatarImage src={imageLink ? imageLink : ""} />
+            <AvatarFallback>{getIntials(issuer)}</AvatarFallback>
           </Avatar>
           <div>
             <div className="flex">
-              <div className="ml-2 text-base font-medium">{title}</div>
+              <div className="ml-2 text-base font-medium">
+                {title} Credential
+              </div>
               <div className="ml-1 text-2xl">
                 <AiOutlineSafetyCertificate />
               </div>
@@ -41,7 +53,9 @@ export const CredentialCard = ({
           </div>
         </div>
         <div className="ml-1 text-3xl">
-          <CiCircleChevRight />
+          <a href={credLink}>
+            <CiCircleChevRight />
+          </a>
         </div>
       </CardContent>
     </Card>
