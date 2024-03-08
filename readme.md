@@ -6,13 +6,13 @@ DICE is a platform for institutions to issue certificates and students to manage
 
 This is a monorepo of the whole application. Run these commands from the root directory
 
-1. Install all dependencies
+### 1. Install all dependencies
 
 ```sh
 pnpm i
 ```
 
-2. Setup the database and do migrations
+### 2. Setup the database and do migrations
 
 - Create a file named `dev.db` inside the folder `/packages/dice-webapp/prisma` (on same folder as `schema.prisma`)
 - Then run this command
@@ -24,7 +24,7 @@ pnpm run webapp:prisma:migrate
 - If you get the prompt of all data being lost, go through it by pressing `y`
 - Delete the migrations folder created inside `/packages/dice-webapp/prisma` (In this project we don't version control the migrations)
 
-3. To run webapp
+### 3. To run webapp
 
 - Set the environment variables like .env.example to .env file
 - Then run this command
@@ -33,7 +33,7 @@ pnpm run webapp:prisma:migrate
 pnpm run webapp:dev
 ```
 
-4. To deploy contract
+### 4. To deploy contract
 
 ```sh
 pnpm run contract:deploy
