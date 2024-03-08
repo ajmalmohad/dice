@@ -1,4 +1,5 @@
 import Navbar from "@/components/navbar/navbar";
+import { CreateSharedLink } from "@/components/student/create-shared-link";
 import SharedLinkCard from "@/components/student/shared-link";
 import { Button } from "@/components/ui/button";
 import { getStudentSharedLinks } from "@/components/utils/get-db-data";
@@ -12,7 +13,7 @@ export default async function Page() {
     <div>
       <Navbar className="mb-10" />
       <div className="mb-6">
-        <Button variant="outline">Add New</Button>
+        <CreateSharedLink />
       </div>
       <div className="max-2xl:grid max-2xl:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:flex 2xl:flex-wrap w-full gap-4">
         {links && links.length > 0 ? (
