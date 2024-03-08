@@ -21,6 +21,7 @@ pnpm i
 pnpm run webapp:prisma:migrate
 ```
 
+- If you get the prompt of all data being lost, go through it by pressing `y`
 - Delete the migrations folder created inside `/packages/dice-webapp/prisma` (In this project we don't version control the migrations)
 
 3. To run webapp
