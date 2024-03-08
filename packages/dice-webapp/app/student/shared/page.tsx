@@ -33,7 +33,7 @@ export default async function Page() {
             );
           })
         ) : (
-          <div>No shared links found</div>
+          <div className="text-ring">No shared links found</div>
         )}
       </div>
     </div>
