@@ -31,11 +31,11 @@ const Web3Provider = ({ children }: { children: ReactNode }) => {
         })
         .catch((err: Error) => setError(err.message));
 
-      window.ethereum.on('accountsChanged', (accounts: string[]) => {
+      window.ethereum.on("accountsChanged", (accounts: string[]) => {
         setAddress(accounts[0]);
       });
 
-      window.ethereum.on('disconnect', () => {
+      window.ethereum.on("disconnect", () => {
         setAddress(null);
         setWeb3(null);
       });
