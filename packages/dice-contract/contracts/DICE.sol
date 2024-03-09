@@ -91,7 +91,7 @@ contract DICE is ERC721URIStorage {
         return claimedCertificates[user];
     }
 
-    function issueCertificate(address _student, string memory _tokenURI) external {
+    function issueCertificate(address _student, string memory _tokenURI) external returns (uint256) {
         require(verifiedInstitutions[msg.sender], "Only verified institutions can issue certificates");
 
         _certificateId.increment();
@@ -100,6 +100,8 @@ contract DICE is ERC721URIStorage {
         issuedCertificates[_student].push(currentId);
         certificateToUser[currentId] = _student;
         certificateTokenURI[currentId] = _tokenURI;
+
+        return currentId;
     }
 
     function getIssuedBy(uint256 certificateId) public view returns (address) {
