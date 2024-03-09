@@ -10,10 +10,10 @@ export default async function Page() {
       <Navbar className="mb-10" />
       <div className="flex flex-col gap-4">
         {creds.length > 0 ? (
-          creds.map((cred) => {
+          creds.map((cred, idx) => {
             return (
               <CredentialCard
-                key={cred.credentialLink}
+                key={idx}
                 title={cred.credentialType}
                 issueDate={cred.issueDate}
                 issuer={cred.issuer.name}
