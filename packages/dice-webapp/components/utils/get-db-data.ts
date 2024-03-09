@@ -151,3 +151,78 @@ export const getStudentSharedLinks = async () => {
 
   return sharedLinks;
 };
+
+export const getOrganizationHistory = async () => {
+  const session = await serverSession();
+  if (!session) redirect("/auth/login");
+  const history = await prisma.studentCredentials.findMany({
+    select: {
+      userId: true,
+      credentialType: true,
+      credentialLink: true,
+      issueDate: true,
+      pending: true,
+    },
+    where: { issuerId: session?.user.id },
+    orderBy: { issueDate: "desc" },
+  });
+
+  let cleanedHistory = history.map((history) => {
+    return {
+      ...history,
+      issueDate: history.issueDate.toDateString(),
+    };
+  });
+
+  return cleanedHistory;
+};
+
+export const getRecentOrganizationHistory = async () => {
+  const session = await serverSession();
+  if (!session) redirect("/auth/login");
+  const history = await prisma.studentCredentials.findMany({
+    select: {
+      userId: true,
+      credentialType: true,
+      credentialLink: true,
+      issueDate: true,
+      pending: true,
+    },
+    where: { issuerId: session?.user.id },
+    orderBy: { issueDate: "desc" },
+    take: 10,
+  });
+
+  let cleanedHistory = history.map((history) => {
+    return {
+      ...history,
+      issueDate: history.issueDate.toDateString(),
+    };
+  });
+
+  return cleanedHistory;
+};
+
+export const getOrganizationStats = async () => {
+  const session = await serverSession();
+  if (!session) redirect("/auth/login");
+  let issued = await prisma.studentCredentials.count({
+    where: {
+      issuerId: session?.user.id,
+      pending: false,
+    },
+  });
+
+  let pending = await prisma.studentCredentials.count({
+    where: {
+      issuerId: session?.user.id,
+      pending: true,
+    },
+  });
+
+  return {
+    issued,
+    pending,
+    total: issued + pending,
+  };
+};
