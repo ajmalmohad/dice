@@ -41,3 +41,27 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: errorMessage }, { status: 400 });
   }
 }
+
+export async function GET(req: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
+    const user = session?.user;
+    if (!session || !user) {
+      throw new Error("Unauthorized");
+    }
+
+    const existing = await prisma.user.findUnique({
+      where: { email: user.email },
+    });
+    if (!existing) {
+      throw new Error("User does not exist");
+    }
+    return NextResponse.json({ image: existing.image });
+  } catch (e: unknown) {
+    let errorMessage = "An unknown error occurred";
+    if (e instanceof Error) {
+      errorMessage = e.message;
+    }
+    return NextResponse.json({ error: errorMessage }, { status: 400 });
+  }
+}
