@@ -1,17 +1,19 @@
 import { Card, CardContent } from "../ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { getInitials } from "../utils/formatter";
 
 type OrganisationReqCardProps = {
+  id: string;
   title: string;
-  website: string;
-  imageLink: string;
+  email: string;
+  imageLink: string | null;
   className?: string;
 };
 
 export const OrganisationReqCard = ({
   title,
-  website,
+  email,
   imageLink,
   className,
 }: OrganisationReqCardProps) => {
@@ -20,12 +22,12 @@ export const OrganisationReqCard = ({
       <CardContent className="flex flex-col p-4 gap-6">
         <div className="flex gap-6 items-center">
           <Avatar>
-            <AvatarImage src={imageLink} />
-            <AvatarFallback>#</AvatarFallback>
+            <AvatarImage src={imageLink ? imageLink : ""} />
+            <AvatarFallback>{getInitials(title)}</AvatarFallback>
           </Avatar>
           <div className="flex flex-col items-start">
             <div className="text-xl font-medium">{title}</div>
-            <div className="text-sm text-ring">{website}</div>
+            <div className="text-sm text-ring">{email}</div>
           </div>
         </div>
         <div className="flex flex-col gap-3">

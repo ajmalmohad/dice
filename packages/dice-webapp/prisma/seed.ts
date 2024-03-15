@@ -166,6 +166,24 @@ async function addWallet(userId: string, walletID: string) {
   });
 }
 
+async function addApplicationForm(
+  institution: User,
+  address: string,
+  licenseNumber: string,
+  phoneNumber: string,
+) {
+  await prisma.applicationForm.create({
+    data: {
+      institutionName: institution.name,
+      institutionAddress: address,
+      licenseNumber: licenseNumber,
+      email: institution.email,
+      phoneNumber,
+      userId: institution.id,
+    },
+  });
+}
+
 async function main() {
   let student1 = await addStudent("John Doe", "john@doe.com");
   await addWallet(student1.id, "0x1233489809238948932");
@@ -209,7 +227,8 @@ async function main() {
 
   await addLinkEntry(sharedLink3, credential2);
 
-  await addPendingInstitution("Cochin University", "admin@cusat.com");
+  let institution3 = await addPendingInstitution("Cochin University", "admin@cusat.com");
+  await addApplicationForm(institution3, "Kochi Kerala", "JJSJFDSAUFS45345", "45898345934");
   await addAdmin("Admin", "admin@dice.com");
 }
 
