@@ -226,3 +226,97 @@ export const getOrganizationStats = async () => {
     total: issued + pending,
   };
 };
+
+export const getAdminStats = async () => {
+  const session = await serverSession();
+  if (!session) redirect("/auth/login");
+
+  let registeredOrganizations = await prisma.user.count({
+    where: { role: "INSTITUTION" },
+  });
+
+  let pendingOrganizations = await prisma.user.count({
+    where: { role: "PENDING_INSTITUTION" },
+  });
+
+  let rejectedOrganizations = await prisma.rejectedInstitution.count();
+
+  return {
+    registeredOrganizations,
+    pendingOrganizations,
+    rejectedOrganizations,
+  };
+};
+
+export const getRecentCredentials = async () => {
+  const session = await serverSession();
+  if (!session) redirect("/auth/login");
+
+  const credentials = await prisma.studentCredentials.findMany({
+    where: { pending: false },
+    select: {
+      credentialType: true,
+      credentialLink: true,
+      issuerWallet: true,
+      issueDate: true,
+      issuer: {
+        select: {
+          name: true,
+        },
+      },
+    },
+    orderBy: { issueDate: "desc" },
+    take: 10,
+  });
+
+  let cleanedCredentials = credentials.map((credential) => {
+    return {
+      ...credential,
+      issueDate: credential.issueDate.toDateString(),
+      issuer: credential.issuer.name,
+    };
+  });
+
+  return cleanedCredentials;
+};
+
+export const getActiveInstiutions = async () => {
+  const session = await serverSession();
+  if (!session) redirect("/auth/login");
+  
+  const institutions = await prisma.user.findMany({
+    where: { role: "INSTITUTION" },
+    select: {
+      name: true,
+      email: true,
+      image: true,
+    },
+  });
+
+  return institutions;
+};
+
+export const getPendingOrganizations = async () => {
+  const session = await serverSession();
+  if (!session) redirect("/auth/login");
+
+  const pendingOrganizations = await prisma.applicationForm.findMany({
+    select: {
+      id: true,
+      institutionName: true,
+      institutionAddress: true,
+      licenseNumber: true,
+      email: true,
+      phoneNumber: true,
+      user: {
+        select: {
+          name: true,
+          email: true,
+          image: true,
+        },
+      },
+    },
+  });
+
+  return pendingOrganizations;
+};
