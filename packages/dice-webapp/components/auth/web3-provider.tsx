@@ -1,3 +1,4 @@
+import { abi, contractAddress } from "@/components/web3/creds";
 import { createContext, ReactNode, useEffect, useState } from "react";
 import Web3 from "web3";
 
@@ -12,9 +13,16 @@ interface IWeb3Context {
   address: string | null;
   contract: any | null;
   error: string | null;
+  connectWallet: () => void;
 }
 
-export const Web3Context = createContext<IWeb3Context | null>(null);
+export const Web3Context = createContext<IWeb3Context>({
+  web3: null,
+  address: null,
+  contract: null,
+  error: null,
+  connectWallet: () => {},
+});
 
 const Web3Provider = ({ children }: { children: ReactNode }) => {
   const [web3, setWeb3] = useState<Web3 | null>(null);
@@ -22,10 +30,20 @@ const Web3Provider = ({ children }: { children: ReactNode }) => {
   const [contract, setContract] = useState<any | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const abi: any = []; // YOUR_CONTRACT_ABI
-    const contractAddress = "YOUR_CONTRACT_ADDRESS";
+  let connectContract = (web3: Web3) => {
+    if (web3) {
+      try {
+        let contr = new web3.eth.Contract(abi, contractAddress);
+        setContract(contr);
+      } catch (err) {
+        setError("Failed to create contract instance");
+      }
+    } else {
+      setError("Please connect your wallet");
+    }
+  }
 
+  let connectWallet = () => {
     if (window.ethereum) {
       window.ethereum
         .request({ method: "eth_requestAccounts" })
@@ -33,12 +51,7 @@ const Web3Provider = ({ children }: { children: ReactNode }) => {
           setAddress(accounts[0]);
           let w3 = new Web3(window.ethereum);
           setWeb3(w3);
-          try {
-            let contr = new w3.eth.Contract(abi, contractAddress);
-            setContract(contr);
-          } catch (err) {
-            setError("Failed to connect to contract");
-          }
+          connectContract(w3);
         })
         .catch((err: Error) => setError(err.message));
 
@@ -54,10 +67,10 @@ const Web3Provider = ({ children }: { children: ReactNode }) => {
     } else {
       setError("Please install MetaMask");
     }
-  }, []);
+  };
 
   return (
-    <Web3Context.Provider value={{ web3, address, contract, error }}>
+    <Web3Context.Provider value={{ web3, address, contract, error, connectWallet }}>
       {children}
     </Web3Context.Provider>
   );
