@@ -283,7 +283,7 @@ export const getRecentCredentials = async () => {
 export const getActiveInstiutions = async () => {
   const session = await serverSession();
   if (!session) redirect("/auth/login");
-  
+
   const institutions = await prisma.user.findMany({
     where: { role: "INSTITUTION" },
     select: {
