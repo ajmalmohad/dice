@@ -1,7 +1,10 @@
 import Navbar from "@/components/navbar/navbar";
 import { StatCard } from "@/components/stats/stat-card";
 import { DataTable } from "@/components/table/data-table";
-import { getAdminStats, getRecentCredentials } from "@/components/utils/get-db-data";
+import {
+  getAdminStats,
+  getRecentCredentials,
+} from "@/components/utils/get-db-data";
 import { FaCheck } from "react-icons/fa6";
 import { IoMdClose } from "react-icons/io";
 import { MdOutlinePendingActions } from "react-icons/md";

@@ -227,8 +227,16 @@ async function main() {
 
   await addLinkEntry(sharedLink3, credential2);
 
-  let institution3 = await addPendingInstitution("Cochin University", "admin@cusat.com");
-  await addApplicationForm(institution3, "Kochi Kerala", "JJSJFDSAUFS45345", "45898345934");
+  let institution3 = await addPendingInstitution(
+    "Cochin University",
+    "admin@cusat.com",
+  );
+  await addApplicationForm(
+    institution3,
+    "Kochi Kerala",
+    "JJSJFDSAUFS45345",
+    "45898345934",
+  );
   await addAdmin("Admin", "admin@dice.com");
 }
 
