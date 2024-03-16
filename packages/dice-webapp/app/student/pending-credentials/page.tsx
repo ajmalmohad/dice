@@ -4,7 +4,7 @@ import Navbar from "@/components/navbar/navbar";
 import { PendingCredentialCard } from "@/components/student/pending-credential";
 import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/components/ui/use-toast";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 type Credential = {
   id: string;
@@ -19,8 +19,8 @@ type Credential = {
 
 export default function Page() {
   const [creds, setCreds] = useState([]);
+  const [loading, setLoading] = useState<boolean>(false);
   const {toast} = useToast();
-  const isLoading = useRef<boolean>(false);
 
   useEffect(() => {
     fetch("/api/credential/pending")
@@ -40,64 +40,42 @@ export default function Page() {
       });
   }, []);
 
-  const handleReject = async (id: string) => {
-    if (isLoading.current) return;
+  const handleCredential = async (id: string, action: 'accept' | 'reject') => {
+    if (loading) return;
 
-    isLoading.current = true;
-    toast({ title: "Rejecting credential", description: "Please wait" });
+    setLoading(true);
+    toast({ title: `${action.charAt(0).toUpperCase() + action.slice(1)}ing credential`, description: "Please wait" });
 
-    const res = await fetch("/api/credential/reject", {
-      method: "POST",
-      body: JSON.stringify({ id }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await res.json();
-    
-    if (res.status === 200) {
-      toast({ title: "Success", description: data.message });
-      let filtered = creds.filter((cred: Credential) => cred.id !== id);
-      setCreds(filtered);
-      isLoading.current = false;
-    } else {
+    try {
+      const res = await fetch(`/api/credential/${action}`, {
+        method: "POST",
+        body: JSON.stringify({ id }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await res.json();
+      
+      if (res.status === 200) {
+        toast({ title: "Success", description: data.message });
+        let filtered = creds.filter((cred: Credential) => cred.id !== id);
+        setCreds(filtered);
+      } else {
+        toast({
+          title: "Error",
+          description: data.error,
+          variant: "destructive",
+        });
+      }
+    } catch (e) {
+      const error = e as Error;
       toast({
         title: "Error",
-        description: data.error,
+        description: error.message,
         variant: "destructive",
       });
-      isLoading.current = false;
-    }
-  }
-
-  const handleAccept = async (id: string) => {
-    // Accept Via Blockchain too firsty
-    if(isLoading.current) return;
-
-    isLoading.current = true;
-    toast({ title: "Accepting credential", description: "Please wait" });
-
-    const res = await fetch("/api/credential/accept", {
-      method: "POST",
-      body: JSON.stringify({ id }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await res.json();
-    
-    if (res.status === 200) {
-      toast({ title: "Success", description: data.message });
-      let filtered = creds.filter((cred: Credential) => cred.id !== id);
-      setCreds(filtered);
-      isLoading.current = false;
-    } else {
-      toast({
-        title: "Error",
-        description: data.error,
-        variant: "destructive",
-      });
-      isLoading.current = false;
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -115,8 +93,8 @@ export default function Page() {
                 issuer={cred.issuer.name}
                 issueDate={cred.issueDate}
                 credLink={cred.credentialLink}
-                handleReject={() => handleReject(cred.id)}
-                handleAccept={() => handleAccept(cred.id)}
+                handleReject={() => handleCredential(cred.id, 'reject')}
+                handleAccept={() => handleCredential(cred.id, 'accept')}
               />
             );
           })
