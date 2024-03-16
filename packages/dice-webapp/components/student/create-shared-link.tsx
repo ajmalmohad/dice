@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useToast } from "../ui/use-toast";
-import { Toaster } from "../ui/toaster";
 
 export function CreateSharedLink() {
   const { toast } = useToast();
@@ -61,7 +60,6 @@ export function CreateSharedLink() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-      <Toaster />
     </div>
   );
 }

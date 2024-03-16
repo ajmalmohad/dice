@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { Toaster } from "../ui/toaster";
 import { useToast } from "../ui/use-toast";
 
 interface ProfileProps {
@@ -129,7 +128,6 @@ export const ProfileAccountTab = ({
           <Button variant="secondary">Delete account</Button>
         </div>
       </div>
-      <Toaster />
     </div>
   );
 };
