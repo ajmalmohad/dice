@@ -6,7 +6,7 @@ export default function Page() {
   return (
     <div>
       <Navbar className="mb-10" />
-      <ConnectWeb3Wallet className="mb-6"/>
+      <ConnectWeb3Wallet className="mb-6" />
       <IssueCredentialForm />
     </div>
   );

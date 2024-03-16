@@ -20,7 +20,7 @@ type Credential = {
 export default function Page() {
   const [creds, setCreds] = useState([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const {toast} = useToast();
+  const { toast } = useToast();
 
   useEffect(() => {
     fetch("/api/credential/pending")
@@ -35,16 +35,21 @@ export default function Page() {
         toast({
           title: "Error",
           description: e.message,
-          variant: "destructive"
+          variant: "destructive",
         });
       });
   }, []);
 
-  const handleCredential = async (id: string, action: 'accept' | 'reject') => {
+  const handleCredential = async (id: string, action: "accept" | "reject") => {
     if (loading) return;
 
     setLoading(true);
-    toast({ title: `${action.charAt(0).toUpperCase() + action.slice(1)}ing credential`, description: "Please wait" });
+    toast({
+      title: `${
+        action.charAt(0).toUpperCase() + action.slice(1)
+      }ing credential`,
+      description: "Please wait",
+    });
 
     try {
       const res = await fetch(`/api/credential/${action}`, {
@@ -55,7 +60,7 @@ export default function Page() {
         },
       });
       const data = await res.json();
-      
+
       if (res.status === 200) {
         toast({ title: "Success", description: data.message });
         let filtered = creds.filter((cred: Credential) => cred.id !== id);
@@ -77,7 +82,7 @@ export default function Page() {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   return (
     <div>
@@ -93,8 +98,8 @@ export default function Page() {
                 issuer={cred.issuer.name}
                 issueDate={cred.issueDate}
                 credLink={cred.credentialLink}
-                handleReject={() => handleCredential(cred.id, 'reject')}
-                handleAccept={() => handleCredential(cred.id, 'accept')}
+                handleReject={() => handleCredential(cred.id, "reject")}
+                handleAccept={() => handleCredential(cred.id, "accept")}
               />
             );
           })
