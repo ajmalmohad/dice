@@ -30,7 +30,6 @@ export const PendingCredentialCard = ({
   handleReject,
   handleAccept,
 }: PendingCredential) => {
-
   return (
     <Card className={cn("min-w-[200px]", className)}>
       <CardContent className="flex p-6 justify-between items-center">

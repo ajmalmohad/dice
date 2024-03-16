@@ -112,7 +112,12 @@ export const IssueFormInputs = ({
       </div>
 
       <div className="flex justify-end">
-        <Button disabled={contract===null} onClick={validateSubmit} color="primary" className="p-6">
+        <Button
+          disabled={contract === null}
+          onClick={validateSubmit}
+          color="primary"
+          className="p-6"
+        >
           Submit
         </Button>
       </div>

@@ -41,7 +41,7 @@ const Web3Provider = ({ children }: { children: ReactNode }) => {
     } else {
       setError("Please connect your wallet");
     }
-  }
+  };
 
   let connectWallet = () => {
     if (window.ethereum) {
@@ -70,7 +70,9 @@ const Web3Provider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <Web3Context.Provider value={{ web3, address, contract, error, connectWallet }}>
+    <Web3Context.Provider
+      value={{ web3, address, contract, error, connectWallet }}
+    >
       {children}
     </Web3Context.Provider>
   );

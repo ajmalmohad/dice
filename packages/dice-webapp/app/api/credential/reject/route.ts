@@ -27,7 +27,8 @@ export async function POST(req: NextRequest) {
     });
 
     if (!cred) throw new Error("Credential not found");
-    if (cred.userId !== user.id) throw new Error("This credential does not belong to you");
+    if (cred.userId !== user.id)
+      throw new Error("This credential does not belong to you");
 
     await prisma.$transaction([
       prisma.studentCredentials.delete({
