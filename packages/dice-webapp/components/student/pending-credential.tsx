@@ -8,87 +8,28 @@ import { IoIosCloseCircleOutline } from "react-icons/io";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { cn } from "@/lib/utils";
 import { getInitials } from "../utils/formatter";
-import { useToast } from "../ui/use-toast";
-import { useRef } from "react";
 
 type PendingCredential = {
-  id: string;
   imageLink?: string | null;
   title: string;
   issuer: string;
   issueDate: string;
   credLink: string;
   className?: string;
+  handleReject: () => void;
+  handleAccept: () => void;
 };
 
 export const PendingCredentialCard = ({
-  id,
   imageLink,
   title,
   issuer,
   issueDate,
   credLink,
   className,
+  handleReject,
+  handleAccept,
 }: PendingCredential) => {
-  let { toast } = useToast();
-  const isLoading = useRef<boolean>(false);
-
-  const handleReject = async () => {
-    if (isLoading.current) return;
-
-    isLoading.current = true;
-    toast({ title: "Rejecting credential", description: "Please wait" });
-
-    const res = await fetch("/api/credential/reject", {
-      method: "POST",
-      body: JSON.stringify({ id }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await res.json();
-    
-    if (res.status === 200) {
-      toast({ title: "Success", description: data.message });
-      location.reload();
-    } else {
-      toast({
-        title: "Error",
-        description: data.error,
-        variant: "destructive",
-      });
-      isLoading.current = false;
-    }
-  }
-
-  const handleAccept = async () => {
-    // Accept Via Blockchain too firsty
-    if(isLoading.current) return;
-
-    isLoading.current = true;
-    toast({ title: "Accepting credential", description: "Please wait" });
-
-    const res = await fetch("/api/credential/accept", {
-      method: "POST",
-      body: JSON.stringify({ id }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await res.json();
-    
-    if (res.status === 200) {
-      toast({ title: "Success", description: data.message });
-      location.reload();
-    } else {
-      toast({
-        title: "Error",
-        description: data.error,
-        variant: "destructive",
-      });
-      isLoading.current = false;
-    }
-  }
 
   return (
     <Card className={cn("min-w-[200px]", className)}>
