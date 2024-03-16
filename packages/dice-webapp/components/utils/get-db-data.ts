@@ -112,6 +112,7 @@ export const getStudentPendingCredentails = async () => {
   if (!session) redirect("/auth/login");
   const credentials = await prisma.studentCredentials.findMany({
     select: {
+      id: true,
       credentialType: true,
       credentialLink: true,
       issuerWallet: true,

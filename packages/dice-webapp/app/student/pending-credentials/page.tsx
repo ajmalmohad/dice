@@ -1,5 +1,6 @@
 import Navbar from "@/components/navbar/navbar";
 import { PendingCredentialCard } from "@/components/student/pending-credential";
+import { Toaster } from "@/components/ui/toaster";
 import { getStudentPendingCredentails } from "@/components/utils/get-db-data";
 
 export default async function Page() {
@@ -14,6 +15,7 @@ export default async function Page() {
             return (
               <PendingCredentialCard
                 key={idx}
+                id={cred.id}
                 title={cred.credentialType}
                 imageLink={cred.issuer.image}
                 issuer={cred.issuer.name}
@@ -26,6 +28,7 @@ export default async function Page() {
           <div className="text-center text-ring">No pending credentials</div>
         )}
       </div>
+      <Toaster />
     </div>
   );
 }
