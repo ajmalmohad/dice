@@ -2,7 +2,6 @@ import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { IoIosWarning } from "react-icons/io";
 import { SignInWithCreds } from "@/components/auth/creds-auth";
-import { Toaster } from "@/components/ui/toaster";
 
 export default async function Page() {
   return (
@@ -45,7 +44,6 @@ export default async function Page() {
           </div>
         </CardContent>
       </Card>
-      <Toaster />
     </div>
   );
 }

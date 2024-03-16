@@ -1,7 +1,6 @@
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { IoIosWarning } from "react-icons/io";
 import { RegisterWithCreds } from "@/components/auth/register-auth";
-import { Toaster } from "@/components/ui/toaster";
 
 export default async function Page() {
   return (
@@ -29,7 +28,6 @@ export default async function Page() {
           </div>
         </CardContent>
       </Card>
-      <Toaster />
     </div>
   );
 }

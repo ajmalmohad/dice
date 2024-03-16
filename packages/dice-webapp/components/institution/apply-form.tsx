@@ -2,7 +2,6 @@
 
 import { ApplyFormInputs } from "@/components/institution/apply-form-inputs";
 import { useSession } from "next-auth/react";
-import { Toaster } from "../ui/toaster";
 import { useToast } from "../ui/use-toast";
 
 export const ApplicationForm = () => {
@@ -55,7 +54,6 @@ export const ApplicationForm = () => {
           By registering you agree to our terms and conditions
         </p>
       </div>
-      <Toaster />
     </div>
   );
 };

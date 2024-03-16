@@ -8,7 +8,6 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { FiExternalLink } from "react-icons/fi";
 import { useState } from "react";
 import { useToast } from "../ui/use-toast";
-import { Toaster } from "../ui/toaster";
 
 type SharedLinkCardProps = {
   title: string;
@@ -85,7 +84,6 @@ export const SharedLinkCard = ({
           </div>
         </div>
       </CardContent>
-      <Toaster />
     </Card>
   );
 };

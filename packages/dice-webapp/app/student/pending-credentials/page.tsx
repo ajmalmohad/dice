@@ -2,7 +2,6 @@
 
 import Navbar from "@/components/navbar/navbar";
 import { PendingCredentialCard } from "@/components/student/pending-credential";
-import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/components/ui/use-toast";
 import { useEffect, useState } from "react";
 
@@ -19,10 +18,12 @@ type Credential = {
 
 export default function Page() {
   const [creds, setCreds] = useState([]);
+  const [pageLoading, setPageLoading] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const { toast } = useToast();
 
   useEffect(() => {
+    setPageLoading(true);
     fetch("/api/credential/pending")
       .then((res) => res.json())
       .then((data) => {
@@ -37,6 +38,8 @@ export default function Page() {
           description: e.message,
           variant: "destructive",
         });
+      }).finally(() => {
+        setPageLoading(false);
       });
   }, []);
 
@@ -108,10 +111,9 @@ export default function Page() {
             );
           })
         ) : (
-          <div className="text-center text-ring">No pending credentials</div>
+          <div className="text-center text-ring">{pageLoading ? "Loading" : "No pending credentials"}</div>
         )}
       </div>
-      <Toaster />
     </div>
   );
 }
