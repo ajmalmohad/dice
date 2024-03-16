@@ -52,6 +52,10 @@ export default function Page() {
     });
 
     try {
+      if(action == "accept") {
+        //TODO: Implement the logic to accept in blockchain
+      }
+
       const res = await fetch(`/api/credential/${action}`, {
         method: "POST",
         body: JSON.stringify({ id }),
