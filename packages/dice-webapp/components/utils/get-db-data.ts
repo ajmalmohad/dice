@@ -167,8 +167,12 @@ export const getSharedCredentials = async (linkID: string) => {
     },
   });
 
-  if (!linkEntries || !linkEntries[0].sharedLink?.active) {
-    return "The shared link is either inactive or invalid";
+  if (linkEntries.length === 0) {
+    return "No credentials found for the shared link.";
+  }
+
+  if (!linkEntries[0].sharedLink?.active) {
+    return "The shared link is either inactive or invalid.";
   }
 
   const studentCredentialIds = linkEntries.map(
@@ -203,9 +207,7 @@ export const getSharedCredentials = async (linkID: string) => {
     };
   });
 
-  return cleanedCredentials.length > 0
-    ? cleanedCredentials
-    : "No credentials found for the shared link";
+  return cleanedCredentials;
 };
 
 export const getOrganizationHistory = async () => {
