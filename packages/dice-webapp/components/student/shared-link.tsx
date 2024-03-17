@@ -14,6 +14,7 @@ type SharedLinkCardProps = {
   link: string;
   linkId: string;
   active: boolean;
+  handleDelete: () => void;
   className?: string;
 };
 
@@ -22,6 +23,7 @@ export const SharedLinkCard = ({
   link,
   linkId,
   className,
+  handleDelete,
   active,
 }: SharedLinkCardProps) => {
   let { toast } = useToast();
@@ -78,7 +80,7 @@ export const SharedLinkCard = ({
             <div className="cursor-pointer" onClick={copylink}>
               <MdContentCopy />
             </div>
-            <div className="cursor-pointer">
+            <div className="cursor-pointer" onClick={handleDelete}>
               <AiOutlineDelete />
             </div>
           </div>
