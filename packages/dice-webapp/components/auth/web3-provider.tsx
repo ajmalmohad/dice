@@ -1,5 +1,10 @@
 import { abi, contractAddress } from "@/components/web3/creds";
-import { createContext, ReactNode, useEffect, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useState,
+} from "react";
 import Web3 from "web3";
 
 declare global {
@@ -76,6 +81,10 @@ const Web3Provider = ({ children }: { children: ReactNode }) => {
       {children}
     </Web3Context.Provider>
   );
+};
+
+export const useWeb3 = () => {
+  return useContext(Web3Context);
 };
 
 export { Web3Provider };

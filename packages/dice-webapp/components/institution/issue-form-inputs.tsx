@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "../ui/input";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import {
   Select,
   SelectContent,
@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/select";
 import { z, ZodError } from "zod";
 import { useToast } from "../ui/use-toast";
-import { Web3Context } from "../auth/web3-provider";
+import { useWeb3 } from "../auth/web3-provider";
 
 const FormSchema = z.object({
   beneficiaryEmail: z.string().email({ message: "Invalid email address" }),
@@ -34,7 +34,7 @@ export const IssueFormInputs = ({
   submitForm: (data: any) => void;
 }) => {
   const { toast } = useToast();
-  let { contract } = useContext(Web3Context);
+  let { contract } = useWeb3();
   let [formData, setFormData] = useState({
     beneficiaryEmail: "",
     certificateType: "",
