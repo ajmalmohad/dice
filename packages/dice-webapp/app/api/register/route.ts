@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { hash } from "bcrypt";
-import { z, ZodError } from "zod";
+import { z } from "zod";
+import { getErrorMessage, getParsedBody } from "@/components/apiutils/common";
 
-const UserSchema = z.object({
+const userSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
   email: z.string().email({ message: "Invalid email address" }),
   password: z
@@ -16,13 +17,6 @@ const UserSchema = z.object({
     }),
 });
 
-const checkExistingUser = async (email: string) => {
-  const existing = await prisma.user.findUnique({ where: { email } });
-  if (existing) {
-    throw new Error("User already exists");
-  }
-};
-
 const createUser = async (body: any) => {
   const { name, email, password, role } = body;
   const hashedPassword = await hash(password, 10);
@@ -33,10 +27,12 @@ const createUser = async (body: any) => {
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
-    let user = UserSchema.parse(body);
-    await checkExistingUser(body.email);
-    user = await createUser(body);
+    const body = await getParsedBody(req, userSchema);
+
+    const existing = await prisma.user.findUnique({ where: { email: body.email } });
+    if (existing) throw new Error("User already exists");
+
+    const user = await createUser(body);
     return NextResponse.json({
       user: {
         name: user.name,
@@ -45,12 +41,7 @@ export async function POST(req: NextRequest) {
       },
     });
   } catch (e: unknown) {
-    let errorMessage = "An unknown error occurred";
-    if (e instanceof ZodError) {
-      errorMessage = e.errors[0].message;
-    } else if (e instanceof Error) {
-      errorMessage = e.message;
-    }
+    let errorMessage = getErrorMessage(e);
     return NextResponse.json({ error: errorMessage }, { status: 400 });
   }
 }
