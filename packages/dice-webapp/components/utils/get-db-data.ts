@@ -153,6 +153,61 @@ export const getStudentSharedLinks = async () => {
   return sharedLinks;
 };
 
+export const getSharedCredentials = async (linkID: string) => {
+  const linkEntries = await prisma.linkEntry.findMany({
+    where: {
+      sharedLinkId: linkID,
+    },
+    include: {
+      sharedLink: {
+        select: {
+          active: true,
+        },
+      },
+    },
+  });
+
+  if (!linkEntries || !linkEntries[0].sharedLink?.active) {
+    return "The shared link is either inactive or invalid";
+  }
+
+  const studentCredentialIds = linkEntries.map(
+    (entry) => entry.studentCredentialId,
+  );
+
+  const studentCredentials = await prisma.studentCredentials.findMany({
+    where: {
+      id: {
+        in: studentCredentialIds,
+      },
+    },
+    select: {
+      credentialType: true,
+      credentialLink: true,
+      issuerWallet: true,
+      issueDate: true,
+      issuer: {
+        select: {
+          name: true,
+          image: true,
+        },
+      },
+    },
+    orderBy: { issueDate: "desc" },
+  });
+
+  let cleanedCredentials = studentCredentials.map((studentCredentials) => {
+    return {
+      ...studentCredentials,
+      issueDate: studentCredentials.issueDate.toDateString(),
+    };
+  });
+
+  return cleanedCredentials.length > 0
+    ? cleanedCredentials
+    : "No credentials found for the shared link";
+};
+
 export const getOrganizationHistory = async () => {
   const session = await serverSession();
   if (!session) redirect("/auth/login");
