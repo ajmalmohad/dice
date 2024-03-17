@@ -13,11 +13,13 @@ type SharedLink = {
 };
 
 export default function Page() {
-
   const [links, setLinks] = useState<SharedLink[]>([]);
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
-  const origin = typeof window !== 'undefined' && window.location.origin ? window.location.origin : '';
+  const origin =
+    typeof window !== "undefined" && window.location.origin
+      ? window.location.origin
+      : "";
 
   useEffect(() => {
     setLoading(true);
@@ -46,7 +48,7 @@ export default function Page() {
     fetchLinks();
   }, []);
 
-  const handleDelete = async (linkId: string) => { 
+  const handleDelete = async (linkId: string) => {
     const res = await fetch("/api/sharedlink/delete", {
       method: "POST",
       headers: {
@@ -66,7 +68,7 @@ export default function Page() {
         variant: "destructive",
       });
     }
-  }
+  };
 
   return (
     <div>
@@ -80,11 +82,7 @@ export default function Page() {
             return (
               <SharedLinkCard
                 title={link.linkName}
-                link={
-                  origin +
-                  "/shared/link/" +
-                  link.id
-                }
+                link={origin + "/shared/link/" + link.id}
                 linkId={link.id}
                 active={link.active}
                 key={index}
@@ -93,7 +91,9 @@ export default function Page() {
             );
           })
         ) : (
-          <div className="text-ring">{ loading ? 'Loading' : 'No shared links found' }</div>
+          <div className="text-ring">
+            {loading ? "Loading" : "No shared links found"}
+          </div>
         )}
       </div>
     </div>

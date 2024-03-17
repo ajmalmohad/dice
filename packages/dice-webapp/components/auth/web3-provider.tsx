@@ -1,10 +1,5 @@
 import { abi, contractAddress } from "@/components/web3/creds";
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useState,
-} from "react";
+import { createContext, ReactNode, useContext, useState } from "react";
 import Web3 from "web3";
 
 declare global {
