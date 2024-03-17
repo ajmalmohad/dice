@@ -238,10 +238,7 @@ async function main() {
     "45898345934",
   );
 
-  await addPendingInstitution(
-    "Anna University",
-    "admin@anna.com",
-  );
+  await addPendingInstitution("Anna University", "admin@anna.com");
 
   await addAdmin("Admin", "admin@dice.com");
 }

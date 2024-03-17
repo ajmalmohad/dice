@@ -38,7 +38,8 @@ export default function Page() {
           description: e.message,
           variant: "destructive",
         });
-      }).finally(() => {
+      })
+      .finally(() => {
         setPageLoading(false);
       });
   }, []);
@@ -55,7 +56,7 @@ export default function Page() {
     });
 
     try {
-      if(action == "accept") {
+      if (action == "accept") {
         //TODO: Implement the logic to accept in blockchain
       }
 
@@ -111,7 +112,9 @@ export default function Page() {
             );
           })
         ) : (
-          <div className="text-center text-ring">{pageLoading ? "Loading" : "No pending credentials"}</div>
+          <div className="text-center text-ring">
+            {pageLoading ? "Loading" : "No pending credentials"}
+          </div>
         )}
       </div>
     </div>
