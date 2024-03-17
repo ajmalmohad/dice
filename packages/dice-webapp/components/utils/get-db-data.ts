@@ -154,60 +154,49 @@ export const getStudentSharedLinks = async () => {
 };
 
 export const getSharedCredentials = async (linkID: string) => {
-  const linkEntries = await prisma.linkEntry.findMany({
+  const sharedLink = await prisma.sharedLink.findFirst({
     where: {
-      sharedLinkId: linkID,
-    },
-    include: {
-      sharedLink: {
-        select: {
-          active: true,
-        },
-      },
-    },
-  });
-
-  if (linkEntries.length === 0) {
-    return "No credentials found for the shared link.";
-  }
-
-  if (!linkEntries[0].sharedLink?.active) {
-    return "The shared link is either inactive or invalid.";
-  }
-
-  const studentCredentialIds = linkEntries.map(
-    (entry) => entry.studentCredentialId,
-  );
-
-  const studentCredentials = await prisma.studentCredentials.findMany({
-    where: {
-      id: {
-        in: studentCredentialIds,
-      },
+      id: linkID,
     },
     select: {
-      credentialType: true,
-      credentialLink: true,
-      issuerWallet: true,
-      issueDate: true,
-      issuer: {
+      active: true,
+      linkEntries: {
         select: {
-          name: true,
-          image: true,
+          studentCredential: {
+            select: {
+              credentialType: true,
+              credentialLink: true,
+              issuerWallet: true,
+              issueDate: true,
+              issuer: {
+                select: {
+                  name: true,
+                  image: true,
+                },
+              },
+            },
+          },
+        },
+        orderBy: {
+          studentCredential: {
+            issueDate: "desc",
+          },
         },
       },
     },
-    orderBy: { issueDate: "desc" },
   });
-
-  let cleanedCredentials = studentCredentials.map((studentCredentials) => {
-    return {
-      ...studentCredentials,
-      issueDate: studentCredentials.issueDate.toDateString(),
-    };
-  });
-
-  return cleanedCredentials;
+  if (!sharedLink || sharedLink.linkEntries == undefined) return [];
+  let linkEntries = sharedLink?.linkEntries
+    .map((cred) => {
+      return cred.studentCredential;
+    })
+    .map((cred) => {
+      return {
+        ...cred,
+        issueDate: cred.issueDate.toDateString(),
+      };
+    });
+  return { linkEntries, active: sharedLink.active };
 };
 
 export const getOrganizationHistory = async () => {

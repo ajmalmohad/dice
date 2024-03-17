@@ -73,8 +73,8 @@ model SharedLink {
   active   Boolean
   userId   String
 
-  user               User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  studentCredentials LinkEntry[]
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  linkEntries LinkEntry[]
 }
 
 model LinkEntry {
