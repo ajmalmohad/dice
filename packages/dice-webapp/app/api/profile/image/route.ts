@@ -1,67 +1,43 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { z, ZodError } from "zod";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { z } from "zod";
+import {
+  authorizeUser,
+  getErrorMessage,
+  getParsedBody,
+} from "@/components/apiutils/common";
 
-let ImageSchema = z.object({
+let imageSchema = z.object({
   image: z.string().url({ message: "Invalid image URL" }),
 });
 
-let checkExistingUser = async (email: string) => {
-  const existing = await prisma.user.findUnique({ where: { email } });
-  if (!existing) {
-    throw new Error("User does not exist");
-  }
-};
-
 export async function POST(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
-    const user = session?.user;
-    if (!session || !user) {
-      throw new Error("Unauthorized");
-    }
-
-    const body = await req.json();
-    let data = ImageSchema.parse(body);
-    await checkExistingUser(user.email);
+    const user = await authorizeUser();
+    const body = await getParsedBody(req, imageSchema);
     await prisma.user.update({
       where: { email: user.email },
-      data: { image: data.image },
+      data: { image: body.image },
     });
+
     return NextResponse.json({ message: "Image updated" });
   } catch (e: unknown) {
-    let errorMessage = "An unknown error occurred";
-    if (e instanceof ZodError) {
-      errorMessage = e.errors[0].message;
-    } else if (e instanceof Error) {
-      errorMessage = e.message;
-    }
+    let errorMessage = getErrorMessage(e);
     return NextResponse.json({ error: errorMessage }, { status: 400 });
   }
 }
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
-    const session = await getServerSession(authOptions);
-    const user = session?.user;
-    if (!session || !user) {
-      throw new Error("Unauthorized");
-    }
-
+    const user = await authorizeUser();
     const existing = await prisma.user.findUnique({
       where: { email: user.email },
     });
-    if (!existing) {
-      throw new Error("User does not exist");
-    }
+
+    if (!existing) throw new Error("User does not exist");
     return NextResponse.json({ image: existing.image });
   } catch (e: unknown) {
-    let errorMessage = "An unknown error occurred";
-    if (e instanceof Error) {
-      errorMessage = e.message;
-    }
+    let errorMessage = getErrorMessage(e);
     return NextResponse.json({ error: errorMessage }, { status: 400 });
   }
 }

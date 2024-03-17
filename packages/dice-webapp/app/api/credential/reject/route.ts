@@ -1,24 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { z, ZodError } from "zod";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { z } from "zod";
+import {
+  authorizeUser,
+  getErrorMessage,
+  getParsedBody,
+} from "@/components/apiutils/common";
 
-const CredSchema = z.object({
+const credentialSchema = z.object({
   id: z.string().min(1, { message: "Invalid id" }),
 });
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
-    const user = session?.user;
-    if (!session || !user || user.role !== "STUDENT") {
-      throw new Error("Unauthorized");
-    }
-
-    const body = await req.json();
-    if (!body) throw new Error("No body provided");
-    CredSchema.parse(body);
+    const user = await authorizeUser();
+    const body = await getParsedBody(req, credentialSchema);
 
     let cred = await prisma.studentCredentials.findUnique({
       where: {
@@ -27,8 +23,7 @@ export async function POST(req: NextRequest) {
     });
 
     if (!cred) throw new Error("Credential not found");
-    if (cred.userId !== user.id)
-      throw new Error("This credential does not belong to you");
+    if (cred.userId !== user.id) throw new Error("The credential is not yours");
 
     await prisma.$transaction([
       prisma.studentCredentials.delete({
@@ -52,12 +47,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ message: "Credential rejected" });
   } catch (e: unknown) {
-    let errorMessage = "An unknown error occurred";
-    if (e instanceof ZodError) {
-      errorMessage = e.errors[0].message;
-    } else if (e instanceof Error) {
-      errorMessage = e.message;
-    }
+    let errorMessage = getErrorMessage(e);
     return NextResponse.json({ error: errorMessage }, { status: 400 });
   }
 }
