@@ -9,13 +9,6 @@ let LinkSchema = z.object({
   active: z.boolean(),
 });
 
-let checkExistingUser = async (email: string) => {
-  const existing = await prisma.user.findUnique({ where: { email } });
-  if (!existing) {
-    throw new Error("User does not exist");
-  }
-};
-
 export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
@@ -26,7 +19,6 @@ export async function POST(req: NextRequest) {
 
     const body = await req.json();
     let data = LinkSchema.parse(body);
-    await checkExistingUser(user.email);
 
     const link = await prisma.sharedLink.findUnique({
       where: { id: data.linkId, userId: user.id },
