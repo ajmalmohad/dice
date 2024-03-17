@@ -1,7 +1,6 @@
 import Navbar from "@/components/navbar/navbar";
 import { CreateSharedLink } from "@/components/student/create-shared-link";
 import SharedLinkCard from "@/components/student/shared-link";
-import { Button } from "@/components/ui/button";
 import { getStudentSharedLinks } from "@/components/utils/get-db-data";
 import { headers } from "next/headers";
 

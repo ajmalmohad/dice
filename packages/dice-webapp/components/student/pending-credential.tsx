@@ -16,6 +16,7 @@ type PendingCredential = {
   issueDate: string;
   credLink: string;
   className?: string;
+  contract: any;
   handleReject: () => void;
   handleAccept: () => void;
 };
@@ -26,6 +27,7 @@ export const PendingCredentialCard = ({
   issuer,
   issueDate,
   credLink,
+  contract,
   className,
   handleReject,
   handleAccept,
@@ -59,10 +61,20 @@ export const PendingCredentialCard = ({
               <MdOutlineRemoveRedEye />
             </a>
           </div>
-          <div className="cursor-pointer" onClick={handleAccept}>
+          <div
+            className={`${
+              contract === null ? "text-secondary" : "cursor-pointer"
+            }`}
+            onClick={handleAccept}
+          >
             <IoCheckmarkCircleOutline />
           </div>
-          <div className="cursor-pointer" onClick={handleReject}>
+          <div
+            className={`${
+              contract === null ? "text-secondary" : "cursor-pointer"
+            }`}
+            onClick={handleReject}
+          >
             <IoIosCloseCircleOutline />
           </div>
         </div>

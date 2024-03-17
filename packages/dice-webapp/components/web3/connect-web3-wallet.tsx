@@ -1,13 +1,12 @@
 "use client";
 
-import { useContext } from "react";
 import { Button } from "../ui/button";
-import { Web3Context } from "../auth/web3-provider";
+import { useWeb3 } from "../auth/web3-provider";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "../ui/use-toast";
 
 export function ConnectWeb3Wallet({ className }: { className?: string }) {
-  let { contract, address, connectWallet, error } = useContext(Web3Context);
+  let { contract, address, connectWallet, error } = useWeb3();
   let { toast } = useToast();
 
   let connectWeb3 = () => {
