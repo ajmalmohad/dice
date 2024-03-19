@@ -29,7 +29,9 @@ export async function POST(req: NextRequest) {
   try {
     const body = await getParsedBody(req, userSchema);
 
-    const existing = await prisma.user.findUnique({ where: { email: body.email } });
+    const existing = await prisma.user.findUnique({
+      where: { email: body.email },
+    });
     if (existing) throw new Error("User already exists");
 
     const user = await createUser(body);
