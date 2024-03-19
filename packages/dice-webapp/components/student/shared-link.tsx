@@ -72,7 +72,7 @@ export const SharedLinkCard = ({
             <p>{link}</p>
           </div>
           <div className="flex justify-end gap-4 text-xl">
-            <a href={link}>
+            <a href={link} target="_blank">
               <div className="cursor-pointer">
                 <FiExternalLink />
               </div>
