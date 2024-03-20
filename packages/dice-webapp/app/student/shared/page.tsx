@@ -46,7 +46,7 @@ export default function Page() {
     };
 
     fetchLinks();
-  }, []);
+  }, [toast]);
 
   const handleDelete = async (linkId: string) => {
     const res = await fetch("/api/sharedlink/delete", {
