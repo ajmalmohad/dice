@@ -17,6 +17,7 @@ export function getErrorMessage(e: unknown) {
   } else if (e instanceof Error) {
     errorMessage = e.message;
   }
+  return errorMessage;
 }
 
 export async function getParsedBody(req: NextRequest, schema: ZodObject<any>) {
