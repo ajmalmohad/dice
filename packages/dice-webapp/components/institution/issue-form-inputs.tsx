@@ -28,9 +28,11 @@ const FormSchema = z.object({
 
 export const IssueFormInputs = ({
   className,
+  loading,
   submitForm,
 }: {
   className?: string;
+  loading: boolean;
   submitForm: (data: any) => void;
 }) => {
   const { toast } = useToast();
@@ -50,11 +52,6 @@ export const IssueFormInputs = ({
       });
     } catch (e: unknown) {
       if (e instanceof ZodError) {
-        submitForm({
-          ...formData,
-          error: true,
-        });
-
         toast({
           title: "Validation Error",
           variant: "destructive",
@@ -91,11 +88,11 @@ export const IssueFormInputs = ({
           <SelectContent>
             <SelectGroup>
               <SelectLabel>Certificate Type</SelectLabel>
-              <SelectItem value="apple">Online Course</SelectItem>
-              <SelectItem value="banana">Degree</SelectItem>
-              <SelectItem value="blueberry">School</SelectItem>
-              <SelectItem value="grapes">Award</SelectItem>
-              <SelectItem value="pineapple">Competitive Exam</SelectItem>
+              <SelectItem value="Online Course">Online Course</SelectItem>
+              <SelectItem value="Degree">Degree</SelectItem>
+              <SelectItem value="School">School</SelectItem>
+              <SelectItem value="Award">Award</SelectItem>
+              <SelectItem value="Competitive Exam">Competitive Exam</SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>
@@ -113,7 +110,7 @@ export const IssueFormInputs = ({
 
       <div className="flex justify-end">
         <Button
-          disabled={contract === null}
+          disabled={contract === null || loading}
           onClick={validateSubmit}
           color="primary"
           className="p-6"
