@@ -67,7 +67,7 @@ export function CreateSharedLink() {
     };
 
     fetchCreds();
-  }, []);
+  }, [toast]);
 
   const addSharedLink = async () => {
     let body;

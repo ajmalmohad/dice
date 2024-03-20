@@ -45,7 +45,7 @@ export default function Page() {
       .finally(() => {
         setPageLoading(false);
       });
-  }, []);
+  }, [toast]);
 
   const handleCredential = async (id: string, action: "accept" | "reject") => {
     if (contract === null) {
