@@ -91,7 +91,7 @@ model LinkEntry {
 model RejectedInstitution {
   id              String @id @default(cuid())
   institutionName String
-  email           String
+  email           String @unique
 }
 
 model RejectedCredentials {
