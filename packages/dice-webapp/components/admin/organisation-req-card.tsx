@@ -8,6 +8,9 @@ type OrganisationReqCardProps = {
   title: string;
   email: string;
   imageLink: string | null;
+  loading: boolean;
+  onAccept: () => void;
+  onReject: () => void;
   className?: string;
 };
 
@@ -15,6 +18,9 @@ export const OrganisationReqCard = ({
   title,
   email,
   imageLink,
+  loading,
+  onAccept,
+  onReject,
   className,
 }: OrganisationReqCardProps) => {
   return (
@@ -32,10 +38,19 @@ export const OrganisationReqCard = ({
         </div>
         <div className="flex flex-col gap-3">
           <div className="flex gap-3">
-            <Button className="grow bg-green-500 text-white w-full hover:bg-green-500/90 dark:bg-green-700  dark:hover:bg-green-700/90">
+            <Button
+              disabled={loading}
+              onClick={onAccept}
+              className="grow bg-green-500 text-white w-full hover:bg-green-500/90 dark:bg-green-700  dark:hover:bg-green-700/90"
+            >
               Accept
             </Button>
-            <Button className="grow w-full" variant="destructive">
+            <Button
+              onClick={onReject}
+              disabled={loading}
+              className="grow w-full"
+              variant="destructive"
+            >
               Reject
             </Button>
           </div>

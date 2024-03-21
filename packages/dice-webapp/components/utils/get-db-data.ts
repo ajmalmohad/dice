@@ -364,6 +364,7 @@ export const getPendingOrganizations = async () => {
         },
       },
     },
+    where: { user: { role: "PENDING_INSTITUTION" } },
   });
 
   return pendingOrganizations;
