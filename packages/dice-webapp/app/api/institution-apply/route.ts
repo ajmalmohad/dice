@@ -20,6 +20,7 @@ const formSchema = z.object({
     .min(10, { message: "Must be a valid mobile number" })
     .max(14, { message: "Must be a valid mobile number" }),
   email: z.string().email({ message: "Invalid email address" }),
+  address: z.string().min(1, { message: "Address is required" }),
 });
 
 const createApplication = async (body: any) => {
@@ -29,7 +30,13 @@ const createApplication = async (body: any) => {
 
   if (!user) throw new Error("Sender doesn't match any users");
 
-  return await prisma.applicationForm.create({
+  let existingWallet = await prisma.wallets.findUnique({
+    where: { walletID: body.address },
+  });
+
+  if (!existingWallet) throw new Error("Wallet doesn't exists");
+
+  await prisma.applicationForm.create({
     data: {
       institutionName: body.institutionName,
       institutionAddress: body.institutionAddress,
@@ -39,6 +46,8 @@ const createApplication = async (body: any) => {
       userId: user.id,
     },
   });
+
+  return NextResponse.json({ message: "Application created successfully" });
 };
 
 export async function POST(req: NextRequest) {
