@@ -1,6 +1,7 @@
 import { abi, contractAddress } from "@/components/web3/creds";
 import { createContext, ReactNode, useContext, useState } from "react";
 import Web3 from "web3";
+import { useToast } from "../ui/use-toast";
 
 declare global {
   interface Window {
@@ -29,41 +30,92 @@ const Web3Provider = ({ children }: { children: ReactNode }) => {
   const [address, setAddress] = useState<string | null>(null);
   const [contract, setContract] = useState<any | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const { toast } = useToast();
 
-  let connectContract = (web3: Web3) => {
-    if (web3) {
-      try {
-        let contr = new web3.eth.Contract(abi, contractAddress);
-        setContract(contr);
-      } catch (err) {
-        setError("Failed to create contract instance");
-      }
-    } else {
-      setError("Please connect your wallet");
+  const getExistingWallet = async (): Promise<any | null> => {
+    try {
+      const response = await fetch("/api/wallet");
+      const data = await response.json();
+      return data.length === 0 ? null : data[0];
+    } catch (e) {
+      return null;
     }
   };
 
-  let connectWallet = () => {
+  const createWallet = async (walletAddress: string): Promise<boolean> => {
+    const response = await fetch("/api/wallet/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ walletAddress }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      toast({ title: "Success", description: "Wallet created" });
+      return true;
+    } else {
+      toast({
+        title: "Error",
+        description: data.error,
+        variant: "destructive",
+      });
+      return false;
+    }
+  };
+
+  const connectContract = (web3Instance: Web3) => {
+    try {
+      const contractInstance = new web3Instance.eth.Contract(
+        abi,
+        contractAddress,
+      );
+      setContract(contractInstance);
+    } catch (err) {
+      setError("Failed to create contract instance");
+    }
+  };
+
+  const handleWalletConnection = async (accounts: string[]) => {
+    const existingWallet = await getExistingWallet();
+    if (!existingWallet) {
+      const walletCreated = await createWallet(accounts[0]);
+      if (!walletCreated) {
+        resetWalletState();
+        return;
+      }
+    } else if (existingWallet.walletID !== accounts[0]) {
+      toast({
+        title: "Error",
+        description: "Wallet address mismatch",
+        variant: "destructive",
+      });
+      resetWalletState();
+      return;
+    }
+
+    const web3Instance = new Web3(window.ethereum);
+    setAddress(accounts[0]);
+    setWeb3(web3Instance);
+    connectContract(web3Instance);
+  };
+
+  const resetWalletState = () => {
+    setAddress(null);
+    setWeb3(null);
+    setContract(null);
+  };
+
+  const connectWallet = () => {
     if (window.ethereum) {
       window.ethereum
         .request({ method: "eth_requestAccounts" })
-        .then((accounts: string[]) => {
-          setAddress(accounts[0]);
-          let w3 = new Web3(window.ethereum);
-          setWeb3(w3);
-          connectContract(w3);
-        })
+        .then(handleWalletConnection)
         .catch((err: Error) => setError(err.message));
-
-      window.ethereum.on("accountsChanged", (accounts: string[]) => {
-        setAddress(accounts[0]);
-      });
-
-      window.ethereum.on("disconnect", () => {
-        setAddress(null);
-        setWeb3(null);
-        setContract(null);
-      });
+      window.ethereum.on("accountsChanged", handleWalletConnection);
+      window.ethereum.on("disconnect", resetWalletState);
     } else {
       setError("Please install MetaMask");
     }
@@ -78,8 +130,5 @@ const Web3Provider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export const useWeb3 = () => {
-  return useContext(Web3Context);
-};
-
+export const useWeb3 = () => useContext(Web3Context);
 export { Web3Provider };
