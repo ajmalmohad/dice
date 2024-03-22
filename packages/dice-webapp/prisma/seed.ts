@@ -154,6 +154,15 @@ async function addApplicationForm(
   });
 }
 
+async function addWallet(institution: User, walletId: string) {
+  await prisma.wallets.create({
+    data: {
+      walletID: walletId,
+      userId: institution.id,
+    },
+  });
+}
+
 async function main() {
   let student1 = await addStudent("John Doe", "john@doe.com");
 
@@ -197,6 +206,9 @@ async function main() {
     "Cochin University",
     "admin@cusat.com",
   );
+
+  await addWallet(institution3, "0x" + randomBytes(20).toString("hex"));
+
   await addApplicationForm(
     institution3,
     "Kochi Kerala",
