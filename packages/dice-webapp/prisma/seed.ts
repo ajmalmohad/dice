@@ -155,17 +155,6 @@ async function addAdmin(name: string, email: string): Promise<User> {
   return await addUser(name, email, email, "ADMIN");
 }
 
-async function addWallet(userId: string, walletID: string) {
-  await prisma.wallets.upsert({
-    where: { walletID },
-    update: {},
-    create: {
-      walletID,
-      userId,
-    },
-  });
-}
-
 async function addApplicationForm(
   institution: User,
   address: string,
@@ -186,20 +175,16 @@ async function addApplicationForm(
 
 async function main() {
   let student1 = await addStudent("John Doe", "john@doe.com");
-  await addWallet(student1.id, "0x1233489809238948932");
-  await addWallet(student1.id, "0x8980923812334948933");
 
   let institution1 = await addInstitution(
     "Kalam Technical University",
     "admin@ktu.com",
   );
-  await addWallet(institution1.id, "0x2389482334189809932");
 
   let institution2 = await addInstitution(
     "Kerala University",
     "admin@kerala.com",
   );
-  await addWallet(institution2.id, "0x4823341823899809932");
 
   let credential1 = await addCredential("B.Tech", institution1, student1);
   let credential2 = await addCredential("BSc.", institution2, student1);
