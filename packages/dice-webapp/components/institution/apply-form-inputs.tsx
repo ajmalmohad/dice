@@ -6,8 +6,10 @@ import { Input } from "../ui/input";
 import { useState } from "react";
 import { z } from "zod";
 import { useToast } from "../ui/use-toast";
+import { ConnectWeb3Wallet } from "../web3/connect-web3-wallet";
+import { useWeb3 } from "../auth/web3-provider";
 
-const FormSchema = z.object({
+const formSchema = z.object({
   institutionName: z
     .string()
     .min(1, { message: "Institution name is required" }),
@@ -19,6 +21,7 @@ const FormSchema = z.object({
     .string()
     .min(10, { message: "Must be a valid mobile number" })
     .max(14, { message: "Must be a valid mobile number" }),
+  address: z.string().min(1, { message: "Address is required" }),
 });
 
 export const ApplyFormInputs = ({
@@ -29,28 +32,33 @@ export const ApplyFormInputs = ({
   submitForm: (data: any) => void;
 }) => {
   const { toast } = useToast();
+  let { contract, address } = useWeb3();
 
   let [formData, setFormData] = useState({
     institutionName: "",
     institutionAddress: "",
     licenseNumber: "",
     phoneNumber: "",
+    address: "",
   });
 
   let validateSubmit = () => {
     try {
-      FormSchema.parse(formData);
+      if (!address) {
+        toast({
+          title: "Validation Error",
+          variant: "destructive",
+          description: "Please connect your wallet",
+        });
+        return;
+      }
+      formData.address = address;
+      formSchema.parse(formData);
       submitForm({
         ...formData,
-        error: false,
       });
     } catch (e) {
       if (e instanceof z.ZodError) {
-        submitForm({
-          ...formData,
-          error: true,
-        });
-
         toast({
           title: "Validation Error",
           variant: "destructive",
@@ -101,7 +109,13 @@ export const ApplyFormInputs = ({
       </div>
 
       <div className="flex justify-end">
-        <Button onClick={validateSubmit} color="primary" className="p-6">
+        <ConnectWeb3Wallet />
+        <Button
+          disabled={!contract}
+          onClick={validateSubmit}
+          color="primary"
+          className="mt-2 ml-2"
+        >
           Submit
         </Button>
       </div>

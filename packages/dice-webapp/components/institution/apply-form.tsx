@@ -10,36 +10,34 @@ export const ApplicationForm = () => {
   if (status === "unauthenticated") return "You don't have access to this page";
 
   const submitForm = async (data: any) => {
-    if (!data.error) {
-      data.email = session?.user?.email;
-      if (!data.email) {
-        toast({
-          variant: "destructive",
-          title: "Your request failed.",
-          description: "You must have a session email to apply",
-        });
-        return;
-      }
-
-      const res = await fetch("/api/institution-apply", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
+    data.email = session?.user?.email;
+    if (!data.email) {
+      toast({
+        variant: "destructive",
+        title: "Your request failed.",
+        description: "You must have a session email to apply",
       });
+      return;
+    }
 
-      if (res.status === 200) {
-        window.location.reload();
-      } else {
-        const data = await res.json();
+    const res = await fetch("/api/institution-apply", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
 
-        toast({
-          variant: "destructive",
-          title: "Your request failed.",
-          description: data.error,
-        });
-      }
+    if (res.status === 200) {
+      window.location.reload();
+    } else {
+      const data = await res.json();
+
+      toast({
+        variant: "destructive",
+        title: "Your request failed.",
+        description: data.error,
+      });
     }
   };
 
