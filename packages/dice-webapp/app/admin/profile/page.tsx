@@ -1,11 +1,13 @@
 import Navbar from "@/components/navbar/navbar";
 import { ProfileAccountTab } from "@/components/profile/profile-account-tab";
 import { ProfileNameCard } from "@/components/profile/profile-name-card";
-import { Tabs, TabsContent } from "@/components/ui/tabs";
-import { getUser } from "@/components/utils/get-db-data";
+import { ProfileWeb3Tab } from "@/components/profile/profile-web3-tab";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { getUser, getWallets } from "@/components/utils/get-db-data";
 
 export default async function Page() {
   const user = await getUser();
+  const wallets = await getWallets();
   if (!user) {
     return <div>Unauthorized</div>;
   }
@@ -20,12 +22,19 @@ export default async function Page() {
         role={user.role}
       />
       <Tabs defaultValue="account" className="w-full">
+        <TabsList>
+          <TabsTrigger value="account">Account</TabsTrigger>
+          <TabsTrigger value="web3">Web 3</TabsTrigger>
+        </TabsList>
         <TabsContent value="account">
           <ProfileAccountTab
             name={user.name}
             profileUrl={user.image || ""}
             email={user.email}
           />
+        </TabsContent>
+        <TabsContent className="pt-4" value="web3">
+          <ProfileWeb3Tab walletIds={wallets} />
         </TabsContent>
       </Tabs>
     </div>

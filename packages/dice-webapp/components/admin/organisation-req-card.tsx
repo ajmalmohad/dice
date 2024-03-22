@@ -2,6 +2,7 @@ import { Card, CardContent } from "../ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { getInitials } from "../utils/formatter";
+import { useWeb3 } from "../auth/web3-provider";
 
 type OrganisationReqCardProps = {
   id: string;
@@ -23,6 +24,8 @@ export const OrganisationReqCard = ({
   onReject,
   className,
 }: OrganisationReqCardProps) => {
+  const { contract } = useWeb3();
+
   return (
     <Card className={className}>
       <CardContent className="flex flex-col p-4 gap-6">
@@ -39,7 +42,7 @@ export const OrganisationReqCard = ({
         <div className="flex flex-col gap-3">
           <div className="flex gap-3">
             <Button
-              disabled={loading}
+              disabled={loading || !contract}
               onClick={onAccept}
               className="grow bg-green-500 text-white w-full hover:bg-green-500/90 dark:bg-green-700  dark:hover:bg-green-700/90"
             >
@@ -47,7 +50,7 @@ export const OrganisationReqCard = ({
             </Button>
             <Button
               onClick={onReject}
-              disabled={loading}
+              disabled={loading || !contract}
               className="grow w-full"
               variant="destructive"
             >

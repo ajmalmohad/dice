@@ -88,8 +88,8 @@ const Web3Provider = ({ children }: { children: ReactNode }) => {
       }
     } else if (existingWallet.walletID !== accounts[0]) {
       toast({
-        title: "Error",
-        description: "Wallet address mismatch",
+        title: "Wallet address mismatch",
+        description: `Use ${existingWallet.walletID} to connect`,
         variant: "destructive",
       });
       resetWalletState();
