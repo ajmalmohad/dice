@@ -13,6 +13,7 @@ type Request = {
   email: string;
   user: {
     image: string;
+    wallets: [{ walletID: string }];
   };
 };
 
@@ -62,10 +63,13 @@ export default function Page() {
     });
 
     try {
+      let application = requests.filter((req: Request) => req.id === id)[0];
       if (action == "accept") {
         //TODO: Implement the logic to accept in blockchain
+        console.log(application.user.wallets[0].walletID + "whitelisted");
       } else if (action == "reject") {
         //TODO: Implement the logic to reject in blockchain
+        console.log(application.user.wallets[0].walletID + "ignored");
       }
 
       const res = await fetch(`/api/institution/${action}`, {

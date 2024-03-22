@@ -361,6 +361,11 @@ export const getPendingOrganizations = async () => {
           name: true,
           email: true,
           image: true,
+          wallets: {
+            select: {
+              walletID: true,
+            },
+          },
         },
       },
     },
