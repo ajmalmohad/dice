@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { hash } from "bcrypt";
+import { randomBytes } from "crypto";
 
 const prisma = new PrismaClient();
 
@@ -57,21 +58,11 @@ async function addCredential(
   reciever: User,
   pending: boolean = false,
 ): Promise<StudentCredential> {
-  const wallet = await prisma.wallets.findFirst({
-    where: {
-      userId: issuer.id,
-    },
-  });
-
-  if (!wallet) {
-    throw new Error("Issuer wallet not found");
-  }
-
   return await prisma.studentCredentials.create({
     data: {
       credentialType: type,
       credentialLink: "https://example.com/credential.pdf",
-      issuerWallet: wallet.walletID,
+      issuerWallet: "0x" + randomBytes(20).toString("hex"),
       transactionId: crypto.randomUUID(),
       userId: reciever.id,
       issuerId: issuer.id,
@@ -86,21 +77,11 @@ async function addRejectedCredential(
   issuer: User,
   reciever: User,
 ) {
-  const wallet = await prisma.wallets.findFirst({
-    where: {
-      userId: issuer.id,
-    },
-  });
-
-  if (!wallet) {
-    throw new Error("Issuer wallet not found");
-  }
-
   return await prisma.rejectedCredentials.create({
     data: {
       credentialType: type,
       credentialLink: "https://example.com/rejected_credential.pdf",
-      issuerWallet: wallet.walletID,
+      issuerWallet: "0x" + randomBytes(20).toString("hex"),
       transactionId: crypto.randomUUID(),
       userId: reciever.id,
       issuerId: issuer.id,
