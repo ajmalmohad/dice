@@ -21,7 +21,7 @@ export default function Page() {
   let [loading, setLoading] = useState<boolean>(false);
   let [requests, setRequests] = useState<Request[]>([]);
   const { toast } = useToast();
-  let { contract } = useWeb3();
+  let { contract, address } = useWeb3();
 
   useEffect(() => {
     setLoading(true);
@@ -65,11 +65,23 @@ export default function Page() {
     try {
       let application = requests.filter((req: Request) => req.id === id)[0];
       if (action == "accept") {
-        //TODO: Implement the logic to accept in blockchain
-        console.log(application.user.wallets[0].walletID + "whitelisted");
-      } else if (action == "reject") {
-        //TODO: Implement the logic to reject in blockchain
-        console.log(application.user.wallets[0].walletID + "ignored");
+        try {
+          await contract.methods
+            .addInstitution(application.user.wallets[0].walletID)
+            .send({
+              from: address,
+            });
+
+          console.log(application.user.wallets[0].walletID + " whitelisted on blockchain");
+        } catch (e) {
+          const error = e as Error;
+          toast({
+            title: "Error",
+            description: error.message,
+            variant: "destructive",
+          });
+          return;
+        }
       }
 
       const res = await fetch(`/api/institution/${action}`, {
