@@ -114,6 +114,7 @@ export const getStudentPendingCredentails = async () => {
   const credentials = await prisma.studentCredentials.findMany({
     select: {
       id: true,
+      credentialId: true,
       credentialType: true,
       credentialLink: true,
       issuerWallet: true,

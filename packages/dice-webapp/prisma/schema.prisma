@@ -27,7 +27,8 @@ model User {
 }
 
 model Wallets {
-  walletID  String   @id @unique
+  id        String   @id @unique @default(cuid())
+  walletID  String   @unique
   userId    String
   createdAt DateTime @default(now())
 
@@ -36,6 +37,7 @@ model Wallets {
 
 model StudentCredentials {
   id             String   @id @unique @default(cuid())
+  credentialId   Int
   credentialType String
   credentialLink String
   issuerWallet   String
