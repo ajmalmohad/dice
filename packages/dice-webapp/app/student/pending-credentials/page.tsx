@@ -9,6 +9,7 @@ import { useWeb3 } from "@/components/auth/web3-provider";
 
 type Credential = {
   id: string;
+  credentialId: number;
   credentialType: string;
   issuer: {
     image: string;
@@ -23,7 +24,7 @@ export default function Page() {
   const [pageLoading, setPageLoading] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const { toast } = useToast();
-  let { contract } = useWeb3();
+  let { contract, address } = useWeb3();
 
   useEffect(() => {
     setPageLoading(true);
@@ -47,7 +48,11 @@ export default function Page() {
       });
   }, [toast]);
 
-  const handleCredential = async (id: string, action: "accept" | "reject") => {
+  const handleCredential = async (
+    id: string,
+    certificateId: number,
+    action: "accept" | "reject",
+  ) => {
     if (contract === null) {
       toast({
         title: "Error",
@@ -69,9 +74,37 @@ export default function Page() {
 
     try {
       if (action == "accept") {
-        //TODO: Implement the logic to accept in blockchain
+        try {
+          await contract.methods.claimCertificate(certificateId).send({
+            from: address,
+          });
+
+          console.log(certificateId + " claimed on blockchain");
+        } catch (e) {
+          const error = e as Error;
+          toast({
+            title: "Error",
+            description: error.message,
+            variant: "destructive",
+          });
+          return;
+        }
       } else if (action == "reject") {
-        //TODO: Implement the logic to reject in blockchain
+        try {
+          await contract.methods.declineCertificate(certificateId).send({
+            from: address,
+          });
+
+          console.log(certificateId + " declined on blockchain");
+        } catch (e) {
+          const error = e as Error;
+          toast({
+            title: "Error",
+            description: error.message,
+            variant: "destructive",
+          });
+          return;
+        }
       }
 
       const res = await fetch(`/api/credential/${action}`, {
@@ -122,8 +155,12 @@ export default function Page() {
                 issueDate={cred.issueDate}
                 credLink={cred.credentialLink}
                 contract={contract}
-                handleReject={() => handleCredential(cred.id, "reject")}
-                handleAccept={() => handleCredential(cred.id, "accept")}
+                handleReject={() =>
+                  handleCredential(cred.id, cred.credentialId, "reject")
+                }
+                handleAccept={() =>
+                  handleCredential(cred.id, cred.credentialId, "accept")
+                }
               />
             );
           })

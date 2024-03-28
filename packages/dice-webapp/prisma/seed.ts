@@ -60,6 +60,7 @@ async function addCredential(
 ): Promise<StudentCredential> {
   return await prisma.studentCredentials.create({
     data: {
+      credentialId: parseInt(randomBytes(2).toString("hex"), 16),
       credentialType: type,
       credentialLink: "https://example.com/credential.pdf",
       issuerWallet: "0x" + randomBytes(20).toString("hex"),

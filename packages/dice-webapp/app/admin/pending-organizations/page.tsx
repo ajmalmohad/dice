@@ -72,7 +72,9 @@ export default function Page() {
               from: address,
             });
 
-          console.log(application.user.wallets[0].walletID + " whitelisted on blockchain");
+          console.log(
+            application.user.wallets[0].walletID + " whitelisted on blockchain",
+          );
         } catch (e) {
           const error = e as Error;
           toast({
