@@ -54,6 +54,9 @@ contract DICE is ERC721URIStorage {
     // Certificate ID to issued by address
     mapping(uint256 => address) public issuedBy;
 
+    mapping(address => mapping(uint256 => uint256))
+        private issuedCertificateIndices;
+
     constructor() ERC721("Credentials", "Certificate") {
         owner = msg.sender;
     }
@@ -71,79 +74,104 @@ contract DICE is ERC721URIStorage {
         verifiedInstitutions[_institution] = false;
     }
 
-    function getVerifiedInstitutions(address _institution) public  view onlyOwner returns (bool) {
+    function getVerifiedInstitutions(
+        address _institution
+    ) public view onlyOwner returns (bool) {
         return verifiedInstitutions[_institution];
     }
 
-    function getIssuedCertificatesLength(address user) public view returns (uint256) {
+    function getIssuedCertificatesLength(
+        address user
+    ) public view returns (uint256) {
         return issuedCertificates[user].length;
     }
 
-    function getIssuedCertificates(address user) public view returns (uint[] memory) {
+    function getIssuedCertificates(
+        address user
+    ) public view returns (uint[] memory) {
         return issuedCertificates[user];
     }
 
-    function getClaimedCertificatesLength(address user) public view returns (uint256) {
+    function getClaimedCertificatesLength(
+        address user
+    ) public view returns (uint256) {
         return claimedCertificates[user].length;
     }
 
-    function getClaimedCertificates(address user) public view returns (uint[] memory) {
+    function getClaimedCertificates(
+        address user
+    ) public view returns (uint[] memory) {
         return claimedCertificates[user];
-    }
-
-    function issueCertificate(address _student, string memory _tokenURI) external returns (uint256) {
-        require(verifiedInstitutions[msg.sender], "Only verified institutions can issue certificates");
-
-        _certificateId.increment();
-        uint256 currentId = _certificateId.current();
-        issuedBy[currentId] = msg.sender;
-        issuedCertificates[_student].push(currentId);
-        certificateToUser[currentId] = _student;
-        certificateTokenURI[currentId] = _tokenURI;
-
-        return currentId;
     }
 
     function getIssuedBy(uint256 certificateId) public view returns (address) {
         return issuedBy[certificateId];
     }
 
+    function issueCertificate(
+        address _student,
+        string memory _tokenURI
+    ) external returns (uint256) {
+        require(
+            verifiedInstitutions[msg.sender],
+            "Only verified institutions can issue certificates"
+        );
+        _certificateId.increment();
+        uint256 currentId = _certificateId.current();
+        issuedBy[currentId] = msg.sender;
+        issuedCertificates[_student].push(currentId);
+        certificateToUser[currentId] = _student;
+        certificateTokenURI[currentId] = _tokenURI;
+        // Store the index of the new certificate ID
+        issuedCertificateIndices[_student][currentId] =
+            issuedCertificates[_student].length -
+            1;
+
+        return currentId;
+    }
+
     function claimCertificate(uint256 certificateId) external {
-        require(certificateToUser[certificateId] == msg.sender, "Certificate not yours for claiming");
-        
+        require(
+            certificateToUser[certificateId] == msg.sender,
+            "Certificate not yours for claiming"
+        );
+
         _mint(msg.sender, certificateId);
         _setTokenURI(certificateId, certificateTokenURI[certificateId]);
 
-        // Delete the claimed certificate from issued
-        uint256[] storage certificates = issuedCertificates[msg.sender];
-        for (uint256 i = 0; i < certificates.length; i++) {
-            if (certificates[i] == certificateId) {
-                certificates[i] = certificates[certificates.length - 1];
-                certificates.pop();
-                break;
-            }
-        }
+        // Update the index mapping and remove the certificate ID without a loop
+        uint256 index = issuedCertificateIndices[msg.sender][certificateId];
+        uint256 lastCertificateId = issuedCertificates[msg.sender][
+            issuedCertificates[msg.sender].length - 1
+        ];
+        issuedCertificates[msg.sender][index] = lastCertificateId;
+        issuedCertificateIndices[msg.sender][lastCertificateId] = index;
+        issuedCertificates[msg.sender].pop();
+        delete issuedCertificateIndices[msg.sender][certificateId];
 
         // Already claimed so not mapped to user anymore
         delete certificateToUser[certificateId];
         delete certificateTokenURI[certificateId];
-        
+
         // All claimed ones of a user
         claimedCertificates[msg.sender].push(certificateId);
     }
 
     function declineCertificate(uint256 certificateId) external {
-        require(certificateToUser[certificateId] == msg.sender, "Certificate not yours for declining");
+        require(
+            certificateToUser[certificateId] == msg.sender,
+            "Certificate not yours for declining"
+        );
 
-        // Delete the declined certificate from issued
-        uint256[] storage certificates = issuedCertificates[msg.sender];
-        for (uint256 i = 0; i < certificates.length; i++) {
-            if (certificates[i] == certificateId) {
-                certificates[i] = certificates[certificates.length - 1];
-                certificates.pop();
-                break;
-            }
-        }
+        // Update the index mapping and remove the certificate ID without a loop
+        uint256 index = issuedCertificateIndices[msg.sender][certificateId];
+        uint256 lastCertificateId = issuedCertificates[msg.sender][
+            issuedCertificates[msg.sender].length - 1
+        ];
+        issuedCertificates[msg.sender][index] = lastCertificateId;
+        issuedCertificateIndices[msg.sender][lastCertificateId] = index;
+        issuedCertificates[msg.sender].pop();
+        delete issuedCertificateIndices[msg.sender][certificateId];
 
         // Declined so not mapped to user anymore
         delete certificateToUser[certificateId];
