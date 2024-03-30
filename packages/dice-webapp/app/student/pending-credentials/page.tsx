@@ -75,9 +75,14 @@ export default function Page() {
     try {
       if (action == "accept") {
         try {
-          await contract.methods.claimCertificate(certificateId).send({
-            from: address,
-          });
+          await contract.methods
+            .claimCertificate(certificateId)
+            .send({
+              from: address,
+            })
+            .on("transactionHash", (hash: string) => {
+              console.log("Transaction hash:", hash);
+            });
 
           console.log(certificateId + " claimed on blockchain");
         } catch (e) {
