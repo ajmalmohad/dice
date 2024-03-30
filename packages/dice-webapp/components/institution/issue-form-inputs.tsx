@@ -16,7 +16,12 @@ import { z, ZodError } from "zod";
 import { useToast } from "../ui/use-toast";
 import { useWeb3 } from "../auth/web3-provider";
 
-const FormSchema = z.object({
+type Beneficiary = {
+  name: string;
+  wallet: string;
+};
+
+const formSchema = z.object({
   beneficiaryEmail: z.string().email({ message: "Invalid email address" }),
   certificateType: z
     .string()
@@ -24,6 +29,11 @@ const FormSchema = z.object({
   certificateFile: z
     .string()
     .min(1, { message: "Certificate file is required" }),
+});
+
+let beneficiarySchema = z.object({
+  name: z.string(),
+  wallet: z.string(),
 });
 
 export const IssueFormInputs = ({
@@ -42,10 +52,36 @@ export const IssueFormInputs = ({
     certificateType: "",
     certificateFile: "",
   });
+  let [beneficiary, setBeneficiary] = useState<Beneficiary | null>(null);
+
+  let verifyEmail = async (email: string) => {
+    if (!email) return;
+    let res = await fetch("/api/wallet/user", {
+      method: "POST",
+      body: JSON.stringify({ email }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    let response = await res.json();
+
+    if (res.ok) {
+      let data = beneficiarySchema.parse(response);
+      setBeneficiary(data);
+    } else {
+      setBeneficiary(null);
+      toast({
+        title: "Error",
+        description: response.error,
+        variant: "destructive",
+      });
+    }
+  };
 
   let validateSubmit = () => {
     try {
-      FormSchema.parse(formData);
+      formSchema.parse(formData);
       submitForm({
         ...formData,
         error: false,
@@ -72,10 +108,24 @@ export const IssueFormInputs = ({
           }}
           placeholder="Enter email of beneficiary"
         />
-        <Button className="p-6" color="primary">
+        <Button
+          className="p-6"
+          color="primary"
+          onClick={() => verifyEmail(formData.beneficiaryEmail)}
+        >
           Verify
         </Button>
       </div>
+      {beneficiary && (
+        <div className="p-6 border rounded-md">
+          <p>
+            <strong>Name:</strong> {beneficiary.name}
+          </p>
+          <p>
+            <strong>Wallet ID:</strong> {beneficiary.wallet}
+          </p>
+        </div>
+      )}
       <div className="flex flex-col sm:flex-row gap-6">
         <Select
           onValueChange={(val) => {
