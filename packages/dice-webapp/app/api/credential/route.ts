@@ -21,6 +21,7 @@ export async function GET() {
 
 const formSchema = z.object({
   beneficiaryEmail: z.string().email({ message: "Invalid email address" }),
+  credentialId: z.number().min(1, { message: "Credential ID is required" }),
   certificateType: z
     .string()
     .min(1, { message: "Certificate type is required" }),
@@ -46,6 +47,7 @@ export async function POST(req: NextRequest) {
 
     let credential = await prisma.studentCredentials.create({
       data: {
+        credentialId: body.credentialId,
         credentialType: body.certificateType,
         credentialLink: body.certificateFile,
         issuerWallet: body.issuerWallet,

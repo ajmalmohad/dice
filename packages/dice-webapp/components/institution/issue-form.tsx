@@ -7,7 +7,8 @@ import { useWeb3 } from "../auth/web3-provider";
 import { useToast } from "../ui/use-toast";
 import { useState } from "react";
 
-const FormSchema = z.object({
+const formSchema = z.object({
+  credentialId: z.number().min(1, { message: "Credential ID is required" }),
   beneficiaryEmail: z.string().email({ message: "Invalid email address" }),
   certificateType: z
     .string()
@@ -31,13 +32,12 @@ export const IssueCredentialForm = () => {
     // TODO: Issue the certificate on blockchain
     data.issuerWallet = address;
     data.transactionId = "0x4IORF894F9";
+    data.credentialId = 1;
 
     try {
-      FormSchema.parse(data);
+      formSchema.parse(data);
     } catch (e: unknown) {
       if (e instanceof z.ZodError) {
-        console.log(e);
-
         toast({
           title: "Error",
           description: e.errors[0].message,

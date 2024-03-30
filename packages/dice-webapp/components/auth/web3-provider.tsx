@@ -97,6 +97,7 @@ const Web3Provider = ({ children }: { children: ReactNode }) => {
     }
 
     const web3Instance = new Web3(window.ethereum);
+    web3Instance.handleRevert = true;
     setAddress(accounts[0]);
     setWeb3(web3Instance);
     connectContract(web3Instance);

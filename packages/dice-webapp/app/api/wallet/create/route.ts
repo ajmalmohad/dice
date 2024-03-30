@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    if (existing) throw new Error("Wallet already exists");
+    if (existing) throw new Error("Wallet already used by another user");
 
     await prisma.wallets.create({
       data: {
