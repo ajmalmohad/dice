@@ -84,6 +84,7 @@ export default function Page() {
               console.log("Transaction hash:", hash);
             });
 
+          // TODO: Update the transaction hash of certificate
           console.log(certificateId + " claimed on blockchain");
         } catch (e) {
           const error = e as Error;

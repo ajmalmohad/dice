@@ -22,34 +22,91 @@ const formSchema = z.object({
 
 export const IssueCredentialForm = () => {
   const { status } = useSession();
-  const { address } = useWeb3();
+  const { contract, address } = useWeb3();
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   if (status === "unauthenticated") return "You don't have access to this page";
 
+  const uploadCertificateToIPFS = async () => {
+    return "https://ipfs.io/ipfs/0x4IORF894F9";
+  };
+
+  const uploadMetadataToIPFS = async ({
+    certificateLink,
+    certificateType,
+  }: {
+    certificateLink: string;
+    certificateType: string;
+  }) => {
+    return "https://ipfs.io/ipfs/0x4IORF894F9";
+  };
+
+  let getWalletId = async (email: string) => {
+    if (!email) return;
+    let res = await fetch("/api/wallet/user", {
+      method: "POST",
+      body: JSON.stringify({ email }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    let response = await res.json();
+    return response.wallet;
+  };
+
   const submitForm = async (data: any) => {
     setLoading(true);
-    // TODO: Issue the certificate on blockchain
+    let metadataLink = "";
     data.issuerWallet = address;
-    data.transactionId = "0x4IORF894F9";
-    data.credentialId = 1;
+    try {
+      const certificateLink = await uploadCertificateToIPFS();
+      metadataLink = await uploadMetadataToIPFS({
+        certificateLink,
+        certificateType: data.certificateType,
+      });
+    } catch (e: unknown) {
+      toast({
+        title: "Error",
+        description: "An error occurred",
+        variant: "destructive",
+      });
+      setLoading(false);
+      return;
+    }
+
+    try {
+      let email = await getWalletId(data.beneficiaryEmail);
+      let res = await contract.methods
+        .issueCertificate(email, metadataLink)
+        .send({
+          from: address,
+        });
+      data.transactionId = res.transactionHash;
+      let credentialId = await contract.methods
+        .getCurrentCertificateId()
+        .call();
+      data.credentialId = parseInt(credentialId);
+    } catch (e) {
+      const error = e as Error;
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+      setLoading(false);
+      return;
+    }
 
     try {
       formSchema.parse(data);
-    } catch (e: unknown) {
-      if (e instanceof z.ZodError) {
-        toast({
-          title: "Error",
-          description: e.errors[0].message,
-          variant: "destructive",
-        });
-      } else {
-        toast({
-          title: "Error",
-          description: "An error occurred",
-          variant: "destructive",
-        });
-      }
+    } catch (e) {
+      const error = e as z.ZodError;
+      toast({
+        title: "Error",
+        description: error.errors[0].message,
+        variant: "destructive",
+      });
       setLoading(false);
       return;
     }
@@ -63,6 +120,7 @@ export const IssueCredentialForm = () => {
     });
 
     let response = await res.json();
+    console.log(response);
 
     if (res.ok) {
       toast({
