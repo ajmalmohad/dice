@@ -120,7 +120,6 @@ export const IssueCredentialForm = () => {
     });
 
     let response = await res.json();
-    console.log(response);
 
     if (res.ok) {
       toast({
