@@ -412,6 +412,19 @@ export const abi = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "getCurrentCertificateId",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "uint256",
@@ -525,13 +538,7 @@ export const abi = [
       },
     ],
     name: "issueCertificate",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
+    outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
