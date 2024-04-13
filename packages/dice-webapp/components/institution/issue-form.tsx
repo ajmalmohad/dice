@@ -27,9 +27,75 @@ export const IssueCredentialForm = () => {
   const { toast } = useToast();
   if (status === "unauthenticated") return "You don't have access to this page";
 
-  const uploadCertificateToIPFS = async () => {
-    return "https://ipfs.io/ipfs/0x4IORF894F9";
+  const uploadCertificateToIPFS = async (fileToUpload: File) => {
+    try {
+      setLoading(true);
+      const data = new FormData();
+      data.set("file", fileToUpload);
+      const res = await fetch("/api/ipfs", {
+        method: "POST",
+        body: data,
+      });
+      const resData = await res.json();
+      setLoading(false);
+      // console.log("CID:", resData.IpfsHash);
+      return resData.IpfsHash;
+    } catch (e) {
+      console.log(e);
+      setLoading(false);
+      alert("Trouble uploading file");
+      return null;
+    }
   };
+
+  // const uploadMetadataToIPFS = async ({
+  //   certificateLink,
+  //   certificateType,
+  // }: {
+  //   certificateLink: string;
+  //   certificateType: string;
+  // }) => {
+  //   try {
+  //     const credentialLink = `ipfs://${certificateLink}`;
+
+  //     const metadata = JSON.stringify({
+  //       pinataContent: {
+  //         name: "DICE Credential",
+  //         description: `${certificateType}`,
+  //         external_url: "https://pinata.cloud",
+  //         credential: credentialLink,
+  //       },
+  //       pinataMetadata: {
+  //         name: "DICE Credential Metadata",
+  //       },
+  //     });
+
+  //     const res = await fetch(
+  //       "https://api.pinata.cloud/pinning/pinJSONToIPFS",
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: `Bearer ${process.env.PINATA_JWT}`,
+  //         },
+  //         body: metadata,
+  //       },
+  //     );
+
+  //     const resData = await res.json();
+  //     console.log("Response from Pinata:", resData);
+
+  //     if (!resData.IpfsHash) {
+  //       throw new Error("CID (IpfsHash) not found in the response data.");
+  //     }
+
+  //     console.log("Metadata uploaded, CID:", resData.IpfsHash);
+  //     return resData.IpfsHash;
+  //   } catch (error) {
+  //     console.error(error);
+  //     throw new Error("Error uploading metadata to IPFS");
+  //   }
+  // };
 
   const uploadMetadataToIPFS = async ({
     certificateLink,
@@ -59,12 +125,16 @@ export const IssueCredentialForm = () => {
     setLoading(true);
     let metadataLink = "";
     data.issuerWallet = address;
+    console.log(data);
     try {
-      const certificateLink = await uploadCertificateToIPFS();
+      const certificateLink = await uploadCertificateToIPFS(
+        data.certificateFile,
+      );
       metadataLink = await uploadMetadataToIPFS({
         certificateLink,
         certificateType: data.certificateType,
       });
+      console.log(metadataLink);
     } catch (e: unknown) {
       toast({
         title: "Error",
@@ -126,15 +196,14 @@ export const IssueCredentialForm = () => {
         title: "Success",
         description: "Credential issued",
       });
-      setLoading(false);
     } else {
       toast({
         title: "Error",
         description: response.error,
         variant: "destructive",
       });
-      setLoading(false);
     }
+    setLoading(false);
   };
 
   return (
