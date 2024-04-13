@@ -26,9 +26,7 @@ const formSchema = z.object({
   certificateType: z
     .string()
     .min(1, { message: "Certificate type is required" }),
-  certificateFile: z
-    .string()
-    .min(1, { message: "Certificate file is required" }),
+  certificateFile: z.instanceof(File),
 });
 
 let beneficiarySchema = z.object({
@@ -47,10 +45,14 @@ export const IssueFormInputs = ({
 }) => {
   const { toast } = useToast();
   let { contract } = useWeb3();
-  let [formData, setFormData] = useState({
+  let [formData, setFormData] = useState<{
+    beneficiaryEmail: string;
+    certificateType: string;
+    certificateFile: File | null;
+  }>({
     beneficiaryEmail: "",
     certificateType: "",
-    certificateFile: "",
+    certificateFile: null,
   });
   let [beneficiary, setBeneficiary] = useState<Beneficiary | null>(null);
 
@@ -150,7 +152,9 @@ export const IssueFormInputs = ({
           <Input
             className="border-none p-0 m-0 h-auto"
             onChange={(e) => {
-              setFormData({ ...formData, certificateFile: e.target.value });
+              if (e.target.files !== null) {
+                setFormData({ ...formData, certificateFile: e.target.files[0] });
+              }
             }}
             type="file"
             placeholder="Upload the credential"
