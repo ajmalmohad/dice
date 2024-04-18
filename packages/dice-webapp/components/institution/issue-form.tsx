@@ -13,9 +13,7 @@ const formSchema = z.object({
   certificateType: z
     .string()
     .min(1, { message: "Certificate type is required" }),
-  certificateFile: z
-    .string()
-    .min(1, { message: "Certificate file is required" }),
+  certificateFile: z.instanceof(File),
   issuerWallet: z.string().min(1, { message: "Issuer wallet is required" }),
   transactionId: z.string().min(1, { message: "Transaction ID is required" }),
 });
@@ -29,7 +27,6 @@ export const IssueCredentialForm = () => {
 
   const uploadCertificateToIPFS = async (fileToUpload: File) => {
     try {
-      setLoading(true);
       const data = new FormData();
       data.set("file", fileToUpload);
       const res = await fetch("/api/ipfs/file-upload", {
@@ -37,7 +34,6 @@ export const IssueCredentialForm = () => {
         body: data,
       });
       const resData = await res.json();
-      setLoading(false);
       return resData.IpfsHash;
     } catch (e) {
       setLoading(false);
@@ -69,8 +65,13 @@ export const IssueCredentialForm = () => {
       const { IpfsHash } = await res.json();
       return IpfsHash;
     } catch (error) {
-      console.error(error);
-      throw new Error("Error uploading metadata to IPFS");
+      setLoading(false);
+      toast({
+        title: "Error",
+        description: "Trouble uploading file",
+        variant: "destructive",
+      });
+      return null;
     }
   };
 
@@ -89,10 +90,10 @@ export const IssueCredentialForm = () => {
   };
 
   const submitForm = async (data: any) => {
-    setLoading(true);
     let certificateLink = "";
     let metadataLink = "";
     data.issuerWallet = address;
+    setLoading(true)
     try {
       certificateLink = await uploadCertificateToIPFS(
         data.certificateFile,
@@ -147,8 +148,7 @@ export const IssueCredentialForm = () => {
       return;
     }
 
-    delete data.certificateFile;
-    data.certificateFile = certificateLink;
+    data.certificateFile = "ipfs://" + certificateLink;
 
     let res = await fetch("/api/credential", {
       method: "POST",
