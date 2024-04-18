@@ -100,8 +100,6 @@ export default function Page() {
           await contract.methods.declineCertificate(certificateId).send({
             from: address,
           });
-
-          console.log(certificateId + " declined on blockchain");
         } catch (e) {
           const error = e as Error;
           toast({
