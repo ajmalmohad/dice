@@ -71,10 +71,6 @@ export default function Page() {
             .send({
               from: address,
             });
-
-          console.log(
-            application.user.wallets[0].walletID + " whitelisted on blockchain",
-          );
         } catch (e) {
           const error = e as Error;
           toast({

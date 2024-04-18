@@ -20,11 +20,10 @@ export async function POST(request: NextRequest) {
       body: data,
     });
     const { IpfsHash } = await res.json();
-    console.log(IpfsHash);
+    console.log("Hash: ", IpfsHash);
 
     return NextResponse.json({ IpfsHash }, { status: 200 });
   } catch (e) {
-    console.log(e);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }

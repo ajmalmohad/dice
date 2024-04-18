@@ -40,9 +40,12 @@ export const IssueCredentialForm = () => {
       setLoading(false);
       return resData.IpfsHash;
     } catch (e) {
-      console.log(e);
       setLoading(false);
-      alert("Trouble uploading file");
+      toast({
+        title: "Error",
+        description: "Trouble uploading file",
+        variant: "destructive",
+      });
       return null;
     }
   };
@@ -87,18 +90,17 @@ export const IssueCredentialForm = () => {
 
   const submitForm = async (data: any) => {
     setLoading(true);
+    let certificateLink = "";
     let metadataLink = "";
     data.issuerWallet = address;
-    console.log(data);
     try {
-      const certificateLink = await uploadCertificateToIPFS(
+      certificateLink = await uploadCertificateToIPFS(
         data.certificateFile,
       );
       metadataLink = await uploadMetadataToIPFS({
         certificateLink,
         certificateType: data.certificateType,
       });
-      console.log(metadataLink);
     } catch (e: unknown) {
       toast({
         title: "Error",
@@ -144,6 +146,9 @@ export const IssueCredentialForm = () => {
       setLoading(false);
       return;
     }
+
+    delete data.certificateFile;
+    data.certificateFile = certificateLink;
 
     let res = await fetch("/api/credential", {
       method: "POST",
