@@ -20,8 +20,6 @@ export async function POST(request: NextRequest) {
       body: data,
     });
     const { IpfsHash } = await res.json();
-    console.log("Hash: ", IpfsHash);
-
     return NextResponse.json({ IpfsHash }, { status: 200 });
   } catch (e) {
     return NextResponse.json(
