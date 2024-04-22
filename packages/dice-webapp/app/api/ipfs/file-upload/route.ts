@@ -1,3 +1,4 @@
+import { getErrorMessage } from "@/components/apiutils/common";
 import { NextResponse, NextRequest } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -14,11 +15,9 @@ export async function POST(request: NextRequest) {
       body: data,
     });
     const { IpfsHash } = await res.json();
-    return NextResponse.json({ IpfsHash }, { status: 200 });
+    return NextResponse.json(IpfsHash, { status: 200 });
   } catch (e) {
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
-    );
+    let errorMessage = getErrorMessage(e);
+    return NextResponse.json({ error: errorMessage }, { status: 400 });
   }
 }

@@ -33,8 +33,17 @@ export const IssueCredentialForm = () => {
         method: "POST",
         body: data,
       });
-      const resData = await res.json();
-      return resData.IpfsHash;
+      if (res.status === 200) {
+        const IpfsHash = await res.json();
+        return IpfsHash;
+      } else {
+        toast({
+          title: "Error",
+          description: "Couldn't upload file",
+          variant: "destructive",
+        });
+      }
+      return null;
     } catch (e) {
       setLoading(false);
       toast({
@@ -62,8 +71,17 @@ export const IssueCredentialForm = () => {
         body: JSON.stringify({ certificateLink, certificateType }),
       });
 
-      const { IpfsHash } = await res.json();
-      return IpfsHash;
+      if (res.status === 200) {
+        const IpfsHash = await res.json();
+        return IpfsHash;
+      } else {
+        toast({
+          title: "Error",
+          description: "Couldn't upload file",
+          variant: "destructive",
+        });
+      }
+      return null;
     } catch (error) {
       setLoading(false);
       toast({
@@ -93,11 +111,9 @@ export const IssueCredentialForm = () => {
     let certificateLink = "";
     let metadataLink = "";
     data.issuerWallet = address;
-    setLoading(true)
+    setLoading(true);
     try {
-      certificateLink = await uploadCertificateToIPFS(
-        data.certificateFile,
-      );
+      certificateLink = await uploadCertificateToIPFS(data.certificateFile);
       metadataLink = await uploadMetadataToIPFS({
         certificateLink,
         certificateType: data.certificateType,
@@ -114,6 +130,7 @@ export const IssueCredentialForm = () => {
 
     try {
       let email = await getWalletId(data.beneficiaryEmail);
+      if(!email || !metadataLink) throw new Error("Couldn't get all params for contract")
       let res = await contract.methods
         .issueCertificate(email, metadataLink)
         .send({
