@@ -114,10 +114,12 @@ export const IssueCredentialForm = () => {
     setLoading(true);
     try {
       certificateLink = await uploadCertificateToIPFS(data.certificateFile);
+      if(!certificateLink) return;
       metadataLink = await uploadMetadataToIPFS({
         certificateLink,
         certificateType: data.certificateType,
       });
+      if(!metadataLink) return;
     } catch (e: unknown) {
       toast({
         title: "Error",
