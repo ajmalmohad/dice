@@ -1,3 +1,4 @@
+import { getErrorMessage } from "@/components/apiutils/common";
 import { NextResponse, NextRequest } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -27,9 +28,9 @@ export async function POST(request: NextRequest) {
     });
 
     const { IpfsHash } = await res.json();
-    return NextResponse.json({ IpfsHash }, { status: 200 });
+    return NextResponse.json(IpfsHash, { status: 200 });
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: "Error uploading metadata to IPFS" }, { status: 500 });
+    let errorMessage = getErrorMessage(error);
+    return NextResponse.json({ error: errorMessage }, { status: 400 });
   }
 }
