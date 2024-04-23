@@ -245,4 +245,20 @@ describe("DICE", function () {
       ).to.be.revertedWith("Certificate not yours for declining");
     });
   });
+
+  describe("Non-Transferability", function () {
+    it("Should fail when trying to transfer a token", async function () {
+      await diceContract.addInstitution(addr1.address);
+      const tokenURI = "ipfs.io/AuidfybBSIfsdsnfiuYFsdyiu";
+      await diceContract
+        .connect(addr1)
+        .issueCertificate(addr2.address, tokenURI);
+      await diceContract.connect(addr2).claimCertificate(1);
+
+      await expect(
+        diceContract.connect(addr2).transferFrom(addr2.address, addr3.address, 1)
+      ).to.be.revertedWith("This token is non-transferable");
+    });
+  });
+
 });
