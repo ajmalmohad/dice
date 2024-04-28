@@ -21,15 +21,6 @@ export function ThemeSwitcher() {
       onCheckedChange={(active) => {
         selectTheme(active);
       }}
-      // thumbIcon={() =>
-      //   theme === "dark" ? (
-      //     <div className="!text-black">
-      //       <FaMoon />
-      //     </div>
-      //   ) : (
-      //     <FaSun />
-      //   )
-      // }
     />
   );
 }

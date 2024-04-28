@@ -1,6 +1,5 @@
 import { Card, CardContent } from "../ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
 import { cn } from "@/lib/utils";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { getInitials } from "../utils/formatter";

@@ -233,12 +233,12 @@ export const abi = [
     inputs: [
       {
         internalType: "address",
-        name: "to",
+        name: "",
         type: "address",
       },
       {
         internalType: "uint256",
-        name: "tokenId",
+        name: "",
         type: "uint256",
       },
     ],
@@ -670,22 +670,22 @@ export const abi = [
     inputs: [
       {
         internalType: "address",
-        name: "from",
+        name: "",
         type: "address",
       },
       {
         internalType: "address",
-        name: "to",
+        name: "",
         type: "address",
       },
       {
         internalType: "uint256",
-        name: "tokenId",
+        name: "",
         type: "uint256",
       },
       {
         internalType: "bytes",
-        name: "data",
+        name: "",
         type: "bytes",
       },
     ],
@@ -698,12 +698,12 @@ export const abi = [
     inputs: [
       {
         internalType: "address",
-        name: "operator",
+        name: "",
         type: "address",
       },
       {
         internalType: "bool",
-        name: "approved",
+        name: "",
         type: "bool",
       },
     ],
@@ -767,17 +767,17 @@ export const abi = [
     inputs: [
       {
         internalType: "address",
-        name: "from",
+        name: "",
         type: "address",
       },
       {
         internalType: "address",
-        name: "to",
+        name: "",
         type: "address",
       },
       {
         internalType: "uint256",
-        name: "tokenId",
+        name: "",
         type: "uint256",
       },
     ],

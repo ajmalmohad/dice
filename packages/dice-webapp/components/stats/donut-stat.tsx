@@ -1,6 +1,6 @@
 "use client";
 
-import { PieChart, pieChartDefaultProps } from "react-minimal-pie-chart";
+import { PieChart } from "react-minimal-pie-chart";
 import { useState } from "react";
 import { Tooltip } from "react-tooltip";
 
