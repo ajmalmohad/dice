@@ -284,8 +284,8 @@ export const getAdminStats = async () => {
     where: { role: "INSTITUTION" },
   });
 
-  let pendingOrganizations = await prisma.user.count({
-    where: { role: "PENDING_INSTITUTION" },
+  let pendingOrganizations = await prisma.applicationForm.count({
+    where: { user: { role: "PENDING_INSTITUTION" } },
   });
 
   let rejectedOrganizations = await prisma.rejectedInstitution.count();
