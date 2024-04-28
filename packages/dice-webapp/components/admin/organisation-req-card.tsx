@@ -10,12 +10,10 @@ import {
   DialogClose,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useState } from "react";
 
 type OrganisationReqCardProps = {
   id: string;
@@ -45,12 +43,6 @@ export const OrganisationReqCard = ({
   institutionDetails,
 }: OrganisationReqCardProps) => {
   const { contract } = useWeb3();
-  const [formData] = useState({
-    institutionName: institutionDetails.institutionName,
-    institutionAddress: institutionDetails.institutionAddress,
-    licenseNumber: institutionDetails.licenseNumber,
-    phoneNumber: institutionDetails.phoneNumber,
-  });
 
   return (
     <>
@@ -106,7 +98,16 @@ export const OrganisationReqCard = ({
                         <Input
                           className="p-6"
                           type="text"
-                          value={formData.institutionName}
+                          value={institutionDetails.institutionName}
+                          disabled
+                        />
+                      </div>
+                      <div className="flex flex-row gap-6 items-center">
+                        <p className="whitespace-nowrap">Institution Email</p>
+                        <Input
+                          className="p-6"
+                          type="text"
+                          value={email}
                           disabled
                         />
                       </div>
@@ -114,7 +115,7 @@ export const OrganisationReqCard = ({
                         <p className="whitespace-nowrap">Institution Address</p>
                         <Textarea
                           className="p-6"
-                          value={formData.institutionAddress}
+                          value={institutionDetails.institutionAddress}
                           disabled
                         />
                       </div>
@@ -122,7 +123,7 @@ export const OrganisationReqCard = ({
                         <p className="whitespace-nowrap">License Number</p>
                         <Input
                           className="p-6 items-center"
-                          value={formData.licenseNumber}
+                          value={institutionDetails.licenseNumber}
                           disabled
                         />
                       </div>
@@ -130,7 +131,7 @@ export const OrganisationReqCard = ({
                         <p className="whitespace-nowrap">Phone Number</p>
                         <Input
                           className="p-6"
-                          value={formData.phoneNumber}
+                          value={institutionDetails.phoneNumber}
                           disabled
                         />
                       </div>
