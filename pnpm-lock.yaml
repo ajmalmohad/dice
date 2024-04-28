@@ -22,10 +22,6 @@ importers:
         version: 3.1.1
 
   packages/dice-contract:
-    dependencies:
-      '@openzeppelin/contracts':
-        specifier: ^5.0.1
-        version: 5.0.1
     devDependencies:
       '@nomicfoundation/hardhat-toolbox':
         specifier: ^4.0.0
@@ -1460,10 +1456,6 @@ packages:
       '@nomicfoundation/solidity-analyzer-win32-ia32-msvc': 0.1.1
       '@nomicfoundation/solidity-analyzer-win32-x64-msvc': 0.1.1
     dev: true
-
-  /@openzeppelin/contracts@5.0.1:
-    resolution: {integrity: sha512-yQJaT5HDp9hYOOp4jTYxMsR02gdFZFXhewX5HW9Jo4fsqSVqqyIO/xTHdWDaKX5a3pv1txmf076Lziz+sO7L1w==}
-    dev: false
 
   /@panva/hkdf@1.1.1:
     resolution: {integrity: sha512-dhPeilub1NuIG0X5Kvhh9lH4iW3ZsHlnzwgwbOlgwQ2wG1IqFzsgHqmKPk3WzsdWAeaxKJxgM0+W433RmN45GA==}
