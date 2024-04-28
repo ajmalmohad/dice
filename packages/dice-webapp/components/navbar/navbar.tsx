@@ -1,8 +1,8 @@
 "use client";
+
 import React, { useEffect } from "react";
 import { Input } from "../ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-
 import { cn } from "@/lib/utils";
 import { getInitials } from "../utils/formatter";
 import { useSession } from "next-auth/react";
