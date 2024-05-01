@@ -99,11 +99,6 @@ export const getStudentActiveCredentails = async () => {
         select: {
           name: true,
           email: true,
-          wallets: {
-            select: {
-              walletID: true,
-            }
-          }
         },
       },
     },
@@ -196,11 +191,6 @@ export const getSharedCredentials = async (linkID: string) => {
                 select: {
                   name: true,
                   email: true,
-                  wallets: {
-                    select: {
-                      walletID: true,
-                    },
-                  },
                 },
               },
             },
