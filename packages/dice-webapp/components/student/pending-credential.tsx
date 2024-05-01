@@ -4,11 +4,13 @@ import { Card, CardContent } from "../ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { AiOutlineSafetyCertificate } from "react-icons/ai";
 import { IoCheckmarkCircleOutline } from "react-icons/io5";
-import { IoIosCloseCircleOutline } from "react-icons/io";
-import { MdOutlineRemoveRedEye, MdInfoOutline } from "react-icons/md";
+import {
+  IoIosCloseCircleOutline,
+  IoIosInformationCircleOutline,
+} from "react-icons/io";
+import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { cn } from "@/lib/utils";
 import { getInitials } from "../utils/formatter";
-import { Textarea } from "../ui/textarea";
 import { Input } from "../ui/input";
 import {
   Dialog,
@@ -73,7 +75,7 @@ export const PendingCredentialCard = ({
         <div className="ml-1 flex gap-4 text-3xl">
           <Dialog>
             <DialogTrigger asChild>
-              <MdInfoOutline />
+              <IoIosInformationCircleOutline />
             </DialogTrigger>
             <DialogContent className="sm:max-w-[725px]">
               <DialogHeader>
@@ -83,6 +85,10 @@ export const PendingCredentialCard = ({
               <div className="grid gap-4 py-4">
                 <DialogDescription>
                   <div className={className + " flex flex-col gap-6"}>
+                    <div className="flex flex-row gap-6  items-center">
+                      <p className="whitespace-nowrap">Credential Type</p>
+                      <Input className="p-6" value={credType} disabled />
+                    </div>
                     <div className="flex flex-row gap-6 items-center">
                       <p className="whitespace-nowrap">Issuer Name</p>
                       <Input
@@ -103,15 +109,7 @@ export const PendingCredentialCard = ({
                     </div>
                     <div className="flex flex-col gap-6">
                       <p className="whitespace-nowrap">Issuer Wallet ID</p>
-                      <Input
-                        className="p-6"
-                        value={issuerWalletID}
-                        disabled
-                      />
-                    </div>
-                    <div className="flex flex-row gap-6  items-center">
-                      <p className="whitespace-nowrap">Credential Type</p>
-                      <Input className="p-6" value={credType} disabled />
+                      <Input className="p-6" value={issuerWalletID} disabled />
                     </div>
                   </div>
                 </DialogDescription>
@@ -124,16 +122,14 @@ export const PendingCredentialCard = ({
             </a>
           </div>
           <div
-            className={`${
-              contract === null ? "text-secondary" : "cursor-pointer"
+            className={`${contract === null ? "text-secondary" : "cursor-pointer"
             }`}
             onClick={handleAccept}
           >
             <IoCheckmarkCircleOutline />
           </div>
           <div
-            className={`${
-              contract === null ? "text-secondary" : "cursor-pointer"
+            className={`${contract === null ? "text-secondary" : "cursor-pointer"
             }`}
             onClick={handleReject}
           >

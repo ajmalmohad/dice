@@ -169,12 +169,25 @@ export const getSharedCredentials = async (linkID: string) => {
             select: {
               credentialType: true,
               credentialLink: true,
+              transactionId: true,
               issuerWallet: true,
               issueDate: true,
               issuer: {
                 select: {
                   name: true,
                   image: true,
+                  email: true,
+                },
+              },
+              owner: {
+                select: {
+                  name: true,
+                  email: true,
+                  wallets: {
+                    select: {
+                      walletID: true,
+                    },
+                  },
                 },
               },
             },
