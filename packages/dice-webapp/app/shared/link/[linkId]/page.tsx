@@ -10,12 +10,22 @@ type SharedLink = {
   active: boolean;
   linkEntries: {
     credentialType: string;
+    credentialLink: string;
+    transactionId: string;
+    issuerWallet: string;
     issueDate: string;
     issuer: {
-      name: string;
       image: string;
+      name: string;
+      email: string;
     };
-    credentialLink: string;
+    owner: {
+      name: string;
+      email: string;
+      wallets: {
+        walletID: string;
+      };
+    };
   }[];
 };
 
@@ -49,11 +59,16 @@ export default async function Page({ params }: { params: { linkId: string } }) {
           {sharedLink.linkEntries.map((cred, idx) => (
             <CredentialCard
               key={idx}
-              title={cred.credentialType}
-              issueDate={cred.issueDate}
-              issuer={cred.issuer.name}
               imageLink={cred.issuer.image}
               credLink={cred.credentialLink}
+              credType={cred.credentialType}
+              issuer={cred.issuer.name}
+              issuerEmail={cred.issuer.email}
+              issuerWalletID={cred.issuerWallet}
+              transactionID={cred.transactionId}
+              issueDate={cred.issueDate}
+              owner={cred.owner.name}
+              ownerWalletID={cred.owner.wallets.walletID}
             />
           ))}
         </div>
