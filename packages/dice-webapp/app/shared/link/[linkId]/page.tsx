@@ -22,9 +22,7 @@ type SharedLink = {
     owner: {
       name: string;
       email: string;
-      wallets: {
-        walletID: string;
-      };
+      wallets: [{ walletID: string }];
     };
   }[];
 };
@@ -68,7 +66,6 @@ export default async function Page({ params }: { params: { linkId: string } }) {
               transactionID={cred.transactionId}
               issueDate={cred.issueDate}
               owner={cred.owner.name}
-              ownerWalletID={cred.owner.wallets.walletID}
             />
           ))}
         </div>
