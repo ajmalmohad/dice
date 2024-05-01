@@ -14,11 +14,15 @@ export default async function Page() {
             return (
               <CredentialCard
                 key={idx}
-                title={cred.credentialType}
-                issueDate={cred.issueDate}
-                issuer={cred.issuer.name}
+                credType={cred.credentialType}
                 credLink={cred.credentialLink}
                 imageLink={cred.issuer.image}
+                issueDate={cred.issueDate}
+                issuer={cred.issuer.name}
+                issuerEmail={cred.issuer.email}
+                issuerWalletID={cred.issuerWallet}
+                transactionID={cred.transactionId}
+                owner={cred.owner.name}
               />
             );
           })
