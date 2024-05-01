@@ -23,7 +23,6 @@ type CredentialCardProps = {
   issuerWalletID: string;
   issueDate: string;
   owner: string;
-  ownerWalletID: string;
   transactionID: string;
   credLink: string;
   credType: string;
@@ -40,7 +39,6 @@ export const CredentialCard = ({
   credLink,
   credType,
   owner,
-  ownerWalletID,
   className,
 }: CredentialCardProps) => {
   return (
@@ -119,14 +117,6 @@ export const CredentialCard = ({
                         className="p-6"
                         type="text"
                         value={owner}
-                        disabled
-                      />
-                    </div>
-                    <div className="flex flex-col gap-6">
-                      <p className="whitespace-nowrap">Owner Wallet ID</p>
-                      <Input
-                        className="p-6"
-                        value={ownerWalletID}
                         disabled
                       />
                     </div>
