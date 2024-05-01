@@ -14,7 +14,9 @@ type Credential = {
   issuer: {
     image: string;
     name: string;
+    email: string;
   };
+  issuerWallet: string;
   issueDate: string;
   credentialLink: string;
 };
@@ -66,8 +68,7 @@ export default function Page() {
 
     setLoading(true);
     toast({
-      title: `${
-        action.charAt(0).toUpperCase() + action.slice(1)
+      title: `${action.charAt(0).toUpperCase() + action.slice(1)
       }ing credential`,
       description: "Please wait",
     });
@@ -153,9 +154,11 @@ export default function Page() {
             return (
               <PendingCredentialCard
                 key={idx}
-                title={cred.credentialType}
+                credType={cred.credentialType}
                 imageLink={cred.issuer.image}
                 issuer={cred.issuer.name}
+                issuerEmail={cred.issuer.email}
+                issuerWalletID={cred.issuerWallet}
                 issueDate={cred.issueDate}
                 credLink={cred.credentialLink}
                 contract={contract}

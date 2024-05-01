@@ -5,15 +5,28 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { AiOutlineSafetyCertificate } from "react-icons/ai";
 import { IoCheckmarkCircleOutline } from "react-icons/io5";
 import { IoIosCloseCircleOutline } from "react-icons/io";
-import { MdOutlineRemoveRedEye } from "react-icons/md";
+import { MdOutlineRemoveRedEye, MdInfoOutline } from "react-icons/md";
 import { cn } from "@/lib/utils";
 import { getInitials } from "../utils/formatter";
+import { Textarea } from "../ui/textarea";
+import { Input } from "../ui/input";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 type PendingCredential = {
   imageLink?: string | null;
-  title: string;
   issuer: string;
+  issuerEmail: string;
+  issuerWalletID: string;
   issueDate: string;
+  credType: string;
   credLink: string;
   className?: string;
   contract: any;
@@ -23,9 +36,11 @@ type PendingCredential = {
 
 export const PendingCredentialCard = ({
   imageLink,
-  title,
   issuer,
+  issuerEmail,
+  issuerWalletID,
   issueDate,
+  credType,
   credLink,
   contract,
   className,
@@ -43,7 +58,7 @@ export const PendingCredentialCard = ({
           <div>
             <div className="flex">
               <div className="ml-2 text-base font-medium">
-                {title} Credential
+                {credType} Credential
               </div>
               <div className="ml-1 text-2xl">
                 <AiOutlineSafetyCertificate />
@@ -56,6 +71,53 @@ export const PendingCredentialCard = ({
           </div>
         </div>
         <div className="ml-1 flex gap-4 text-3xl">
+          <Dialog>
+            <DialogTrigger asChild>
+              <MdInfoOutline />
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[725px]">
+              <DialogHeader>
+                <DialogTitle>Credential Details</DialogTitle>
+                <DialogClose />
+              </DialogHeader>
+              <div className="grid gap-4 py-4">
+                <DialogDescription>
+                  <div className={className + " flex flex-col gap-6"}>
+                    <div className="flex flex-row gap-6 items-center">
+                      <p className="whitespace-nowrap">Issuer Name</p>
+                      <Input
+                        className="p-6"
+                        type="text"
+                        value={issuer}
+                        disabled
+                      />
+                    </div>
+                    <div className="flex flex-row gap-6 items-center">
+                      <p className="whitespace-nowrap">Issuer Email</p>
+                      <Input
+                        className="p-6"
+                        type="text"
+                        value={issuerEmail}
+                        disabled
+                      />
+                    </div>
+                    <div className="flex flex-col gap-6">
+                      <p className="whitespace-nowrap">Issuer Wallet ID</p>
+                      <Input
+                        className="p-6"
+                        value={issuerWalletID}
+                        disabled
+                      />
+                    </div>
+                    <div className="flex flex-row gap-6  items-center">
+                      <p className="whitespace-nowrap">Credential Type</p>
+                      <Input className="p-6" value={credType} disabled />
+                    </div>
+                  </div>
+                </DialogDescription>
+              </div>
+            </DialogContent>
+          </Dialog>
           <div className="cursor-pointer">
             <a href={credLink}>
               <MdOutlineRemoveRedEye />

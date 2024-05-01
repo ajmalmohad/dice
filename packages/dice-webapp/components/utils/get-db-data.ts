@@ -122,6 +122,7 @@ export const getStudentPendingCredentails = async () => {
       issuer: {
         select: {
           name: true,
+          email: true,
           image: true,
         },
       },
