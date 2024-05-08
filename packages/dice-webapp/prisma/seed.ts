@@ -261,10 +261,10 @@ async function main() {
   await addLinkEntries(mtechlink.id, [aron_btech.id]);
 }
 
-main()
-  .then(() => prisma.$disconnect())
-  .catch(async (e) => {
-    console.error(e);
-    await prisma.$disconnect();
-    process.exit(1);
-  });
+// main()
+//   .then(() => prisma.$disconnect())
+//   .catch(async (e) => {
+//     console.error(e);
+//     await prisma.$disconnect();
+//     process.exit(1);
+//   });
